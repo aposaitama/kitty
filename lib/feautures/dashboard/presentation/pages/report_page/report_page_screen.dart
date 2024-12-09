@@ -49,6 +49,23 @@ class ReportPageScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   color: AppColors.blueStackButton,
                   borderRadius: BorderRadius.circular(30)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset('assets/icons/download.svg'),
+                  const SizedBox(
+                    width: 6.0,
+                  ),
+                  const Text(
+                    'Download report',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Inter',
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
             ),
           )
         ]),

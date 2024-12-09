@@ -1,4 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kitty/feautures/dashboard/domain/repositories/expense_repository.dart';
+import 'package:kitty/feautures/dashboard/presentation/cubit/add_expenses/expense_cubit.dart';
+import 'package:kitty/feautures/dashboard/presentation/pages/add_new_page/add_new_page.dart';
 import 'package:kitty/feautures/dashboard/presentation/pages/home_page/home_page_screen.dart';
 import 'package:kitty/feautures/dashboard/presentation/pages/report_page/report_page_screen.dart';
 import 'package:kitty/feautures/dashboard/presentation/pages/root_screen/root_screen.dart';
@@ -41,6 +45,10 @@ class AppNavigation {
           ),
         ]),
       ],
+    ),
+    GoRoute(
+      path: '/add_new',
+      builder: (context, state) => const AddNewExpenseScreen(),
     ),
   ]);
 }

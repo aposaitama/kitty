@@ -16,12 +16,12 @@ class SettingsListItem extends StatelessWidget {
         Row(
           children: [
             SvgPicture.asset(iconPath),
-            SizedBox(
+            const SizedBox(
               width: 8.0,
             ),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.black,
                   fontFamily: 'Inter',
                   fontSize: 14.0,
