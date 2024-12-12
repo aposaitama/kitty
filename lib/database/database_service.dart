@@ -29,6 +29,14 @@ class DatabaseService {
           date TEXT NOT NULL
         )
       ''');
+        await db.execute('''
+        CREATE TABLE Icons (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          
+          
+        )
+      ''');
       },
     );
     return database;

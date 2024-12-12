@@ -160,6 +160,14 @@ class AddNewExpenseScreen extends StatelessWidget {
               child: const Text('Add Expense'),
             ),
           ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                context.go('/add_new/add_new_categories');
+              },
+              child: const Text('Add new categories'),
+            ),
+          ),
         ],
       ),
     );

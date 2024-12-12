@@ -6,4 +6,5 @@ class AppColors {
   static const Color blueStackButton = Color.fromRGBO(0, 123, 239, 1);
   static const Color greyHeaderColor = Color.fromRGBO(238, 238, 238, 1);
   static const Color lightGreyHeaderColor = Color.fromRGBO(245, 245, 245, 1);
+  static const Color circleGreyColor = Color.fromRGBO(245, 245, 245, 1);
 }
