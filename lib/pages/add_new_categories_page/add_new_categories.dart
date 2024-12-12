@@ -1,10 +1,14 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:kitty/models/categories.dart';
+import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/styles/colors.dart';
 import 'package:kitty/widgets/blue_bottom_button.dart';
 import 'package:kitty/widgets/custom_text_field.dart';
+
+import 'cubit/add_new_category_state.dart';
 
 class AddNewCategories extends StatefulWidget {
   const AddNewCategories({super.key});
@@ -38,6 +42,14 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
 
   bool isPressed = false;
   String iconPath = '';
+  TextEditingController categoryController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AddNewCategoryCubit>().loadCategory();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -197,12 +209,38 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                         const SizedBox(
                           width: 18,
                         ),
-                        const Expanded(
+                        Expanded(
                           child: CustomTextField(
+                            controller: categoryController,
                             labelText: 'Category name',
                           ),
                         )
                       ],
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    BlocBuilder<AddNewCategoryCubit, AddNewCategoryState>(
+                      builder: (context, state) {
+                        if (state is CategoryLoaded) {
+                          return Column(
+                            children: state.category.map((category) {
+                              return ListTile(
+                                leading: SvgPicture.asset(
+                                  category.iconPath,
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                title: Text(category.name),
+                              );
+                            }).toList(),
+                          );
+                        } else if (state is CategoryError) {
+                          return Text('Error: ${state.message}');
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -210,13 +248,19 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
             ],
           ),
           Padding(
-              padding: EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: BlueBottomButton(
-                  buttonTitle: 'Add new category',
-                ),
-              )),
+            padding:
+                const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0),
+            child: GestureDetector(
+              onTap: () {
+                final categoryCubit = context.read<AddNewCategoryCubit>();
+                categoryCubit.addCategory(Categories(
+                    name: categoryController.text, iconPath: iconPath));
+              },
+              child: const BlueBottomButton(
+                buttonTitle: 'Add new category',
+              ),
+            ),
+          ),
         ],
       ),
     );

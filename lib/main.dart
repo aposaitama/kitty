@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/route/app_navigation.dart';
 import 'package:kitty/database/expenses_repository.dart';
 
@@ -18,6 +19,9 @@ void main() {
         // ),
         BlocProvider(
           create: (context) => ExpenseCubit(ExpensesRepository()),
+        ),
+        BlocProvider(
+          create: (context) => AddNewCategoryCubit(ExpensesRepository()),
         ),
       ],
       child: const MyApp(),
