@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kitty/core/route/app_navigation.dart';
-import 'package:kitty/feautures/dashboard/data/repositories/expenses_repository.dart';
-import 'package:kitty/feautures/dashboard/domain/repositories/expense_repository.dart';
-import 'package:kitty/feautures/dashboard/presentation/cubit/add_expenses/expense_cubit.dart';
-import 'package:kitty/feautures/dashboard/presentation/cubit/navigation_cubit.dart';
+import 'package:kitty/route/app_navigation.dart';
+import 'package:kitty/database/expenses_repository.dart';
+
+import 'package:kitty/cubit/add_expenses/expense_cubit.dart';
+import 'package:kitty/cubit/navigation_cubit.dart';
 
 void main() {
   runApp(
