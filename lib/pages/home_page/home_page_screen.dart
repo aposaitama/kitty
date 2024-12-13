@@ -123,7 +123,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   fontFamily: 'Inter',
                                   fontSize: 14.0,
                                   height: 1.0,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w600),
                             ),
                             const Text(
                               'Expenses',
@@ -149,7 +149,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   fontFamily: 'Inter',
                                   fontSize: 14.0,
                                   height: 1.0,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w600),
                             ),
                             const Text(
                               'Balance',
@@ -175,7 +175,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   fontFamily: 'Inter',
                                   fontSize: 14.0,
                                   height: 1.0,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w600),
                             ),
                             const Text(
                               'Income',
