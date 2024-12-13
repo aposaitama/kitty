@@ -57,7 +57,140 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     )
                   ],
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 28.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Transform.rotate(
+                          angle: 3.1415,
+                          child: SvgPicture.asset('assets/icons/right.svg')),
+                      Container(
+                        width: 124,
+                        height: 32.0,
+                        decoration: BoxDecoration(
+                            color: AppColors.circleGreyColor,
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/icons/calendar_icon.svg'),
+                            const SizedBox(
+                              width: 8.0,
+                            ),
+                            const Text(
+                              'May, 2021',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Inter',
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        ),
+                      ),
+                      SvgPicture.asset('assets/icons/right.svg')
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 28.0),
+
+                Container(
+                  height: 95.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border:
+                        Border.all(width: 1.0, color: AppColors.borderColor),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/icons/expense.svg'),
+                            const SizedBox(
+                              height: 6.0,
+                            ),
+                            const Text(
+                              '-12,000',
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontFamily: 'Inter',
+                                  fontSize: 14.0,
+                                  height: 1.0,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            const Text(
+                              'Expenses',
+                              style: TextStyle(
+                                  color: AppColors.header,
+                                  fontFamily: 'Inter',
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/icons/balance.svg'),
+                            const SizedBox(
+                              height: 6.0,
+                            ),
+                            const Text(
+                              '48,000',
+                              style: TextStyle(
+                                  color: AppColors.greenGreyColor,
+                                  fontFamily: 'Inter',
+                                  fontSize: 14.0,
+                                  height: 1.0,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            const Text(
+                              'Balance',
+                              style: TextStyle(
+                                  color: AppColors.header,
+                                  fontFamily: 'Inter',
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/icons/income.svg'),
+                            const SizedBox(
+                              height: 6.0,
+                            ),
+                            const Text(
+                              '70,000',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Inter',
+                                  fontSize: 14.0,
+                                  height: 1.0,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            const Text(
+                              'Income',
+                              style: TextStyle(
+                                  color: AppColors.header,
+                                  fontFamily: 'Inter',
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
 
                 // BlocBuilder to display the expenses
                 Expanded(
@@ -82,7 +215,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           itemBuilder: (context, index) {
                             final expense = expenses[index];
                             return ListTile(
-                              title: Text(expense.title),
+                              leading: Text(expense.type),
                               subtitle: Text(expense.date.toString()),
                               trailing: Text('${expense.amount} \$'),
                             );

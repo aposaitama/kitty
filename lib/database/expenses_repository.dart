@@ -9,7 +9,9 @@ class ExpensesRepository {
     final database = await db.database;
 
     await database.insert('Expense', {
-      'title': expense.title,
+      'type': expense.type,
+      'category': expense.category,
+      'description': expense.category,
       'amount': expense.amount,
       'date': expense.date.toIso8601String(),
     });
@@ -42,7 +44,9 @@ class ExpensesRepository {
 
     return List.generate(maps.length, (i) {
       return Expense(
-        title: maps[i]['title'],
+        type: maps[i]['type'],
+        category: maps[i]['category'],
+        description: maps[i]['description'],
         amount: maps[i]['amount'],
         date: DateTime.parse(maps[i]['date']),
       );

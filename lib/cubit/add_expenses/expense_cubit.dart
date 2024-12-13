@@ -23,6 +23,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     try {
       emit(ExpenseLoading());
       await expenseRepository.addExpense(expense);
+      await loadExpenses();
       loadExpenses();
       emit(ExpenseAddedSuccess());
     } catch (e) {

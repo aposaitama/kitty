@@ -23,10 +23,12 @@ class DatabaseService {
       onCreate: (db, version) async {
         await db.execute('''
       CREATE TABLE Expense (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        amount TEXT NOT NULL,
-        date TEXT NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL,
+    category TEXT NOT NULL,
+    description TEXT,
+    amount TEXT NOT NULL,
+    date TEXT NOT NULL
       )
       ''');
         await db.execute('''
