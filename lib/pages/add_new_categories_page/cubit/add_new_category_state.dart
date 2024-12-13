@@ -7,6 +7,8 @@ class AddNewCategoryInitial extends AddNewCategoryState {}
 
 class CategoryAddedSuccess extends AddNewCategoryState {}
 
+class CategoryLoading extends AddNewCategoryState {}
+
 class CategoryLoaded extends AddNewCategoryState {
   final List<Categories> category;
 
