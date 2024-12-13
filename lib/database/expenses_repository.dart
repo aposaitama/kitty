@@ -11,7 +11,7 @@ class ExpensesRepository {
     await database.insert('Expense', {
       'type': expense.type,
       'category': expense.category,
-      'description': expense.category,
+      'description': expense.description,
       'amount': expense.amount,
       'date': expense.date.toIso8601String(),
     });

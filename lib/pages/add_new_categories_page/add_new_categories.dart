@@ -2,8 +2,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kitty/models/categories.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
+import 'package:kitty/route/app_navigation.dart';
 import 'package:kitty/styles/colors.dart';
 import 'package:kitty/widgets/blue_bottom_button.dart';
 import 'package:kitty/widgets/custom_text_field.dart';
@@ -255,6 +257,27 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                 final categoryCubit = context.read<AddNewCategoryCubit>();
                 categoryCubit.addCategory(Categories(
                     name: categoryController.text, iconPath: iconPath));
+                context.go('/home');
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    behavior: SnackBarBehavior.floating,
+                    margin: EdgeInsets.fromLTRB(16.0, 16, 16.0, 16.0),
+                    duration: Duration(
+                        seconds:
+                            3), // Optional: Duration for how long it stays visible
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('New category addedd successfully! '),
+                        GestureDetector(
+                            onTap: () {
+                              if (mounted) {
+                                ScaffoldMessenger.of(context)
+                                    .hideCurrentSnackBar();
+                              }
+                            },
+                            child: SvgPicture.asset('assets/icons/close.svg'))
+                      ],
+                    )));
               },
               child: const BlueBottomButton(
                 buttonTitle: 'Add new category',

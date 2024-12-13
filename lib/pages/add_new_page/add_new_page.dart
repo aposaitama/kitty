@@ -223,8 +223,8 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                                                       width: 1.0,
                                                       color:
                                                           AppColors.hintText)),
-                                              child: Center(
-                                                child: const Text(
+                                              child: const Center(
+                                                child: Text(
                                                   'Add new category',
                                                   style: TextStyle(
                                                     fontFamily: 'Inter',
