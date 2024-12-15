@@ -22,6 +22,7 @@ Expense _$ExpenseFromJson(Map<String, dynamic> json) {
 mixin _$Expense {
   String get type => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
+  String get categoryIcon => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $ExpenseCopyWith<$Res> {
   $Res call(
       {String type,
       String category,
+      String categoryIcon,
       String? description,
       String amount,
       DateTime date});
@@ -65,6 +67,7 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
   $Res call({
     Object? type = null,
     Object? category = null,
+    Object? categoryIcon = null,
     Object? description = freezed,
     Object? amount = null,
     Object? date = null,
@@ -77,6 +80,10 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
+              as String,
+      categoryIcon: null == categoryIcon
+          ? _value.categoryIcon
+          : categoryIcon // ignore: cast_nullable_to_non_nullable
               as String,
       description: freezed == description
           ? _value.description
@@ -104,6 +111,7 @@ abstract class _$$ExpenseImplCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
   $Res call(
       {String type,
       String category,
+      String categoryIcon,
       String? description,
       String amount,
       DateTime date});
@@ -124,6 +132,7 @@ class __$$ExpenseImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? category = null,
+    Object? categoryIcon = null,
     Object? description = freezed,
     Object? amount = null,
     Object? date = null,
@@ -136,6 +145,10 @@ class __$$ExpenseImplCopyWithImpl<$Res>
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
+              as String,
+      categoryIcon: null == categoryIcon
+          ? _value.categoryIcon
+          : categoryIcon // ignore: cast_nullable_to_non_nullable
               as String,
       description: freezed == description
           ? _value.description
@@ -159,6 +172,7 @@ class _$ExpenseImpl implements _Expense {
   const _$ExpenseImpl(
       {required this.type,
       required this.category,
+      required this.categoryIcon,
       this.description,
       required this.amount,
       required this.date});
@@ -171,6 +185,8 @@ class _$ExpenseImpl implements _Expense {
   @override
   final String category;
   @override
+  final String categoryIcon;
+  @override
   final String? description;
   @override
   final String amount;
@@ -179,7 +195,7 @@ class _$ExpenseImpl implements _Expense {
 
   @override
   String toString() {
-    return 'Expense(type: $type, category: $category, description: $description, amount: $amount, date: $date)';
+    return 'Expense(type: $type, category: $category, categoryIcon: $categoryIcon, description: $description, amount: $amount, date: $date)';
   }
 
   @override
@@ -190,6 +206,8 @@ class _$ExpenseImpl implements _Expense {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.category, category) ||
                 other.category == category) &&
+            (identical(other.categoryIcon, categoryIcon) ||
+                other.categoryIcon == categoryIcon) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.amount, amount) || other.amount == amount) &&
@@ -198,8 +216,8 @@ class _$ExpenseImpl implements _Expense {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, type, category, description, amount, date);
+  int get hashCode => Object.hash(
+      runtimeType, type, category, categoryIcon, description, amount, date);
 
   /// Create a copy of Expense
   /// with the given fields replaced by the non-null parameter values.
@@ -221,6 +239,7 @@ abstract class _Expense implements Expense {
   const factory _Expense(
       {required final String type,
       required final String category,
+      required final String categoryIcon,
       final String? description,
       required final String amount,
       required final DateTime date}) = _$ExpenseImpl;
@@ -231,6 +250,8 @@ abstract class _Expense implements Expense {
   String get type;
   @override
   String get category;
+  @override
+  String get categoryIcon;
   @override
   String? get description;
   @override

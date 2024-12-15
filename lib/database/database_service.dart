@@ -26,6 +26,7 @@ class DatabaseService {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     type TEXT NOT NULL,
     category TEXT NOT NULL,
+    categoryIcon TEXT NOT NULL,
     description TEXT,
     amount TEXT NOT NULL,
     date TEXT NOT NULL

@@ -109,88 +109,107 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/icons/expense.svg'),
-                            const SizedBox(
-                              height: 6.0,
-                            ),
-                            const Text(
-                              '-12,000',
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontFamily: 'Inter',
-                                  fontSize: 14.0,
-                                  height: 1.0,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const Text(
-                              'Expenses',
-                              style: TextStyle(
-                                  color: AppColors.header,
-                                  fontFamily: 'Inter',
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w500),
-                            )
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/icons/balance.svg'),
-                            const SizedBox(
-                              height: 6.0,
-                            ),
-                            const Text(
-                              '48,000',
-                              style: TextStyle(
-                                  color: AppColors.greenGreyColor,
-                                  fontFamily: 'Inter',
-                                  fontSize: 14.0,
-                                  height: 1.0,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const Text(
-                              'Balance',
-                              style: TextStyle(
-                                  color: AppColors.header,
-                                  fontFamily: 'Inter',
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w500),
-                            )
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/icons/income.svg'),
-                            const SizedBox(
-                              height: 6.0,
-                            ),
-                            const Text(
-                              '70,000',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Inter',
-                                  fontSize: 14.0,
-                                  height: 1.0,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            const Text(
-                              'Income',
-                              style: TextStyle(
-                                  color: AppColors.header,
-                                  fontFamily: 'Inter',
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w500),
-                            )
-                          ],
-                        )
-                      ],
+                    child: BlocBuilder<ExpenseCubit, ExpenseState>(
+                      builder: (context, state) {
+                        if (state is ExpenseLoading) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (state is ExpenseLoaded) {
+                          final totalExpenses = context
+                              .read<ExpenseCubit>()
+                              .calculateTotalExpenses(state.expenses);
+                          final totalIncome = context
+                              .read<ExpenseCubit>()
+                              .calculateTotalIncome(state.expenses);
+                          final balance = context
+                              .read<ExpenseCubit>()
+                              .calculateBalance(state.expenses);
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset('assets/icons/expense.svg'),
+                                  const SizedBox(
+                                    height: 6.0,
+                                  ),
+                                  Text(
+                                    totalExpenses.toString(),
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontFamily: 'Inter',
+                                        fontSize: 14.0,
+                                        height: 1.0,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  const Text(
+                                    'Expenses',
+                                    style: TextStyle(
+                                        color: AppColors.header,
+                                        fontFamily: 'Inter',
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset('assets/icons/balance.svg'),
+                                  const SizedBox(
+                                    height: 6.0,
+                                  ),
+                                  Text(
+                                    balance.toString(),
+                                    style: TextStyle(
+                                        color: AppColors.greenGreyColor,
+                                        fontFamily: 'Inter',
+                                        fontSize: 14.0,
+                                        height: 1.0,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  const Text(
+                                    'Balance',
+                                    style: TextStyle(
+                                        color: AppColors.header,
+                                        fontFamily: 'Inter',
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset('assets/icons/income.svg'),
+                                  const SizedBox(
+                                    height: 6.0,
+                                  ),
+                                  Text(
+                                    totalIncome.toString(),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Inter',
+                                        fontSize: 14.0,
+                                        height: 1.0,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  const Text(
+                                    'Income',
+                                    style: TextStyle(
+                                        color: AppColors.header,
+                                        fontFamily: 'Inter',
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              )
+                            ],
+                          );
+                        }
+                        return const SizedBox();
+                      },
                     ),
                   ),
                 ),
@@ -199,9 +218,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 Expanded(
                   child: BlocBuilder<ExpenseCubit, ExpenseState>(
                     builder: (context, state) {
-                      final categoryCubit =
-                          context.read<AddNewCategoryCubit>().loadCategory();
-
                       print('Current state: $state');
                       if (state is ExpenseLoading) {
                         return const Center(child: CircularProgressIndicator());
@@ -222,6 +238,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             final expense = expenses[index];
 
                             return TypeListTileItem(
+                              categoryIcon: expense.categoryIcon,
                               type: expense.type,
                               description: expense.description!,
                               amount: expense.amount,

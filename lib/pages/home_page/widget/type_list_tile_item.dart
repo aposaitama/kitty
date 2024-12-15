@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 
 class TypeListTileItem extends StatelessWidget {
   final String type;
+  final String categoryIcon;
   final String name;
   final String description;
   final String amount;
@@ -13,7 +14,8 @@ class TypeListTileItem extends StatelessWidget {
       required this.type,
       required this.description,
       required this.amount,
-      required this.name});
+      required this.name,
+      required this.categoryIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class TypeListTileItem extends StatelessWidget {
           Row(
             children: [
               SvgPicture.asset(
-                'assets/icons/category_icons/Donate.svg',
+                categoryIcon,
               ),
               const SizedBox(
                 width: 8.0,

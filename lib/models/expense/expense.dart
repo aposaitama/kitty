@@ -8,6 +8,7 @@ class Expense with _$Expense {
   const factory Expense({
     required String type,
     required String category,
+    required String categoryIcon,
     String? description,
     required String amount,
     required DateTime date,

@@ -20,6 +20,8 @@ class AddNewExpenseScreen extends StatefulWidget {
 
 class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
   String expenseOrIncome = 'Expense';
+  String? selectedIconPath;
+
   TextEditingController categoryController = TextEditingController();
   TextEditingController amountController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -145,6 +147,8 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                                                       categories[index];
                                                   return GestureDetector(
                                                     onTap: () {
+                                                      selectedIconPath =
+                                                          category.iconPath;
                                                       categoryController.text =
                                                           category.name;
                                                       Navigator.pop(context);
@@ -286,6 +290,7 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                   Expense(
                       type: expenseOrIncome,
                       category: categoryController.text,
+                      categoryIcon: selectedIconPath!,
                       amount: amountController.text,
                       description: descriptionController.text,
                       date: DateTime.now()),

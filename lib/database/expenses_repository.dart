@@ -11,6 +11,7 @@ class ExpensesRepository {
     await database.insert('Expense', {
       'type': expense.type,
       'category': expense.category,
+      'categoryIcon': expense.categoryIcon,
       'description': expense.description,
       'amount': expense.amount,
       'date': expense.date.toIso8601String(),
@@ -46,6 +47,7 @@ class ExpensesRepository {
       return Expense(
         type: maps[i]['type'],
         category: maps[i]['category'],
+        categoryIcon: maps[i]['categoryIcon'],
         description: maps[i]['description'],
         amount: maps[i]['amount'],
         date: DateTime.parse(maps[i]['date']),
