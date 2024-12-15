@@ -136,7 +136,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   ),
                                   Text(
                                     totalExpenses.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.red,
                                         fontFamily: 'Inter',
                                         fontSize: 14.0,
@@ -162,7 +162,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   ),
                                   Text(
                                     balance.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: AppColors.greenGreyColor,
                                         fontFamily: 'Inter',
                                         fontSize: 14.0,
@@ -188,7 +188,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   ),
                                   Text(
                                     totalIncome.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontFamily: 'Inter',
                                         fontSize: 14.0,
@@ -218,12 +218,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 Expanded(
                   child: BlocBuilder<ExpenseCubit, ExpenseState>(
                     builder: (context, state) {
-                      print('Current state: $state');
                       if (state is ExpenseLoading) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (state is ExpenseLoaded) {
-                        final expenses = state.expenses;
-                        if (expenses.isEmpty) {
+                        // Групуємо витрати перед відображенням
+                        final groupedExpenses = context
+                            .read<ExpenseCubit>()
+                            .groupExpensesByDate(state.expenses);
+
+                        if (groupedExpenses.isEmpty) {
                           return const Center(
                             child: Text(
                               'No expenses yet.',
@@ -233,16 +236,88 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         }
 
                         return ListView.builder(
-                          itemCount: expenses.length,
+                          itemCount: groupedExpenses.keys.length,
                           itemBuilder: (context, index) {
-                            final expense = expenses[index];
+                            final groupKey =
+                                groupedExpenses.keys.elementAt(index);
+                            final expenses = groupedExpenses[groupKey]!;
 
-                            return TypeListTileItem(
-                              categoryIcon: expense.categoryIcon,
-                              type: expense.type,
-                              description: expense.description!,
-                              amount: expense.amount,
-                              name: expense.category,
+                            return Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        width: 1.0,
+                                        color: AppColors.borderColor),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                groupKey.toUpperCase(),
+                                                style: const TextStyle(
+                                                  fontFamily: 'Inter',
+                                                  fontSize: 10.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 7.0),
+                                                child: Text(
+                                                  expenses
+                                                      .fold<double>(
+                                                        0,
+                                                        (sum, item) => item
+                                                                    .type ==
+                                                                'Expense'
+                                                            ? sum -
+                                                                double.parse(
+                                                                    item.amount)
+                                                            : sum +
+                                                                double.parse(
+                                                                    item.amount),
+                                                      )
+                                                      .toStringAsFixed(0),
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Inter',
+                                                    fontSize: 10.0,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 6.0,
+                                          ),
+                                          ...expenses.map((expense) {
+                                            return TypeListTileItem(
+                                              categoryIcon:
+                                                  expense.categoryIcon,
+                                              type: expense.type,
+                                              description: expense.description!,
+                                              amount: expense.amount,
+                                              name: expense.category,
+                                            );
+                                          }).toList(),
+                                        ]),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 16.0,
+                                ),
+                              ],
                             );
                           },
                         );
@@ -254,7 +329,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           ),
                         );
                       }
-                      return const Center(child: Text('No expences'));
+
+                      return const Center(child: Text('No expenses'));
                     },
                   ),
                 ),

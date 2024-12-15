@@ -293,7 +293,7 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                       categoryIcon: selectedIconPath!,
                       amount: amountController.text,
                       description: descriptionController.text,
-                      date: DateTime.now()),
+                      date: DateTime.now().subtract(const Duration(days: 5))),
                 );
                 context.go('/home');
               },
