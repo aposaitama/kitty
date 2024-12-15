@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kitty/models/categories.dart';
+import 'package:kitty/models/categories/categories.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/route/app_navigation.dart';
 import 'package:kitty/styles/colors.dart';

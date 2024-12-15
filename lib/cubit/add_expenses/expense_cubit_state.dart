@@ -1,4 +1,4 @@
-import 'package:kitty/models/expense.dart';
+import 'package:kitty/models/expense/expense.dart';
 
 abstract class ExpenseState {}
 

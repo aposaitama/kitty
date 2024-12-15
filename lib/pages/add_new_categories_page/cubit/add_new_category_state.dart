@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:kitty/models/categories.dart';
+import 'package:kitty/models/categories/categories.dart';
 
 abstract class AddNewCategoryState {}
 

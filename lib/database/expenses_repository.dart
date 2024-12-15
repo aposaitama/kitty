@@ -1,6 +1,6 @@
 import 'package:kitty/database/database_service.dart';
-import 'package:kitty/models/categories.dart';
-import 'package:kitty/models/expense.dart';
+import 'package:kitty/models/categories/categories.dart';
+import 'package:kitty/models/expense/expense.dart';
 
 class ExpensesRepository {
   final db = DatabaseService.instance;
