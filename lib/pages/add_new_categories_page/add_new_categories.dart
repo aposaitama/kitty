@@ -222,28 +222,6 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                     const SizedBox(
                       height: 20.0,
                     ),
-                    BlocBuilder<AddNewCategoryCubit, AddNewCategoryState>(
-                      builder: (context, state) {
-                        if (state is CategoryLoaded) {
-                          return Column(
-                            children: state.category.map((category) {
-                              return ListTile(
-                                leading: SvgPicture.asset(
-                                  category.iconPath,
-                                  width: 24,
-                                  height: 24,
-                                ),
-                                title: Text(category.name),
-                              );
-                            }).toList(),
-                          );
-                        } else if (state is CategoryError) {
-                          return Text('Error: ${state.message}');
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -259,6 +237,11 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                     name: categoryController.text, iconPath: iconPath));
                 context.go('/home');
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    padding: EdgeInsets.only(
+                        left: 16.0, top: 10.0, bottom: 10.0, right: 16.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
                     dismissDirection: DismissDirection.up,
                     behavior: SnackBarBehavior.floating,
                     margin: EdgeInsets.only(
@@ -269,7 +252,16 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                     content: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('New category addedd successfully! '),
+                        const Text(
+                          'New category addedd successfully!',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            letterSpacing: 0.1,
+                          ),
+                        ),
                         GestureDetector(
                             onTap: () {
                               if (mounted) {

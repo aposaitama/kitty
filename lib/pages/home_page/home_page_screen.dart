@@ -268,6 +268,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                   fontSize: 10.0,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black,
+                                                  letterSpacing: 1.5,
                                                 ),
                                               ),
                                               Padding(
@@ -291,6 +292,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                   style: const TextStyle(
                                                     fontFamily: 'Inter',
                                                     fontSize: 10.0,
+                                                    letterSpacing: 1.5,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.black,
                                                   ),
