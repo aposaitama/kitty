@@ -240,7 +240,7 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                         } else if (state is CategoryError) {
                           return Text('Error: ${state.message}');
                         } else {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                       },
                     ),
@@ -259,15 +259,17 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                     name: categoryController.text, iconPath: iconPath));
                 context.go('/home');
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    dismissDirection: DismissDirection.up,
                     behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.fromLTRB(16.0, 16, 16.0, 16.0),
-                    duration: Duration(
-                        seconds:
-                            3), // Optional: Duration for how long it stays visible
+                    margin: EdgeInsets.only(
+                        left: 16.0,
+                        right: 16.0,
+                        bottom: MediaQuery.of(context).size.height - 200),
+                    duration: const Duration(seconds: 3),
                     content: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('New category addedd successfully! '),
+                        const Text('New category addedd successfully! '),
                         GestureDetector(
                             onTap: () {
                               if (mounted) {
