@@ -1,10 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:kitty/cubit/add_expenses/expense_cubit.dart';
 import 'package:kitty/pages/add_new_categories_page/add_new_categories.dart';
 import 'package:kitty/pages/add_new_page/add_new_page.dart';
 import 'package:kitty/pages/home_page/home_page_screen.dart';
+import 'package:kitty/pages/auth_pages/login_page/login_page.dart';
+import 'package:kitty/pages/auth_pages/register_page/register_page.dart';
 import 'package:kitty/pages/report_page/report_page_screen.dart';
 import 'package:kitty/pages/root_screen/root_screen.dart';
 import 'package:kitty/pages/settings_page/settings_page_screen.dart';
@@ -56,5 +55,13 @@ class AppNavigation {
             builder: (context, state) => const AddNewCategories(),
           )
         ]),
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegisterPage(),
+    ),
   ]);
 }

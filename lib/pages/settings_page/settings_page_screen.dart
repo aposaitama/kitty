@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kitty/pages/settings_page/widgets/settings_list_item.dart';
 import 'package:kitty/styles/colors.dart';
 
@@ -78,48 +79,51 @@ class SettingsPageScreen extends StatelessWidget {
         const SizedBox(
           height: 20.0,
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
-              SettingsListItem(
+              const SettingsListItem(
                 iconPath: 'assets/icons/categories.svg',
                 title: 'Manage categories',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 26.0,
               ),
-              SettingsListItem(
+              const SettingsListItem(
                 iconPath: 'assets/icons/export.svg',
                 title: 'Export to PDF',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 26.0,
               ),
-              SettingsListItem(
+              const SettingsListItem(
                 iconPath: 'assets/icons/currency.svg',
                 title: 'Choose currency',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 26.0,
               ),
-              SettingsListItem(
+              const SettingsListItem(
                 iconPath: 'assets/icons/translate.svg',
                 title: 'Choose language',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 26.0,
               ),
-              SettingsListItem(
+              const SettingsListItem(
                 iconPath: 'assets/icons/faq.svg',
                 title: 'Frequently asked questions',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 26.0,
               ),
-              SettingsListItem(
-                iconPath: 'assets/icons/logout.svg',
-                title: 'Logout',
+              GestureDetector(
+                onTap: () => context.go('/login'),
+                child: const SettingsListItem(
+                  iconPath: 'assets/icons/logout.svg',
+                  title: 'Logout',
+                ),
               ),
             ],
           ),

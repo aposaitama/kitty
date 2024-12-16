@@ -5,12 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kitty/models/categories/categories.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
-import 'package:kitty/route/app_navigation.dart';
+
 import 'package:kitty/styles/colors.dart';
 import 'package:kitty/widgets/blue_bottom_button.dart';
 import 'package:kitty/widgets/custom_text_field.dart';
-
-import 'cubit/add_new_category_state.dart';
 
 class AddNewCategories extends StatefulWidget {
   const AddNewCategories({super.key});
@@ -237,7 +235,7 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                     name: categoryController.text, iconPath: iconPath));
                 context.go('/home');
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 16.0, top: 10.0, bottom: 10.0, right: 16.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6.0),

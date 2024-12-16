@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static const Color introMainText = Color.fromRGBO(42, 42, 42, 1);
   static const Color header = Color.fromRGBO(66, 66, 66, 1);
   static const Color hintText = Color.fromRGBO(97, 97, 97, 1);
   static const Color blueStackButton = Color.fromRGBO(0, 123, 239, 1);

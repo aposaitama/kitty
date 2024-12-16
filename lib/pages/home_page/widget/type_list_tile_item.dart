@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/styles/colors.dart';
-import 'package:path/path.dart';
 
 class TypeListTileItem extends StatelessWidget {
   final String type;

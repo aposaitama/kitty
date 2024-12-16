@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kitty/cubit/navigation_cubit.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/pages/home_page/widget/type_list_tile_item.dart';
-import 'package:kitty/route/app_navigation.dart';
+
 import 'package:kitty/cubit/add_expenses/expense_cubit.dart';
 import 'package:kitty/cubit/add_expenses/expense_cubit_state.dart';
 import 'package:kitty/styles/colors.dart';
@@ -49,12 +50,24 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         const SizedBox(
                           width: 16.0,
                         ),
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(30)),
+                        BlocBuilder<NavigationCubit, String>(
+                          builder: (context, state) {
+                            return GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<NavigationCubit>()
+                                    .updateRoute('/settings');
+                                GoRouter.of(context).go('/settings');
+                              },
+                              child: Container(
+                                width: 32,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(30)),
+                              ),
+                            );
+                          },
                         )
                       ],
                     )
