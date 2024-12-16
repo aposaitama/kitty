@@ -44,6 +44,8 @@ dependencies:
   dotted_border: ^2.1.0
   freezed_annotation: ^2.2.0
   json_annotation: ^4.9.0
+  easy_localization: ^3.0.7
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +78,7 @@ flutter:
     - assets/icons/category_icons/
     - assets/icons/
     - assets/
+    - assets/translations/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

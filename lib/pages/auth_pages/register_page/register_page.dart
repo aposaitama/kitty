@@ -91,7 +91,9 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(
               height: 32.0,
             ),
-            const BlueBottomButton(buttonTitle: 'Register')
+            GestureDetector(
+                onTap: () => context.go('/home'),
+                child: const BlueBottomButton(buttonTitle: 'Register'))
           ],
         ),
       ),

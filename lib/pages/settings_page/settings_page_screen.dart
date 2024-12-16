@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kitty/pages/settings_page/widgets/settings_list_item.dart';
@@ -97,16 +98,19 @@ class SettingsPageScreen extends StatelessWidget {
               const SizedBox(
                 height: 26.0,
               ),
-              const SettingsListItem(
+              SettingsListItem(
                 iconPath: 'assets/icons/currency.svg',
-                title: 'Choose currency',
+                title: "manage_categories".tr(),
               ),
               const SizedBox(
                 height: 26.0,
               ),
-              const SettingsListItem(
-                iconPath: 'assets/icons/translate.svg',
-                title: 'Choose language',
+              GestureDetector(
+                onTap: () => context.go('/settings/choose_language'),
+                child: const SettingsListItem(
+                  iconPath: 'assets/icons/translate.svg',
+                  title: 'Choose language',
+                ),
               ),
               const SizedBox(
                 height: 26.0,

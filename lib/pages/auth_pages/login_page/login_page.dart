@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kitty/cubit/navigation_cubit.dart';
 
 import 'package:kitty/styles/colors.dart';
 import 'package:kitty/widgets/blue_bottom_button.dart';
@@ -84,7 +86,16 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 32.0,
             ),
-            const BlueBottomButton(buttonTitle: 'Login')
+            BlocBuilder<NavigationCubit, String>(
+              builder: (context, state) {
+                return GestureDetector(
+                    onTap: () {
+                      context.read<NavigationCubit>().updateRoute('/home');
+                      GoRouter.of(context).go('/home');
+                    },
+                    child: const BlueBottomButton(buttonTitle: 'Login'));
+              },
+            ),
           ],
         ),
       ),
