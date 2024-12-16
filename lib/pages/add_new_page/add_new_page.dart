@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/models/expense/expense.dart';
-import 'package:kitty/cubit/add_expenses/expense_cubit.dart';
+import 'package:kitty/pages/add_new_page/cubit/expense_cubit.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_state.dart';
 import 'package:kitty/styles/colors.dart';

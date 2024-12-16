@@ -2,13 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
-import 'package:kitty/pages/settings_page/choose_language_page/provider/localization_cubit.dart';
 import 'package:kitty/route/app_navigation.dart';
 import 'package:kitty/database/expenses_repository.dart';
-
-import 'package:kitty/cubit/add_expenses/expense_cubit.dart';
-import 'package:kitty/cubit/navigation_cubit.dart';
-import 'package:provider/provider.dart';
+import 'package:kitty/pages/add_new_page/cubit/expense_cubit.dart';
+import 'package:kitty/route/cubit/navigation_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,9 +16,8 @@ void main() async {
       supportedLocales: const [Locale('en'), Locale('uk')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
-      child: MultiProvider(
+      child: MultiBlocProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => LocaleProvider()),
           BlocProvider(
             create: (context) => NavigationCubit(),
           ),
@@ -47,22 +43,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LocaleProvider>(
-      builder: (context, localeProvider, child) {
-        return MaterialApp.router(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            useMaterial3: true,
-          ),
-          debugShowCheckedModeBanner: false,
-          routerConfig: AppNavigation.router,
-          locale: localeProvider.locale, // Оновлюємо локаль з LocaleProvider
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-        );
-      },
+    return MaterialApp.router(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        useMaterial3: true,
+      ),
+      debugShowCheckedModeBanner: false,
+      routerConfig: AppNavigation.router,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

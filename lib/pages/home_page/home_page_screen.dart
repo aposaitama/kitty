@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kitty/cubit/navigation_cubit.dart';
+import 'package:kitty/route/cubit/navigation_cubit.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/pages/home_page/widget/type_list_tile_item.dart';
 
-import 'package:kitty/cubit/add_expenses/expense_cubit.dart';
-import 'package:kitty/cubit/add_expenses/expense_cubit_state.dart';
+import 'package:kitty/pages/add_new_page/cubit/expense_cubit.dart';
+import 'package:kitty/pages/add_new_page/cubit/expense_cubit_state.dart';
 import 'package:kitty/styles/colors.dart';
 
 class HomePageScreen extends StatefulWidget {

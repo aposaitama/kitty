@@ -2,7 +2,7 @@ import 'package:kitty/database/expenses_repository.dart';
 import 'package:kitty/models/expense/expense.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:kitty/cubit/add_expenses/expense_cubit_state.dart';
+import 'package:kitty/pages/add_new_page/cubit/expense_cubit_state.dart';
 
 class ExpenseCubit extends Cubit<ExpenseState> {
   final ExpensesRepository expenseRepository;
