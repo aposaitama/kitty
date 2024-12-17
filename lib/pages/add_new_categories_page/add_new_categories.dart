@@ -231,22 +231,36 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
             child: GestureDetector(
               onTap: () {
                 final categoryCubit = context.read<AddNewCategoryCubit>();
-                categoryCubit.addCategory(Categories(
-                    name: categoryController.text, iconPath: iconPath));
+                categoryCubit.addCategory(
+                  Categories(
+                    name: categoryController.text,
+                    iconPath: iconPath,
+                  ),
+                );
                 context.go('/home');
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
                     padding: const EdgeInsets.only(
-                        left: 16.0, top: 10.0, bottom: 10.0, right: 16.0),
+                      left: 16.0,
+                      top: 10.0,
+                      bottom: 10.0,
+                      right: 16.0,
+                    ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.0),
+                      borderRadius: BorderRadius.circular(
+                        6.0,
+                      ),
                     ),
                     dismissDirection: DismissDirection.up,
                     behavior: SnackBarBehavior.floating,
                     margin: EdgeInsets.only(
-                        left: 16.0,
-                        right: 16.0,
-                        bottom: MediaQuery.of(context).size.height - 200),
-                    duration: const Duration(seconds: 3),
+                      left: 16.0,
+                      right: 16.0,
+                      bottom: MediaQuery.of(context).size.height - 200,
+                    ),
+                    duration: const Duration(
+                      seconds: 3,
+                    ),
                     content: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -269,7 +283,9 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                             },
                             child: SvgPicture.asset('assets/icons/close.svg'))
                       ],
-                    )));
+                    ),
+                  ),
+                );
               },
               child: const BlueBottomButton(
                 buttonTitle: 'Add new category',

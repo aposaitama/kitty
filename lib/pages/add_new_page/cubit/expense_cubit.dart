@@ -14,16 +14,16 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       emit(ExpenseLoading());
       final expenses = await expenseRepository.getAllExpenses();
 
-      // Групуємо витрати по датах
+      //sorting
       final groupedExpenses = groupExpensesByDate(expenses);
 
-      // Перетворюємо груповані витрати в список
+      //into list
       List<Expense> flatExpenses = [];
       groupedExpenses.forEach((key, value) {
-        flatExpenses.addAll(value); // Додаємо всі витрати з кожної групи
+        flatExpenses.addAll(value);
       });
 
-      emit(ExpenseLoaded(flatExpenses)); // Тепер передаємо лише список витрат
+      emit(ExpenseLoaded(flatExpenses));
     } catch (e) {
       emit(ExpenseError(e.toString()));
     }
@@ -60,26 +60,28 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     try {
       emit(ExpenseLoading());
       await expenseRepository.addExpense(expense);
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       await loadExpenses();
     } catch (e) {
       emit(ExpenseError(e.toString()));
     }
   }
 
+  //expenses
   double calculateTotalExpenses(List<Expense> expenses) {
     return expenses
         .where((expense) => expense.type == 'Expense')
         .fold(0.0, (sum, item) => sum + int.parse(item.amount));
   }
 
+  //income
   double calculateTotalIncome(List<Expense> expenses) {
     return expenses
         .where((expense) => expense.type == 'Income')
         .fold(0.0, (sum, item) => sum + int.parse(item.amount));
   }
 
-  // Розрахунок балансу
+  //balance
   double calculateBalance(List<Expense> expenses) {
     final income = calculateTotalIncome(expenses);
     final totalExpenses = calculateTotalExpenses(expenses);

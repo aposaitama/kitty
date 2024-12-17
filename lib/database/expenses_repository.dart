@@ -1,3 +1,4 @@
+import 'package:kitty/database/database_config.dart';
 import 'package:kitty/database/database_service.dart';
 import 'package:kitty/models/categories/categories.dart';
 import 'package:kitty/models/expense/expense.dart';
@@ -8,7 +9,7 @@ class ExpensesRepository {
   Future<void> addExpense(Expense expense) async {
     final database = await db.database;
 
-    await database.insert('Expense', {
+    await database.insert(DatabaseConfig.expenseTable, {
       'type': expense.type,
       'category': expense.category,
       'categoryIcon': expense.categoryIcon,
@@ -21,7 +22,7 @@ class ExpensesRepository {
   Future<void> addCategory(Categories category) async {
     final database = await db.database;
 
-    await database.insert('Categories', {
+    await database.insert(DatabaseConfig.categoryTable, {
       'name': category.name,
       'icon': category.iconPath,
     });
@@ -32,10 +33,10 @@ class ExpensesRepository {
     final List<Map<String, dynamic>> maps = await database.query('Categories');
 
     return List.generate(maps.length, (i) {
-      return Categories(
-        name: maps[i]['name'],
-        iconPath: maps[i]['icon'],
-      );
+      return Categories.fromJson(
+          // name: maps[i]['name'],
+          // iconPath: maps[i]['icon'],
+          maps[i]);
     });
   }
 
@@ -44,14 +45,7 @@ class ExpensesRepository {
     final List<Map<String, dynamic>> maps = await database.query('Expense');
 
     return List.generate(maps.length, (i) {
-      return Expense(
-        type: maps[i]['type'],
-        category: maps[i]['category'],
-        categoryIcon: maps[i]['categoryIcon'],
-        description: maps[i]['description'],
-        amount: maps[i]['amount'],
-        date: DateTime.parse(maps[i]['date']),
-      );
+      return Expense.fromJson(maps[i]);
     });
   }
 }

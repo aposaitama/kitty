@@ -31,7 +31,7 @@ class TypeListTileItem extends StatelessWidget {
               const SizedBox(
                 width: 8.0,
               ),
-              description != ''
+              description.isNotEmpty
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
