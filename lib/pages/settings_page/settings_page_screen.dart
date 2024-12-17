@@ -98,9 +98,12 @@ class SettingsPageScreen extends StatelessWidget {
               const SizedBox(
                 height: 26.0,
               ),
-              SettingsListItem(
-                iconPath: 'assets/icons/currency.svg',
-                title: "manage_categories".tr(),
+              GestureDetector(
+                onTap: () => context.go('/manage_categories'),
+                child: SettingsListItem(
+                  iconPath: 'assets/icons/currency.svg',
+                  title: "manage_categories".tr(),
+                ),
               ),
               const SizedBox(
                 height: 26.0,
