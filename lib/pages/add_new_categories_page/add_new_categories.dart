@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kitty/models/categories/categories.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
+import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_state.dart';
 
 import 'package:kitty/styles/colors.dart';
 import 'package:kitty/widgets/blue_bottom_button.dart';
@@ -18,35 +18,15 @@ class AddNewCategories extends StatefulWidget {
 }
 
 class _AddNewCategoriesState extends State<AddNewCategories> {
-  final List<String> categoryIcons = [
-    'assets/icons/category_icons/Cafe.svg',
-    'assets/icons/category_icons/Donate.svg',
-    'assets/icons/category_icons/Education.svg',
-    'assets/icons/category_icons/Electronics.svg',
-    'assets/icons/category_icons/Fuel.svg',
-    'assets/icons/category_icons/Gifts.svg',
-    'assets/icons/category_icons/Groceries.svg',
-    'assets/icons/category_icons/Health.svg',
-    'assets/icons/category_icons/Institute.svg',
-    'assets/icons/category_icons/Laundry.svg',
-    'assets/icons/category_icons/Liquor.svg',
-    'assets/icons/category_icons/Maintenance.svg',
-    'assets/icons/category_icons/Money.svg',
-    'assets/icons/category_icons/Party.svg',
-    'assets/icons/category_icons/Restaurant.svg',
-    'assets/icons/category_icons/Savings.svg',
-    'assets/icons/category_icons/Self development.svg',
-    'assets/icons/category_icons/Sport.svg',
-    'assets/icons/category_icons/Transportation.svg',
-  ];
-
   bool isPressed = false;
   String iconPath = '';
+  int backgroundColor = 0;
   TextEditingController categoryController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
     context.read<AddNewCategoryCubit>().loadCategory();
   }
 
@@ -148,44 +128,86 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                                                 fontWeight: FontWeight.w500,
                                                 color: AppColors.header),
                                           ),
+                                          const SizedBox(
+                                            height: 16.0,
+                                          ),
                                           Expanded(
-                                            child: GridView.builder(
-                                              gridDelegate:
-                                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 4,
-                                                crossAxisSpacing: 0.0,
-                                                mainAxisSpacing: 0.0,
-                                              ),
-                                              itemCount: categoryIcons.length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      isPressed = !isPressed;
-                                                      iconPath =
-                                                          categoryIcons[index];
-                                                    });
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      color: AppColors
-                                                          .circleGreyColor,
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: Center(
-                                                      child: SvgPicture.asset(
-                                                        categoryIcons[index],
-                                                        width: 40,
-                                                        height: 40,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 32.0),
+                                              child: BlocBuilder<
+                                                  AddNewCategoryCubit,
+                                                  AddNewCategoryState>(
+                                                builder: (context, state) {
+                                                  print(state);
+                                                  if (state is CategoryLoaded) {
+                                                    final icons =
+                                                        state.categoryIcons;
+                                                    return GridView.builder(
+                                                      gridDelegate:
+                                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                                        crossAxisCount: 4,
+                                                        crossAxisSpacing: 45.0,
+                                                        mainAxisSpacing: 24.0,
                                                       ),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
+                                                      itemCount: icons.length,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              isPressed =
+                                                                  !isPressed;
+                                                              backgroundColor =
+                                                                  icons[index]
+                                                                      .backgroundColor;
+                                                              print(
+                                                                  backgroundColor);
+                                                              iconPath = icons[
+                                                                      index]
+                                                                  .iconPath; // Шлях до іконки
+                                                              print(iconPath);
+                                                            });
+                                                            Navigator.pop(
+                                                                context); // Закрити bottom sheet після вибору іконки
+                                                          },
+                                                          child: Container(
+                                                            width: 40.0,
+                                                            height: 40.0,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(icons[
+                                                                      index]
+                                                                  .backgroundColor),
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                            ),
+                                                            child: Center(
+                                                              child: SvgPicture
+                                                                  .asset(icons[
+                                                                          index]
+                                                                      .iconPath), // Відображення іконки
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+                                                  } else if (state
+                                                      is CategoryLoading) {
+                                                    return const Center(
+                                                        child:
+                                                            CircularProgressIndicator()); // Завантаження
+                                                  } else if (state
+                                                      is CategoryError) {
+                                                    return Center(
+                                                        child: Text(
+                                                            'Error: ${state.message}')); // Помилка
+                                                  }
+                                                  return const SizedBox(); // Пустий стан
+                                                },
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -201,7 +223,22 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                                         width: 24,
                                         height: 24,
                                       )
-                                    : SvgPicture.asset(iconPath),
+                                    : Container(
+                                        width: 40.0,
+                                        height: 40.0,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(backgroundColor)),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SvgPicture.asset(
+                                                iconPath,
+                                                height: 24.0,
+                                                width: 24.0,
+                                              )
+                                            ])),
                               ),
                             ),
                           ),
@@ -231,12 +268,9 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
             child: GestureDetector(
               onTap: () {
                 final categoryCubit = context.read<AddNewCategoryCubit>();
+
                 categoryCubit.addCategory(
-                  Categories(
-                    name: categoryController.text,
-                    iconPath: iconPath,
-                  ),
-                );
+                    categoryController.text, iconPath, backgroundColor);
                 context.go('/home');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

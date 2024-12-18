@@ -1,4 +1,5 @@
 import 'package:kitty/models/categories/categories.dart';
+import 'package:kitty/models/categories_icon/categoriesicon.dart';
 
 abstract class AddNewCategoryState {}
 
@@ -10,8 +11,9 @@ class CategoryLoading extends AddNewCategoryState {}
 
 class CategoryLoaded extends AddNewCategoryState {
   final List<Categories> category;
+  final List<CategoriesIcon> categoryIcons;
 
-  CategoryLoaded(this.category);
+  CategoryLoaded(this.category, this.categoryIcons);
 }
 
 class CategoryError extends AddNewCategoryState {

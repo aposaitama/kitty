@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kitty/models/categories/categories.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_state.dart';
 import 'package:kitty/pages/settings_page/manage_categories_page/widgets/categories_item_list_tile.dart';
@@ -45,9 +44,13 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
                             width: 16.0,
                           ),
                           GestureDetector(
-                              onTap: () => context.go('/settings'),
-                              child: SvgPicture.asset(
-                                  'assets/icons/arrow_back_black_24dp.svg')),
+                            onTap: () => context.go(
+                              '/settings',
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icons/arrow_back_black_24dp.svg',
+                            ),
+                          ),
                           const SizedBox(
                             width: 16.0,
                           ),
@@ -59,7 +62,7 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ],
@@ -69,11 +72,17 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
                   height: 8.0,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                  ),
                   child: BlocBuilder<AddNewCategoryCubit, AddNewCategoryState>(
                     builder: (context, state) {
                       if (state is CategoryError) {
-                        return Center(child: Text('Error: ${state.message}'));
+                        return Center(
+                          child: Text(
+                            'Error: ${state.message}',
+                          ),
+                        );
                       }
                       if (state is CategoryLoaded) {
                         final categories = state.category;
@@ -87,43 +96,71 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
                                   return CategoriesItemListTile(
                                     iconPath: category.iconPath,
                                     categoryName: category.name,
-                                    key: Key(category.name + category.iconPath),
+                                    key: Key(
+                                      category.name + category.iconPath,
+                                    ),
                                   );
                                 },
-                                onReorder: (oldIndex, newIndex) => () {}),
+                                onReorder: (oldIndex, newIndex) async {
+                                  if (oldIndex < newIndex) {
+                                    newIndex -= 1;
+                                  }
+                                  final movedCategory = categories.removeAt(
+                                    oldIndex,
+                                  );
+                                  categories.insert(
+                                    newIndex,
+                                    movedCategory,
+                                  );
+
+                                  //change order in db
+                                  await context
+                                      .read<AddNewCategoryCubit>()
+                                      .updateCategoryOrder(
+                                        categories,
+                                      );
+                                  setState(() {});
+                                }),
                           );
                         } else {
-                          return const Text('No categories');
+                          return const Text(
+                            'No categories',
+                          );
                         }
                       }
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     },
                   ),
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 32.0),
-          child: Container(
-            width: 166.0,
-            height: 48.0,
-            decoration: BoxDecoration(
-                color: AppColors.blueStackButton,
-                borderRadius: BorderRadius.circular(30)),
-            child: const Center(
-              child: Text(
-                'Add new category',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Inter',
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500),
+          child: GestureDetector(
+            onTap: () => context.go('/manage_categories/add_new_categories'),
+            child: Container(
+              width: 166.0,
+              height: 48.0,
+              decoration: BoxDecoration(
+                  color: AppColors.blueStackButton,
+                  borderRadius: BorderRadius.circular(30)),
+              child: const Center(
+                child: Text(
+                  'Add new category',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Inter',
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500),
+                ),
               ),
             ),
           ),
-        )
+        ),
       ]),
     );
   }

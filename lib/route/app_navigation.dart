@@ -71,8 +71,13 @@ class AppNavigation {
       builder: (context, state) => const RegisterPage(),
     ),
     GoRoute(
-      path: '/manage_categories',
-      builder: (context, state) => const ManageCategoriesPage(),
-    ),
+        path: '/manage_categories',
+        builder: (context, state) => const ManageCategoriesPage(),
+        routes: [
+          GoRoute(
+            path: '/add_new_categories',
+            builder: (context, state) => const AddNewCategories(),
+          )
+        ]),
   ]);
 }

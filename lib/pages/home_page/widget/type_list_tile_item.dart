@@ -3,18 +3,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/styles/colors.dart';
 
 class TypeListTileItem extends StatelessWidget {
+  // final int backgroundColor;
   final String type;
   final String categoryIcon;
   final String name;
   final String description;
   final String amount;
-  const TypeListTileItem(
-      {super.key,
-      required this.type,
-      required this.description,
-      required this.amount,
-      required this.name,
-      required this.categoryIcon});
+  const TypeListTileItem({
+    super.key,
+    required this.type,
+    required this.description,
+    required this.amount,
+    required this.name,
+    required this.categoryIcon,
+  });
+  // required this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +28,19 @@ class TypeListTileItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              SvgPicture.asset(
-                categoryIcon,
-              ),
+              Container(
+                  width: 40.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(shape: BoxShape.circle),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          categoryIcon,
+                          height: 24.0,
+                          width: 24.0,
+                        )
+                      ])),
               const SizedBox(
                 width: 8.0,
               ),

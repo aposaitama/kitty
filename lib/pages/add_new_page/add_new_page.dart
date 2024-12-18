@@ -121,57 +121,77 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                                         height: 20.0,
                                       ),
                                       Expanded(
-                                        child: BlocBuilder<AddNewCategoryCubit,
-                                            AddNewCategoryState>(
-                                          builder: (context, state) {
-                                            if (state is CategoryLoading) {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              );
-                                            } else if (state
-                                                is CategoryLoaded) {
-                                              final categories = state.category;
-                                              return GridView.builder(
-                                                gridDelegate:
-                                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 4,
-                                                  crossAxisSpacing: 0.0,
-                                                  mainAxisSpacing: 0.0,
-                                                ),
-                                                itemCount: categories.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  final category =
-                                                      categories[index];
-                                                  return GestureDetector(
-                                                    onTap: () {
-                                                      selectedIconPath =
-                                                          category.iconPath;
-                                                      categoryController.text =
-                                                          category.name;
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: AppColors
-                                                            .circleGreyColor,
-                                                        shape: BoxShape.circle,
-                                                      ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 32.0),
+                                          child: BlocBuilder<
+                                              AddNewCategoryCubit,
+                                              AddNewCategoryState>(
+                                            builder: (context, state) {
+                                              if (state is CategoryLoading) {
+                                                return const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              } else if (state
+                                                  is CategoryLoaded) {
+                                                final categories =
+                                                    state.category;
+                                                return GridView.builder(
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 4,
+                                                    crossAxisSpacing: 27.0,
+                                                    mainAxisSpacing: 24.0,
+                                                  ),
+                                                  itemCount: categories.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    final category =
+                                                        categories[index];
+                                                    return GestureDetector(
+                                                      onTap: () {
+                                                        selectedIconPath =
+                                                            category.iconPath;
+                                                        categoryController
+                                                                .text =
+                                                            category.name;
+                                                        Navigator.pop(context);
+                                                      },
                                                       child: Column(
                                                         children: [
-                                                          Center(
-                                                            child: SvgPicture
-                                                                .asset(
-                                                              category.iconPath,
-                                                              width: 40,
-                                                              height: 40,
+                                                          Container(
+                                                            width: 40.0,
+                                                            height: 40.0,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(category
+                                                                  .backgroundColor),
+                                                              shape: BoxShape
+                                                                  .circle,
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 6.0,
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Center(
+                                                                  child:
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                    category
+                                                                        .iconPath,
+                                                                    width: 24.0,
+                                                                    height:
+                                                                        24.0,
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 6.0,
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
                                                           Text(
                                                             category.name,
@@ -189,25 +209,26 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                                                           )
                                                         ],
                                                       ),
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            } else if (state is CategoryError) {
-                                              return Center(
-                                                child: Text(
-                                                  'Error: ${state.message}',
-                                                  style: const TextStyle(
-                                                      color: Colors.red),
-                                                ),
-                                              );
-                                            } else {
-                                              return const Center(
-                                                child: Text(
-                                                    'No categories available'),
-                                              );
-                                            }
-                                          },
+                                                    );
+                                                  },
+                                                );
+                                              } else if (state
+                                                  is CategoryError) {
+                                                return Center(
+                                                  child: Text(
+                                                    'Error: ${state.message}',
+                                                    style: const TextStyle(
+                                                        color: Colors.red),
+                                                  ),
+                                                );
+                                              } else {
+                                                return const Center(
+                                                  child: Text(
+                                                      'No categories available'),
+                                                );
+                                              }
+                                            },
+                                          ),
                                         ),
                                       ),
                                       Row(

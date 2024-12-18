@@ -1,23 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'categories.dart';
+part of 'categoriesicon.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CategoriesImpl _$$CategoriesImplFromJson(Map<String, dynamic> json) =>
-    _$CategoriesImpl(
-      name: json['name'] as String,
+_$CategoriesIconImpl _$$CategoriesIconImplFromJson(Map<String, dynamic> json) =>
+    _$CategoriesIconImpl(
       backgroundColor: (json['backgroundColor'] as num).toInt(),
       iconPath: json['iconPath'] as String,
-      order_index: (json['order_index'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$CategoriesImplToJson(_$CategoriesImpl instance) =>
+Map<String, dynamic> _$$CategoriesIconImplToJson(
+        _$CategoriesIconImpl instance) =>
     <String, dynamic>{
-      'name': instance.name,
       'backgroundColor': instance.backgroundColor,
       'iconPath': instance.iconPath,
-      'order_index': instance.order_index,
     };

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kitty/database/categories_repository.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/pages/home_page/cubit/date_picker_cubit.dart';
 import 'package:kitty/route/app_navigation.dart';
@@ -26,7 +27,7 @@ void main() async {
             create: (context) => ExpenseCubit(ExpensesRepository()),
           ),
           BlocProvider(
-            create: (context) => AddNewCategoryCubit(ExpensesRepository()),
+            create: (context) => AddNewCategoryCubit(CategoriesRepository()),
           ),
           BlocProvider(
             create: (context) => MonthCubit(),
