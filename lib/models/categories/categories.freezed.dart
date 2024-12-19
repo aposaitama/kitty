@@ -21,6 +21,7 @@ Categories _$CategoriesFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Categories {
   String get name => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   int get backgroundColor => throw _privateConstructorUsedError;
   String get iconPath => throw _privateConstructorUsedError;
   int get order_index => throw _privateConstructorUsedError;
@@ -42,7 +43,11 @@ abstract class $CategoriesCopyWith<$Res> {
       _$CategoriesCopyWithImpl<$Res, Categories>;
   @useResult
   $Res call(
-      {String name, int backgroundColor, String iconPath, int order_index});
+      {String name,
+      int? id,
+      int backgroundColor,
+      String iconPath,
+      int order_index});
 }
 
 /// @nodoc
@@ -61,6 +66,7 @@ class _$CategoriesCopyWithImpl<$Res, $Val extends Categories>
   @override
   $Res call({
     Object? name = null,
+    Object? id = freezed,
     Object? backgroundColor = null,
     Object? iconPath = null,
     Object? order_index = null,
@@ -70,6 +76,10 @@ class _$CategoriesCopyWithImpl<$Res, $Val extends Categories>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       backgroundColor: null == backgroundColor
           ? _value.backgroundColor
           : backgroundColor // ignore: cast_nullable_to_non_nullable
@@ -95,7 +105,11 @@ abstract class _$$CategoriesImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name, int backgroundColor, String iconPath, int order_index});
+      {String name,
+      int? id,
+      int backgroundColor,
+      String iconPath,
+      int order_index});
 }
 
 /// @nodoc
@@ -112,6 +126,7 @@ class __$$CategoriesImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? id = freezed,
     Object? backgroundColor = null,
     Object? iconPath = null,
     Object? order_index = null,
@@ -121,6 +136,10 @@ class __$$CategoriesImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       backgroundColor: null == backgroundColor
           ? _value.backgroundColor
           : backgroundColor // ignore: cast_nullable_to_non_nullable
@@ -142,6 +161,7 @@ class __$$CategoriesImplCopyWithImpl<$Res>
 class _$CategoriesImpl implements _Categories {
   const _$CategoriesImpl(
       {required this.name,
+      this.id,
       required this.backgroundColor,
       required this.iconPath,
       required this.order_index});
@@ -152,6 +172,8 @@ class _$CategoriesImpl implements _Categories {
   @override
   final String name;
   @override
+  final int? id;
+  @override
   final int backgroundColor;
   @override
   final String iconPath;
@@ -160,7 +182,7 @@ class _$CategoriesImpl implements _Categories {
 
   @override
   String toString() {
-    return 'Categories(name: $name, backgroundColor: $backgroundColor, iconPath: $iconPath, order_index: $order_index)';
+    return 'Categories(name: $name, id: $id, backgroundColor: $backgroundColor, iconPath: $iconPath, order_index: $order_index)';
   }
 
   @override
@@ -169,6 +191,7 @@ class _$CategoriesImpl implements _Categories {
         (other.runtimeType == runtimeType &&
             other is _$CategoriesImpl &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.backgroundColor, backgroundColor) ||
                 other.backgroundColor == backgroundColor) &&
             (identical(other.iconPath, iconPath) ||
@@ -179,8 +202,8 @@ class _$CategoriesImpl implements _Categories {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, backgroundColor, iconPath, order_index);
+  int get hashCode => Object.hash(
+      runtimeType, name, id, backgroundColor, iconPath, order_index);
 
   /// Create a copy of Categories
   /// with the given fields replaced by the non-null parameter values.
@@ -201,6 +224,7 @@ class _$CategoriesImpl implements _Categories {
 abstract class _Categories implements Categories {
   const factory _Categories(
       {required final String name,
+      final int? id,
       required final int backgroundColor,
       required final String iconPath,
       required final int order_index}) = _$CategoriesImpl;
@@ -210,6 +234,8 @@ abstract class _Categories implements Categories {
 
   @override
   String get name;
+  @override
+  int? get id;
   @override
   int get backgroundColor;
   @override

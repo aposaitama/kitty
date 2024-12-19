@@ -7,6 +7,7 @@ part 'categories.g.dart';
 class Categories with _$Categories {
   const factory Categories(
       {required String name,
+      int? id,
       required int backgroundColor,
       required String iconPath,
       required int order_index}) = _Categories;

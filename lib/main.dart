@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/database/categories_repository.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/pages/home_page/cubit/date_picker_cubit.dart';
+import 'package:kitty/pages/search_page/cubit/categories_cubit.dart';
 import 'package:kitty/route/app_navigation.dart';
 import 'package:kitty/database/expenses_repository.dart';
 import 'package:kitty/pages/add_new_page/cubit/expense_cubit.dart';
@@ -32,6 +33,9 @@ void main() async {
           BlocProvider(
             create: (context) => MonthCubit(),
           ),
+          BlocProvider(
+              create: (context) =>
+                  SearchCategoriesCubit(CategoriesRepository())),
         ],
         child: const MyApp(),
       ),

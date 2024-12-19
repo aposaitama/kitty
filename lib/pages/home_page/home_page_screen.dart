@@ -175,8 +175,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     SvgPicture.asset('assets/icons/Logo.svg'),
                     Row(
                       children: [
-                        SvgPicture.asset(
-                            'assets/icons/search_black_24dp 1.svg'),
+                        GestureDetector(
+                          onTap: () => context.go('/search'),
+                          child: SvgPicture.asset(
+                              'assets/icons/search_black_24dp 1.svg'),
+                        ),
                         const SizedBox(
                           width: 16.0,
                         ),
@@ -209,9 +212,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Transform.rotate(
-                          angle: 3.1415,
-                          child: SvgPicture.asset('assets/icons/right.svg')),
+                      GestureDetector(
+                        onTap: context.read<MonthCubit>().decrementYear,
+                        child: Transform.rotate(
+                            angle: 3.1415,
+                            child: SvgPicture.asset('assets/icons/right.svg')),
+                      ),
                       GestureDetector(
                         onTap: () => _showCalendarOverlay(context),
                         child: Container(
@@ -232,9 +238,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 ),
                                 BlocBuilder<MonthCubit, String?>(
                                   builder: (context, selectedMonth) {
+                                    final currentYear =
+                                        context.read<MonthCubit>().currentYear;
                                     String monthToDisplay =
                                         selectedMonth != null
-                                            ? '$selectedMonth, 2024'
+                                            ? '$selectedMonth, $currentYear'
                                             : getCurrentMonthYear();
                                     return Text(
                                       monthToDisplay,
@@ -252,7 +260,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           ),
                         ),
                       ),
-                      SvgPicture.asset('assets/icons/right.svg')
+                      GestureDetector(
+                          onTap: context.read<MonthCubit>().decrementYear,
+                          child: SvgPicture.asset('assets/icons/right.svg'))
                     ],
                   ),
                 ),
@@ -471,7 +481,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                               amount: expense.amount,
                                               name: expense.category,
                                             );
-                                          }).toList(),
+                                          }),
                                         ]),
                                   ),
                                 ),

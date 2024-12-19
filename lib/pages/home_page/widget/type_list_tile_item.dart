@@ -31,7 +31,7 @@ class TypeListTileItem extends StatelessWidget {
               Container(
                   width: 40.0,
                   height: 40.0,
-                  decoration: BoxDecoration(shape: BoxShape.circle),
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

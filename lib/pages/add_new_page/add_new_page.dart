@@ -171,27 +171,20 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                                                               shape: BoxShape
                                                                   .circle,
                                                             ),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Center(
-                                                                  child:
-                                                                      SvgPicture
-                                                                          .asset(
+                                                            child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  SvgPicture
+                                                                      .asset(
                                                                     category
                                                                         .iconPath,
                                                                     width: 24.0,
                                                                     height:
                                                                         24.0,
                                                                   ),
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 6.0,
-                                                                ),
-                                                              ],
-                                                            ),
+                                                                ]),
                                                           ),
                                                           Text(
                                                             category.name,
