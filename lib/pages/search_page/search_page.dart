@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kitty/models/categories/categories.dart';
 import 'package:kitty/models/expense/expense.dart';
+import 'package:kitty/pages/add_new_page/cubit/expense_cubit.dart';
 import 'package:kitty/pages/home_page/widget/type_list_tile_item.dart';
 import 'package:kitty/pages/search_page/cubit/categories_cubit.dart';
 import 'package:kitty/pages/search_page/cubit/type_by_category_cubit.dart';
@@ -26,6 +27,7 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     context.read<SearchCategoriesCubit>().fetchCategories();
+    context.read<ExpenseCubit>().loadExpenses();
   }
 
   TextEditingController searchController = TextEditingController();
@@ -51,6 +53,11 @@ class _SearchPageState extends State<SearchPage> {
               ),
               Expanded(
                 child: TextField(
+                  onChanged: (text) {
+                    context
+                        .read<TypeByCategoryCubit>()
+                        .filterByCategoryAndName(selectedCategories, text);
+                  },
                   controller: searchController,
                   readOnly: false,
                   style: const TextStyle(
@@ -94,16 +101,15 @@ class _SearchPageState extends State<SearchPage> {
                         onTap: () {
                           setState(() {
                             if (isSelected) {
-                              //remove category selecting
                               selectedCategories.remove(category.name);
                             } else {
-                              //add category selecting
                               selectedCategories.add(category.name);
                             }
                           });
                           context
                               .read<TypeByCategoryCubit>()
-                              .fetchItemByCategory(selectedCategories);
+                              .filterByCategoryAndName(
+                                  selectedCategories, searchController.text);
                         },
                         child: Row(
                           children: [
