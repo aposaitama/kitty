@@ -390,9 +390,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       if (state is ExpenseLoading) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (state is ExpenseLoaded) {
-                        // Групуємо витрати перед відображенням
                         final groupedExpenses = context
                             .read<ExpenseCubit>()
+                            .expenseRepository
                             .groupExpensesByDate(state.expenses);
 
                         if (groupedExpenses.isEmpty) {

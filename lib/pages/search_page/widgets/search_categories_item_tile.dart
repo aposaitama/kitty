@@ -5,15 +5,22 @@ import 'package:kitty/styles/colors.dart';
 class SearchCategoriesItemTile extends StatelessWidget {
   final String name;
   final String iconPath;
+  final Color backgroundColor;
+  final Color borderColor;
   const SearchCategoriesItemTile(
-      {super.key, required this.name, required this.iconPath});
+      {super.key,
+      required this.name,
+      required this.iconPath,
+      required this.backgroundColor,
+      required this.borderColor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+          color: backgroundColor,
           borderRadius: BorderRadius.circular(6),
-          border: Border.all(width: 1.0, color: AppColors.categoryBorderColor)),
+          border: Border.all(width: 1.0, color: borderColor)),
       child: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Row(
