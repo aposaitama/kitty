@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 
 class ChooseLanguagePage extends StatelessWidget {
   const ChooseLanguagePage({super.key});
@@ -14,7 +15,7 @@ class ChooseLanguagePage extends StatelessWidget {
           GestureDetector(
             onTap: () {
               context.setLocale(const Locale('uk'));
-              Navigator.pop(context);
+              context.go('/settings');
             },
             child: const Text('Ukrainian'),
           ),
@@ -22,7 +23,7 @@ class ChooseLanguagePage extends StatelessWidget {
             onTap: () {
               context.setLocale(const Locale('en'));
 
-              Navigator.pop(context);
+              context.go('/settings');
             },
             child: const Text('English'),
           ),

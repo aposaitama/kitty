@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/database/categories_repository.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/pages/home_page/cubit/date_picker_cubit.dart';
+import 'package:kitty/pages/report_page/cubit/categories_cubit.dart';
+import 'package:kitty/pages/report_page/cubit/statistics_date_cubit.dart';
 import 'package:kitty/pages/search_page/cubit/categories_cubit.dart';
 import 'package:kitty/pages/search_page/cubit/type_by_category_cubit.dart';
 import 'package:kitty/route/app_navigation.dart';
@@ -38,6 +40,12 @@ void main() async {
             create: (context) => TypeByCategoryCubit(ExpensesRepository()),
           ),
           BlocProvider(
+            create: (context) => CategoriesCubit(ExpensesRepository()),
+          ),
+          BlocProvider(
+            create: (context) => StatisticsCubit(),
+          ),
+          BlocProvider(
               create: (context) =>
                   SearchCategoriesCubit(CategoriesRepository())),
         ],
@@ -59,11 +67,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      routerConfig: AppNavigation.router,
+      routerConfig: AppRouter.createRouter(context),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
