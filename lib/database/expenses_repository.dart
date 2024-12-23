@@ -1,4 +1,6 @@
+import 'package:kitty/database/database_config.dart';
 import 'package:kitty/database/database_service.dart';
+import 'package:kitty/models/categories/categories.dart';
 import 'package:kitty/models/expense/expense.dart';
 
 class ExpensesRepository {
@@ -8,9 +10,11 @@ class ExpensesRepository {
     final database = await db.database;
 
     await database.insert('Expense', {
+      'background_color': expense.backgroundColor,
       'type': expense.type,
       'category': expense.category,
       'categoryIcon': expense.categoryIcon,
+      'categoryId': expense.categoryId,
       'description': expense.description,
       'amount': expense.amount,
       'date': expense.date.toIso8601String(),
@@ -23,9 +27,11 @@ class ExpensesRepository {
 
     return List.generate(maps.length, (i) {
       return Expense(
+        backgroundColor: maps[i]['background_color'],
         type: maps[i]['type'],
         category: maps[i]['category'],
         categoryIcon: maps[i]['categoryIcon'],
+        categoryId: maps[i]['categoryId'],
         description: maps[i]['description'],
         amount: maps[i]['amount'],
         date: DateTime.parse(maps[i]['date']),
@@ -45,11 +51,29 @@ class ExpensesRepository {
         type: maps[i]['type'],
         category: maps[i]['category'],
         categoryIcon: maps[i]['categoryIcon'],
+        categoryId: maps[i]['categoryId'],
         description: maps[i]['description'],
         amount: maps[i]['amount'],
         date: DateTime.parse(maps[i]['date']),
+        backgroundColor: maps[i]['background_color'],
       );
     });
+  }
+
+  Future<Categories?> getCategoryInfo(int categoryId) async {
+    final database = await db.database;
+
+    final List<Map<String, dynamic>> maps = await database.query(
+      DatabaseConfig.categoryTable,
+      where: 'id = ?',
+      whereArgs: [categoryId],
+    );
+
+    if (maps.isNotEmpty) {
+      return Categories.fromJson(maps.first);
+    }
+
+    return null;
   }
 
   Map<String, List<Expense>> groupExpensesByDate(List<Expense> expenses) {

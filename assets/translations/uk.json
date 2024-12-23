@@ -1,7 +1,16 @@
 {
-    "blue_gesture_button": "Додати новий",
+    "blue_gesture_button": "Додати нову",
     "balance": "Баланс",
+    "edit": "Редагувати",
+    "search_for_notes_categories_or_labels": "Шукати нотатки, категорії або заголовки",
+    "statistics": "Статистика",
+    "income": "Доходи",
+    "expense": "Витрати",
+    "overview": "ОГЛЯД",
+    "downloadReport": "Завантажити звіт",
+    "details": "ДЕТАЛІ",
     "settings": "Налаштування",
+    "add_new_category": "Додати нову категорію",
     "manage_categories": "Керувати категоріями",
     "export_to_pdf": "Експортувати у PDF",
     "choose_currency": "Обрати валюту",
@@ -10,4 +19,5 @@
     "logout": "Вийти",
     "username": "Джон Доу",
     "email": "john.doe@gmail.com"
+    
 }

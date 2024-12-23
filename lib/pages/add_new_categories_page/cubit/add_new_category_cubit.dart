@@ -11,6 +11,7 @@ class AddNewCategoryCubit extends Cubit<AddNewCategoryState> {
   Future<void> loadCategory() async {
     try {
       final categories = await categoriesRepository.getAllCategories();
+
       final categoriesIcon = await categoriesRepository.getAllCategoriesIcons();
 
       emit(CategoryLoaded(categories, categoriesIcon));
@@ -23,7 +24,7 @@ class AddNewCategoryCubit extends Cubit<AddNewCategoryState> {
       String name, String iconPath, int backgroundColor) async {
     try {
       final nextOrderIndex = await categoriesRepository.getNextOrderIndex();
-      print('adding to $backgroundColor, $name, $iconPath');
+
       final newCategory = Categories(
         backgroundColor: backgroundColor,
         name: name,

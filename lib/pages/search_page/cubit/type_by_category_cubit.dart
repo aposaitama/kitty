@@ -15,10 +15,9 @@ class TypeByCategoryCubit extends Cubit<Map<String, List<Expense>>> {
 
   Future<void> filterByCategoryAndName(
       List<String> categoryNames, String? searchQuery) async {
-    // Получаем все траты
     final allExpenses = await expensesRepository.getAllExpenses();
 
-    // Фильтрация по категориям, если категории выбраны
+    //if category is pressed, than filter data
     List<Expense> filteredExpenses = allExpenses;
     if (categoryNames.isNotEmpty) {
       filteredExpenses = filteredExpenses.where((expense) {
@@ -26,7 +25,7 @@ class TypeByCategoryCubit extends Cubit<Map<String, List<Expense>>> {
       }).toList();
     }
 
-    // Фильтрация по названию, если введён текст
+    //filter by text
     if (searchQuery != null && searchQuery.isNotEmpty) {
       filteredExpenses = filteredExpenses.where((expense) {
         return (expense.description != null &&
@@ -36,7 +35,7 @@ class TypeByCategoryCubit extends Cubit<Map<String, List<Expense>>> {
       }).toList();
     }
 
-    // Группировка по дате
+    //group by date
     final groupedExpenses =
         await expensesRepository.groupExpensesByDate(filteredExpenses);
 

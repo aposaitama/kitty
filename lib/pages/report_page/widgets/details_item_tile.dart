@@ -8,13 +8,15 @@ class DetailsItemTile extends StatelessWidget {
   final String transactionCount;
   final double totalSum;
   final double percent;
+  final int backgroundColor;
   const DetailsItemTile(
       {super.key,
       required this.iconPath,
       required this.transactionCount,
       required this.totalSum,
       required this.percent,
-      required this.categoryName});
+      required this.categoryName,
+      required this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,8 @@ class DetailsItemTile extends StatelessWidget {
                 Container(
                     width: 40.0,
                     height: 40.0,
-                    decoration: const BoxDecoration(
-                        color: Colors.amber, shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                        color: Color(backgroundColor), shape: BoxShape.circle),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

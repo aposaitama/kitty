@@ -24,6 +24,7 @@ class CategoriesRepository {
 
     return List.generate(maps.length, (i) {
       return Categories(
+          id: maps[i]['id'],
           backgroundColor: maps[i]['background_color'],
           name: maps[i]['name'],
           iconPath: maps[i]['icon'],

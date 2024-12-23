@@ -1,20 +1,44 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
-class MonthCubit extends Cubit<String?> {
+class MonthCubit extends Cubit<Map<String, dynamic>> {
   int currentYear = DateTime.now().year;
-  MonthCubit() : super(null);
+  int currentMonth = DateTime.now().month;
 
-  void selectMonth(String month) {
-    emit(month);
+  MonthCubit()
+      : super({'month': DateTime.now().month, 'year': DateTime.now().year});
+
+  //selecting month
+  void selectMonth(int month) {
+    currentMonth = month;
+    emit({
+      'month': currentMonth,
+      'year': currentYear,
+    });
   }
 
-  void changeYear(String year) {
-    emit(year);
-  }
-
+  //decrementing on left arrow btn
   void decrementYear() {
     currentYear--;
-    print(currentYear);
-    emit(state);
+    emit({
+      'month': currentMonth,
+      'year': currentYear,
+    });
+  }
+
+  //incrementing on rigth arrow btn
+  void incrementYear() {
+    currentYear++;
+    emit({
+      'month': currentMonth,
+      'year': currentYear,
+    });
+  }
+
+  String getMonthName() {
+    final DateTime date = DateTime(currentYear, currentMonth + 1);
+    Intl.defaultLocale = 'en_US';
+    final formatter = DateFormat('MMMM');
+    return formatter.format(date);
   }
 }

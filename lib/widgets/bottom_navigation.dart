@@ -29,7 +29,9 @@ class _CustomButtomNavigationBarState extends State<CustomButtomNavigationBar> {
                 ),
               )),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 28.0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

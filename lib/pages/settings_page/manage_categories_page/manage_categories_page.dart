@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -54,9 +55,9 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
                           const SizedBox(
                             width: 16.0,
                           ),
-                          const Text(
-                            'Manage categories',
-                            style: TextStyle(
+                          Text(
+                            "manage_categories".tr(),
+                            style: const TextStyle(
                               fontFamily: 'Inter',
                               color: Colors.black,
                               fontSize: 16,
@@ -97,7 +98,7 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
                                     iconPath: category.iconPath,
                                     categoryName: category.name,
                                     key: Key(
-                                      category.name + category.iconPath,
+                                      category.id.toString(),
                                     ),
                                   );
                                 },
@@ -119,7 +120,9 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
                                       .updateCategoryOrder(
                                         categories,
                                       );
-                                  setState(() {});
+                                  setState(
+                                    () {},
+                                  );
                                 }),
                           );
                         } else {
@@ -139,24 +142,32 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(bottom: 32.0),
+          padding: const EdgeInsets.only(
+            bottom: 32.0,
+          ),
           child: GestureDetector(
             onTap: () => context.go('/manage_categories/add_new_categories'),
             child: Container(
-              width: 166.0,
               height: 48.0,
               decoration: BoxDecoration(
-                  color: AppColors.blueStackButton,
-                  borderRadius: BorderRadius.circular(30)),
-              child: const Center(
-                child: Text(
-                  'Add new category',
-                  style: TextStyle(
+                color: AppColors.blueStackButton,
+                borderRadius: BorderRadius.circular(
+                  30,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Text(
+                    "add_new_category".tr(),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'Inter',
                       fontSize: 14.0,
-                      fontWeight: FontWeight.w500),
-                ),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ]),
               ),
             ),
           ),

@@ -140,7 +140,6 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                                                   AddNewCategoryCubit,
                                                   AddNewCategoryState>(
                                                 builder: (context, state) {
-                                                  print(state);
                                                   if (state is CategoryLoaded) {
                                                     final icons =
                                                         state.categoryIcons;

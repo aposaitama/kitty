@@ -9,6 +9,7 @@ class TypeListTileItem extends StatelessWidget {
   final String name;
   final String description;
   final String amount;
+  final int backgrondColor;
   const TypeListTileItem({
     super.key,
     required this.type,
@@ -16,6 +17,7 @@ class TypeListTileItem extends StatelessWidget {
     required this.amount,
     required this.name,
     required this.categoryIcon,
+    required this.backgrondColor,
   });
   // required this.backgroundColor});
 
@@ -31,7 +33,8 @@ class TypeListTileItem extends StatelessWidget {
               Container(
                   width: 40.0,
                   height: 40.0,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Color(backgrondColor)),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

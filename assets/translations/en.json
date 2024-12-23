@@ -1,6 +1,15 @@
 {
     "blue_gesture_button": "Add new",
+    "add_new_category": "Add new category",
+    "edit": "Edit",
+  "search_for_notes_categories_or_labels": "Search for notes, categories or labels",
     "balance": "Balance",
+    "income": "Income",
+    "overview": "OVERVIEW",
+    "downloadReport": "Download report",
+    "details": "DETAILS",
+    "expense": "Expenses",
+    "statistics": "Statistics",
     "settings": "Settings",
     "manage_categories": "Manage categories",
     "export_to_pdf": "Export to PDF",
@@ -10,4 +19,5 @@
     "logout": "Logout",
     "username": "John Doe",
     "email": "john.doe@gmail.com"
+
 }

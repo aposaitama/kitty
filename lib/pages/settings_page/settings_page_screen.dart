@@ -22,11 +22,11 @@ class SettingsPageScreen extends StatelessWidget {
                 const SizedBox(
                   height: 32.0,
                 ),
-                const Row(
+                Row(
                   children: [
                     Text(
-                      'Settings',
-                      style: TextStyle(
+                      "settings".tr(),
+                      style: const TextStyle(
                           fontFamily: 'Inter',
                           fontSize: 20.0,
                           fontWeight: FontWeight.w900,
@@ -50,18 +50,18 @@ class SettingsPageScreen extends StatelessWidget {
                     const SizedBox(
                       width: 12.0,
                     ),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'John Doe',
-                          style: TextStyle(
+                          'username'.tr(),
+                          style: const TextStyle(
                               fontFamily: 'Inter',
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,
                               color: Color.fromARGB(255, 39, 39, 39)),
                         ),
-                        Text(
+                        const Text(
                           'john.doe@gmail.com',
                           style: TextStyle(
                               fontFamily: 'Inter',
@@ -84,52 +84,52 @@ class SettingsPageScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
-              const SettingsListItem(
-                iconPath: 'assets/icons/categories.svg',
-                title: 'Manage categories',
-              ),
-              const SizedBox(
-                height: 26.0,
-              ),
-              const SettingsListItem(
-                iconPath: 'assets/icons/export.svg',
-                title: 'Export to PDF',
-              ),
-              const SizedBox(
-                height: 26.0,
-              ),
               GestureDetector(
                 onTap: () => context.go('/manage_categories'),
                 child: SettingsListItem(
-                  iconPath: 'assets/icons/currency.svg',
+                  iconPath: 'assets/icons/categories.svg',
                   title: "manage_categories".tr(),
                 ),
               ),
               const SizedBox(
                 height: 26.0,
               ),
+              SettingsListItem(
+                iconPath: 'assets/icons/export.svg',
+                title: "export_to_pdf".tr(),
+              ),
+              const SizedBox(
+                height: 26.0,
+              ),
+              SettingsListItem(
+                iconPath: 'assets/icons/currency.svg',
+                title: "choose_currency".tr(),
+              ),
+              const SizedBox(
+                height: 26.0,
+              ),
               GestureDetector(
                 onTap: () => context.go('/settings/choose_language'),
-                child: const SettingsListItem(
+                child: SettingsListItem(
                   iconPath: 'assets/icons/translate.svg',
-                  title: 'Choose language',
+                  title: "choose_language".tr(),
                 ),
               ),
               const SizedBox(
                 height: 26.0,
               ),
-              const SettingsListItem(
+              SettingsListItem(
                 iconPath: 'assets/icons/faq.svg',
-                title: 'Frequently asked questions',
+                title: "faq".tr(),
               ),
               const SizedBox(
                 height: 26.0,
               ),
               GestureDetector(
                 onTap: () => context.go('/login'),
-                child: const SettingsListItem(
+                child: SettingsListItem(
                   iconPath: 'assets/icons/logout.svg',
-                  title: 'Logout',
+                  title: "logout".tr(),
                 ),
               ),
             ],

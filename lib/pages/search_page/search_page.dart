@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,12 +7,10 @@ import 'package:kitty/models/categories/categories.dart';
 import 'package:kitty/models/expense/expense.dart';
 import 'package:kitty/pages/add_new_page/cubit/expense_cubit.dart';
 import 'package:kitty/pages/home_page/widget/type_list_tile_item.dart';
-import 'package:kitty/pages/search_page/cubit/categories_cubit.dart';
+import 'package:kitty/pages/search_page/cubit/search_categories_cubit.dart';
 import 'package:kitty/pages/search_page/cubit/type_by_category_cubit.dart';
 import 'package:kitty/pages/search_page/widgets/search_categories_item_tile.dart';
-import 'package:kitty/pages/search_page/widgets/sorted_categoty_item_tile.dart';
 import 'package:kitty/styles/colors.dart';
-import 'package:kitty/widgets/custom_text_field.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -45,9 +44,11 @@ class _SearchPageState extends State<SearchPage> {
                 width: 16.0,
               ),
               GestureDetector(
-                  onTap: () => context.go('/home'),
-                  child: SvgPicture.asset(
-                      'assets/icons/arrow_back_black_24dp.svg')),
+                onTap: () => context.go('/home'),
+                child: SvgPicture.asset(
+                  'assets/icons/arrow_back_black_24dp.svg',
+                ),
+              ),
               const SizedBox(
                 width: 16.0,
               ),
@@ -61,20 +62,28 @@ class _SearchPageState extends State<SearchPage> {
                   controller: searchController,
                   readOnly: false,
                   style: const TextStyle(
-                      color: Colors.black,
+                    color: Colors.black,
+                    fontFamily: 'Inter',
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  decoration: InputDecoration(
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                    hintText: "search_for_notes_categories_or_labels".tr(),
+                    hintStyle: const TextStyle(
+                      color: AppColors.hintText,
                       fontFamily: 'Inter',
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w400),
-                  decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent)),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent)),
-                    hintText: 'Search for notes, categories or labels',
-                    hintStyle: TextStyle(
-                        color: AppColors.hintText,
-                        fontFamily: 'Inter',
-                        fontSize: 15.0),
+                      fontSize: 15.0,
+                    ),
                   ),
                 ),
               )
@@ -86,7 +95,9 @@ class _SearchPageState extends State<SearchPage> {
           BlocBuilder<SearchCategoriesCubit, List<Categories>>(
             builder: (context, categories) {
               return Padding(
-                padding: const EdgeInsets.only(left: 54.0),
+                padding: const EdgeInsets.only(
+                  left: 54.0,
+                ),
                 child: SizedBox(
                   height: 33,
                   child: ListView.builder(
@@ -121,9 +132,11 @@ class _SearchPageState extends State<SearchPage> {
                                   : Colors.transparent,
                               borderColor: isSelected
                                   ? AppColors.blueStackButton
-                                  : AppColors.categoryBorderColor, // Колір фону
+                                  : AppColors.categoryBorderColor,
                             ),
-                            const SizedBox(width: 10.0),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
                           ],
                         ),
                       );
@@ -138,7 +151,9 @@ class _SearchPageState extends State<SearchPage> {
           ),
           Container(
             height: 1.0,
-            decoration: const BoxDecoration(color: AppColors.borderColor),
+            decoration: const BoxDecoration(
+              color: AppColors.borderColor,
+            ),
           ),
           Expanded(
             child: BlocBuilder<TypeByCategoryCubit, Map<String, List<Expense>>>(
@@ -148,7 +163,9 @@ class _SearchPageState extends State<SearchPage> {
                 }
 
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                  ),
                   child: ListView.builder(
                     itemCount: groupedExpenses.keys.length,
                     itemBuilder: (context, index) {
@@ -161,7 +178,9 @@ class _SearchPageState extends State<SearchPage> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
-                                  width: 1.0, color: AppColors.borderColor),
+                                width: 1.0,
+                                color: AppColors.borderColor,
+                              ),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
@@ -183,8 +202,9 @@ class _SearchPageState extends State<SearchPage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 7.0),
+                                          padding: const EdgeInsets.only(
+                                            right: 7.0,
+                                          ),
                                           child: Text(
                                             expenses
                                                 .fold<double>(
@@ -215,6 +235,7 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                     ...expenses.map((expense) {
                                       return TypeListTileItem(
+                                        backgrondColor: expense.backgroundColor,
                                         categoryIcon: expense.categoryIcon,
                                         type: expense.type,
                                         description: expense.description!,

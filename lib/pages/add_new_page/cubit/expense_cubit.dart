@@ -29,33 +29,6 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     }
   }
 
-  // Map<String, List<Expense>> groupExpensesByDate(List<Expense> expenses) {
-  //   final now = DateTime.now();
-  //   Map<String, List<Expense>> grouped = {};
-
-  //   for (var expense in expenses) {
-  //     final difference = now.difference(expense.date).inDays;
-
-  //     String groupKey;
-
-  //     if (difference == 0) {
-  //       groupKey = "TODAY";
-  //     } else if (difference == 1) {
-  //       groupKey = "YESTERDAY";
-  //     } else {
-  //       groupKey = "$difference days ago";
-  //     }
-
-  //     if (grouped[groupKey] == null) {
-  //       grouped[groupKey] = [];
-  //     }
-
-  //     grouped[groupKey]!.add(expense);
-  //   }
-
-  //   return grouped;
-  // }
-
   Future<void> addExpense(Expense expense) async {
     try {
       emit(ExpenseLoading());

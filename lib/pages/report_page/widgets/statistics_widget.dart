@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class StatisticsWidget extends StatelessWidget {
-  final Map<String, Map<String, Object>> testSummary;
-  const StatisticsWidget({super.key, required this.testSummary});
+  final Map<String, Map<String, dynamic>> summary;
+  const StatisticsWidget({super.key, required this.summary});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class StatisticsWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.amber, borderRadius: BorderRadius.circular(6)),
         child: Row(
-          children: testSummary.entries.map((entry) {
+          children: summary.entries.map((entry) {
             double percentage = entry.value['percentage'] as double;
             int backgroundColor = entry.value['backgroundColor'] as int;
             return Expanded(

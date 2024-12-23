@@ -23,7 +23,9 @@ mixin _$Expense {
   String get type => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   String get categoryIcon => throw _privateConstructorUsedError;
+  int get backgroundColor => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  int? get categoryId => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
 
@@ -45,7 +47,9 @@ abstract class $ExpenseCopyWith<$Res> {
       {String type,
       String category,
       String categoryIcon,
+      int backgroundColor,
       String? description,
+      int? categoryId,
       String amount,
       DateTime date});
 }
@@ -68,7 +72,9 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
     Object? type = null,
     Object? category = null,
     Object? categoryIcon = null,
+    Object? backgroundColor = null,
     Object? description = freezed,
+    Object? categoryId = freezed,
     Object? amount = null,
     Object? date = null,
   }) {
@@ -85,10 +91,18 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
           ? _value.categoryIcon
           : categoryIcon // ignore: cast_nullable_to_non_nullable
               as String,
+      backgroundColor: null == backgroundColor
+          ? _value.backgroundColor
+          : backgroundColor // ignore: cast_nullable_to_non_nullable
+              as int,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int?,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -112,7 +126,9 @@ abstract class _$$ExpenseImplCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
       {String type,
       String category,
       String categoryIcon,
+      int backgroundColor,
       String? description,
+      int? categoryId,
       String amount,
       DateTime date});
 }
@@ -133,7 +149,9 @@ class __$$ExpenseImplCopyWithImpl<$Res>
     Object? type = null,
     Object? category = null,
     Object? categoryIcon = null,
+    Object? backgroundColor = null,
     Object? description = freezed,
+    Object? categoryId = freezed,
     Object? amount = null,
     Object? date = null,
   }) {
@@ -150,10 +168,18 @@ class __$$ExpenseImplCopyWithImpl<$Res>
           ? _value.categoryIcon
           : categoryIcon // ignore: cast_nullable_to_non_nullable
               as String,
+      backgroundColor: null == backgroundColor
+          ? _value.backgroundColor
+          : backgroundColor // ignore: cast_nullable_to_non_nullable
+              as int,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int?,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -173,7 +199,9 @@ class _$ExpenseImpl implements _Expense {
       {required this.type,
       required this.category,
       required this.categoryIcon,
+      required this.backgroundColor,
       this.description,
+      this.categoryId,
       required this.amount,
       required this.date});
 
@@ -187,7 +215,11 @@ class _$ExpenseImpl implements _Expense {
   @override
   final String categoryIcon;
   @override
+  final int backgroundColor;
+  @override
   final String? description;
+  @override
+  final int? categoryId;
   @override
   final String amount;
   @override
@@ -195,7 +227,7 @@ class _$ExpenseImpl implements _Expense {
 
   @override
   String toString() {
-    return 'Expense(type: $type, category: $category, categoryIcon: $categoryIcon, description: $description, amount: $amount, date: $date)';
+    return 'Expense(type: $type, category: $category, categoryIcon: $categoryIcon, backgroundColor: $backgroundColor, description: $description, categoryId: $categoryId, amount: $amount, date: $date)';
   }
 
   @override
@@ -208,16 +240,20 @@ class _$ExpenseImpl implements _Expense {
                 other.category == category) &&
             (identical(other.categoryIcon, categoryIcon) ||
                 other.categoryIcon == categoryIcon) &&
+            (identical(other.backgroundColor, backgroundColor) ||
+                other.backgroundColor == backgroundColor) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.date, date) || other.date == date));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, type, category, categoryIcon, description, amount, date);
+  int get hashCode => Object.hash(runtimeType, type, category, categoryIcon,
+      backgroundColor, description, categoryId, amount, date);
 
   /// Create a copy of Expense
   /// with the given fields replaced by the non-null parameter values.
@@ -240,7 +276,9 @@ abstract class _Expense implements Expense {
       {required final String type,
       required final String category,
       required final String categoryIcon,
+      required final int backgroundColor,
       final String? description,
+      final int? categoryId,
       required final String amount,
       required final DateTime date}) = _$ExpenseImpl;
 
@@ -253,7 +291,11 @@ abstract class _Expense implements Expense {
   @override
   String get categoryIcon;
   @override
+  int get backgroundColor;
+  @override
   String? get description;
+  @override
+  int? get categoryId;
   @override
   String get amount;
   @override

@@ -7,25 +7,26 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
   CategoriesCubit(this.expensesRepository) : super({});
   Future<void> groupTransactionsByCategory() async {
     try {
-      // Получаем все транзакции
+      //get all cat
       final expenses = await expensesRepository.getAllExpenses();
 
-      // Группируем по категориям
+      //grouped items
       final groupedExpenses = <String, Map<String, dynamic>>{};
       double totalAmount = 0.0;
       for (Expense expense in expenses) {
         if (expense.category.isNotEmpty) {
           final category = expense.category;
 
-          // Инициализируем категорию, если её ещё нет
+          //cteated map?
           groupedExpenses[category] ??= {
             'Total': 0.0,
             'count': 0,
             'iconPath': '',
             'percentage': 0.0,
+            'backgroundColor': 0,
           };
 
-          // Увеличиваем сумму и количество
+          //insert into map
           if (expense.type == 'Income') {
             groupedExpenses[category]!['Total'] += int.parse(expense.amount);
             totalAmount += int.parse(expense.amount);
@@ -35,6 +36,8 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
             totalAmount -= int.parse(expense.amount);
           }
           groupedExpenses[category]!['iconPath'] = expense.categoryIcon;
+          groupedExpenses[category]!['backgroundColor'] =
+              expense.backgroundColor;
           groupedExpenses[category]!['count'] += 1;
         }
       }
@@ -46,7 +49,6 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
         groupedExpenses[category]!['percentage'] = percentage;
       }
 
-      // Обновляем состояние
       emit(groupedExpenses);
     } catch (e) {
       emit({});

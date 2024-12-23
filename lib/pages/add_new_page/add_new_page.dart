@@ -21,6 +21,8 @@ class AddNewExpenseScreen extends StatefulWidget {
 class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
   String expenseOrIncome = 'Expense';
   String? selectedIconPath;
+  int? iconId;
+  int? backgroundColor;
 
   TextEditingController categoryController = TextEditingController();
   TextEditingController amountController = TextEditingController();
@@ -31,283 +33,302 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  color: AppColors.lightGreyHeaderColor,
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 38.0,
-                      ),
-                      Row(
-                        children: [
-                          const SizedBox(
-                            width: 16.0,
+          Column(
+            children: [
+              Container(
+                color: AppColors.lightGreyHeaderColor,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 38.0,
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 16.0,
+                        ),
+                        GestureDetector(
+                          onTap: () => context.go('/home'),
+                          child: SvgPicture.asset(
+                            'assets/icons/arrow_back_black_24dp.svg',
                           ),
-                          GestureDetector(
-                              onTap: () => context.go('/home'),
-                              child: SvgPicture.asset(
-                                  'assets/icons/arrow_back_black_24dp.svg')),
-                          const SizedBox(
-                            width: 16.0,
+                        ),
+                        const SizedBox(
+                          width: 16.0,
+                        ),
+                        const Text(
+                          'Add new',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
                           ),
-                          const Text(
-                            'Add new',
-                            style: TextStyle(
-                              fontFamily: 'Inter',
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 12.0,
-                      ),
-                    ],
-                  ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12.0,
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 24.0,
-                      ),
-                      DropDownListItem(
-                        text: 'Expense or Income',
-                        items: ['Expense', 'Income'],
-                        onChanged: (value) {
-                          setState(() {
-                            expenseOrIncome = value ?? 'Income';
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 24.0,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return BlocProvider.value(
-                                value: context.read<AddNewCategoryCubit>()
-                                  ..loadCategory(),
-                                child: SizedBox(
-                                  height: 390,
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(height: 8.0),
-                                      Container(
-                                        width: 20.0,
-                                        height: 2.0,
-                                        color: AppColors.hintText,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    DropDownListItem(
+                      text: 'Expense or Income',
+                      items: const ['Expense', 'Income'],
+                      onChanged: (value) {
+                        setState(() {
+                          expenseOrIncome = value ?? 'Income';
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BlocProvider.value(
+                              value: context.read<AddNewCategoryCubit>()
+                                ..loadCategory(),
+                              child: SizedBox(
+                                height: 390,
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 8.0,
+                                    ),
+                                    Container(
+                                      width: 20.0,
+                                      height: 2.0,
+                                      color: AppColors.hintText,
+                                    ),
+                                    const SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    Text(
+                                      'Choose Category Icon'.toUpperCase(),
+                                      style: const TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 10.0,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.header,
                                       ),
-                                      const SizedBox(height: 20.0),
-                                      Text(
-                                        'Choose Category Icon'.toUpperCase(),
-                                        style: const TextStyle(
-                                          fontFamily: 'Inter',
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.header,
+                                    ),
+                                    const SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 32.0,
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        height: 20.0,
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 32.0),
-                                          child: BlocBuilder<
-                                              AddNewCategoryCubit,
-                                              AddNewCategoryState>(
-                                            builder: (context, state) {
-                                              if (state is CategoryLoading) {
-                                                return const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                );
-                                              } else if (state
-                                                  is CategoryLoaded) {
-                                                final categories =
-                                                    state.category;
-                                                return GridView.builder(
-                                                  gridDelegate:
-                                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 4,
-                                                    crossAxisSpacing: 27.0,
-                                                    mainAxisSpacing: 24.0,
-                                                  ),
-                                                  itemCount: categories.length,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    final category =
-                                                        categories[index];
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        selectedIconPath =
-                                                            category.iconPath;
-                                                        categoryController
-                                                                .text =
-                                                            category.name;
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Column(
-                                                        children: [
-                                                          Container(
-                                                            width: 40.0,
-                                                            height: 40.0,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Color(category
-                                                                  .backgroundColor),
-                                                              shape: BoxShape
-                                                                  .circle,
+                                        child: BlocBuilder<AddNewCategoryCubit,
+                                            AddNewCategoryState>(
+                                          builder: (context, state) {
+                                            if (state is CategoryLoading) {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            } else if (state
+                                                is CategoryLoaded) {
+                                              final categories = state.category;
+                                              return GridView.builder(
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 4,
+                                                  crossAxisSpacing: 27.0,
+                                                  mainAxisSpacing: 24.0,
+                                                ),
+                                                itemCount: categories.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  final category =
+                                                      categories[index];
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      iconId = category.id;
+                                                      backgroundColor = category
+                                                          .backgroundColor;
+                                                      selectedIconPath =
+                                                          category.iconPath;
+                                                      categoryController.text =
+                                                          category.name;
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          width: 40.0,
+                                                          height: 40.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Color(
+                                                              category
+                                                                  .backgroundColor,
                                                             ),
-                                                            child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  SvgPicture
-                                                                      .asset(
-                                                                    category
-                                                                        .iconPath,
-                                                                    width: 24.0,
-                                                                    height:
-                                                                        24.0,
-                                                                  ),
-                                                                ]),
+                                                            shape:
+                                                                BoxShape.circle,
                                                           ),
-                                                          Text(
-                                                            category.name,
-                                                            style:
-                                                                const TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
-                                                              fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: AppColors
-                                                                  .header,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              } else if (state
-                                                  is CategoryError) {
-                                                return Center(
-                                                  child: Text(
-                                                    'Error: ${state.message}',
-                                                    style: const TextStyle(
-                                                        color: Colors.red),
+                                                          child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                SvgPicture
+                                                                    .asset(
+                                                                  category
+                                                                      .iconPath,
+                                                                  width: 24.0,
+                                                                  height: 24.0,
+                                                                ),
+                                                              ]),
+                                                        ),
+                                                        Text(
+                                                          category.name,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontFamily: 'Inter',
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: AppColors
+                                                                .header,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            } else if (state is CategoryError) {
+                                              return Center(
+                                                child: Text(
+                                                  'Error: ${state.message}',
+                                                  style: const TextStyle(
+                                                    color: Colors.red,
                                                   ),
-                                                );
-                                              } else {
-                                                return const Center(
-                                                  child: Text(
-                                                      'No categories available'),
-                                                );
-                                              }
-                                            },
-                                          ),
+                                                ),
+                                              );
+                                            } else {
+                                              return const Center(
+                                                child: Text(
+                                                  'No categories available',
+                                                ),
+                                              );
+                                            }
+                                          },
                                         ),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () => context.go(
-                                                '/add_new/add_new_categories'),
-                                            child: Container(
-                                              width: 159.0,
-                                              height: 32.0,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                  border: Border.all(
-                                                      width: 1.0,
-                                                      color:
-                                                          AppColors.hintText)),
-                                              child: const Center(
-                                                child: Text(
-                                                  'Add new category',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Inter',
-                                                    fontSize: 14.0,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: AppColors
-                                                        .blueStackButton,
-                                                  ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => context.go(
+                                              '/add_new/add_new_categories'),
+                                          child: Container(
+                                            width: 159.0,
+                                            height: 32.0,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              border: Border.all(
+                                                width: 1.0,
+                                                color: AppColors.hintText,
+                                              ),
+                                            ),
+                                            child: const Center(
+                                              child: Text(
+                                                'Add new category',
+                                                style: TextStyle(
+                                                  fontFamily: 'Inter',
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      AppColors.blueStackButton,
                                                 ),
                                               ),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 20.0,
-                                      )
-                                    ],
-                                  ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20.0,
+                                    )
+                                  ],
                                 ),
-                              );
-                            },
-                          );
-                        },
-                        child: IgnorePointer(
-                          child: CustomTextField(
-                              labelText: 'Category name',
-                              controller: categoryController),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: IgnorePointer(
+                        child: CustomTextField(
+                          labelText: 'Category name',
+                          controller: categoryController,
                         ),
                       ),
-                      const SizedBox(
-                        height: 24.0,
-                      ),
-                      CustomTextField(
-                          labelText: 'Enter amount',
-                          controller: amountController),
-                      const SizedBox(
-                        height: 24.0,
-                      ),
-                      CustomTextField(
-                          labelText: 'Description (Optional)',
-                          controller: descriptionController),
-                      const SizedBox(
-                        height: 24.0,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    CustomTextField(
+                      labelText: 'Enter amount',
+                      controller: amountController,
+                    ),
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                    CustomTextField(
+                      labelText: 'Description (Optional)',
+                      controller: descriptionController,
+                    ),
+                    const SizedBox(
+                      height: 24.0,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0),
+            padding: const EdgeInsets.only(
+              bottom: 16.0,
+              left: 16.0,
+              right: 16.0,
+            ),
             child: GestureDetector(
               onTap: () {
                 final expenseCubit = context.read<ExpenseCubit>();
                 expenseCubit.addExpense(
                   Expense(
-                      type: expenseOrIncome,
-                      category: categoryController.text,
-                      categoryIcon: selectedIconPath!,
-                      amount: amountController.text,
-                      description: descriptionController.text,
-                      date: DateTime.now().subtract(const Duration(days: 10))),
+                    type: expenseOrIncome,
+                    category: categoryController.text,
+                    categoryIcon: selectedIconPath!,
+                    categoryId: iconId,
+                    amount: amountController.text,
+                    description: descriptionController.text,
+                    date: DateTime.now().subtract(
+                      const Duration(
+                        days: 10,
+                      ),
+                    ),
+                    backgroundColor: backgroundColor!,
+                  ),
                 );
                 context.go('/home');
               },

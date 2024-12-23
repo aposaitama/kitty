@@ -28,6 +28,8 @@ class DatabaseService {
     type TEXT NOT NULL,
     category TEXT NOT NULL,
     categoryIcon TEXT NOT NULL,
+    categoryId INTEGER NOT NULL,
+    background_color int NOT NULL,
     description TEXT,
     amount TEXT NOT NULL,
     date TEXT NOT NULL
