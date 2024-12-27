@@ -50,8 +50,7 @@ void main() async {
             create: (context) => TypeByCategoryCubit(ExpensesRepository()),
           ),
           BlocProvider(
-            create: (context) =>
-                CategoriesCubit(ExpensesRepository(), StatisticsCubit()),
+            create: (context) => CategoriesCubit(ExpensesRepository()),
           ),
           BlocProvider(
             create: (context) => StatisticsCubit(),

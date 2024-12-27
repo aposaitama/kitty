@@ -1,63 +1,43 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
 import 'package:intl/intl.dart';
 
 class StatisticsCubit extends Cubit<Map<String, dynamic>> {
-  // Зберігає поточний місяць і рік
-  late int currentYear;
-  late int currentMonth;
+  int currentYear = DateTime.now().year;
+  int currentMonth = DateTime.now().month;
+  StatisticsCubit()
+      : super({'month': DateTime.now().month, 'year': DateTime.now().year});
 
-  // Конструктор, який встановлює поточний місяць та рік
-  StatisticsCubit({String? selectedMonth, int? year})
-      : super({
-          'month':
-              selectedMonth ?? DateTime.now().month.toString().padLeft(2, '0'),
-          'year': year ?? DateTime.now().year,
-        }) {
-    currentMonth = int.parse(state['month']);
-    currentYear = state['year'];
-  }
-
-  // Вибір місяця
+  //selecting month
   void selectMonth(int month) {
     currentMonth = month;
     emit({
-      'month': month.toString().padLeft(2, '0'),
+      'month': currentMonth,
       'year': currentYear,
     });
   }
 
-  // Зменшення року
+  //decrementing on left arrow btn
   void decrementYear() {
     currentYear--;
     emit({
-      'month': currentMonth.toString().padLeft(2, '0'),
+      'month': currentMonth,
       'year': currentYear,
     });
   }
 
-  // Збільшення року
+  //incrementing on rigth arrow btn
   void incrementYear() {
     currentYear++;
     emit({
-      'month': currentMonth.toString().padLeft(2, '0'),
+      'month': currentMonth,
       'year': currentYear,
     });
   }
 
-  // Отримання назви місяця
   String getMonthName() {
     final DateTime date = DateTime(currentYear, currentMonth);
-    Intl.defaultLocale =
-        'en_US'; // Ви можете змінити на 'uk_UA' або інший локаль для української мови
+    Intl.defaultLocale = 'en_US';
     final formatter = DateFormat('MMMM');
     return formatter.format(date);
-  }
-
-  // Оновлення року
-  void updateYear(int newYear) {
-    emit({
-      'month': state['month'],
-      'year': newYear,
-    });
   }
 }
