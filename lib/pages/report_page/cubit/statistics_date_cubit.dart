@@ -1,43 +1,63 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class StatisticsCubit extends Cubit<Map<String, dynamic>> {
-  int currentYear = DateTime.now().year;
-  int currentMonth = DateTime.now().month;
-  StatisticsCubit()
-      : super({'month': DateTime.now().month, 'year': DateTime.now().year});
+  // Зберігає поточний місяць і рік
+  late int currentYear;
+  late int currentMonth;
 
-  //selecting month
+  // Конструктор, який встановлює поточний місяць та рік
+  StatisticsCubit({String? selectedMonth, int? year})
+      : super({
+          'month':
+              selectedMonth ?? DateTime.now().month.toString().padLeft(2, '0'),
+          'year': year ?? DateTime.now().year,
+        }) {
+    currentMonth = int.parse(state['month']);
+    currentYear = state['year'];
+  }
+
+  // Вибір місяця
   void selectMonth(int month) {
     currentMonth = month;
     emit({
-      'month': currentMonth,
+      'month': month.toString().padLeft(2, '0'),
       'year': currentYear,
     });
   }
 
-  //decrementing on left arrow btn
+  // Зменшення року
   void decrementYear() {
     currentYear--;
     emit({
-      'month': currentMonth,
+      'month': currentMonth.toString().padLeft(2, '0'),
       'year': currentYear,
     });
   }
 
-  //incrementing on rigth arrow btn
+  // Збільшення року
   void incrementYear() {
     currentYear++;
     emit({
-      'month': currentMonth,
+      'month': currentMonth.toString().padLeft(2, '0'),
       'year': currentYear,
     });
   }
 
+  // Отримання назви місяця
   String getMonthName() {
-    final DateTime date = DateTime(currentYear, currentMonth + 1);
-    Intl.defaultLocale = 'en_US';
+    final DateTime date = DateTime(currentYear, currentMonth);
+    Intl.defaultLocale =
+        'en_US'; // Ви можете змінити на 'uk_UA' або інший локаль для української мови
     final formatter = DateFormat('MMMM');
     return formatter.format(date);
+  }
+
+  // Оновлення року
+  void updateYear(int newYear) {
+    emit({
+      'month': state['month'],
+      'year': newYear,
+    });
   }
 }

@@ -36,7 +36,7 @@ class MonthCubit extends Cubit<Map<String, dynamic>> {
   }
 
   String getMonthName() {
-    final DateTime date = DateTime(currentYear, currentMonth + 1);
+    final DateTime date = DateTime(currentYear, currentMonth);
     Intl.defaultLocale = 'en_US';
     final formatter = DateFormat('MMMM');
     return formatter.format(date);

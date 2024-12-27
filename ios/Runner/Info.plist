@@ -9,6 +9,8 @@
 </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>We need to access Face ID for authentication</string>
 	<key>CFBundleDisplayName</key>
 	<string>Kitty</string>
 	<key>CFBundleExecutable</key>

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
 import 'package:kitty/styles/colors.dart';
 import 'package:kitty/widgets/blue_bottom_button.dart';
 import 'package:kitty/widgets/custom_text_field.dart';
@@ -26,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(
               height: 34.0,
             ),
-            Center(child: SvgPicture.asset('assets/icons/Kitty-Logo.svg')),
+            Center(child: SvgPicture.asset('assets/icons/Logo.svg')),
             const SizedBox(
               height: 24.0,
             ),
@@ -60,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             CustomTextField(
               labelText: 'Enter password',
-              controller: loginController,
+              controller: passwordController,
             ),
             const SizedBox(
               height: 16.0,
@@ -92,8 +94,29 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 32.0,
             ),
             GestureDetector(
-                onTap: () => context.go('/home'),
-                child: const BlueBottomButton(buttonTitle: 'Register'))
+              onTap: () => {
+                context.read<AuthCubit>().register(
+                      loginController.text,
+                      passwordController.text,
+                      confirmPasswordController.text,
+                    )
+              },
+              child: const BlueBottomButton(
+                buttonTitle: 'Register',
+              ),
+            ),
+            BlocListener<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state == AuthState.authenticated) {
+                  context.go('/home');
+                } else if (state == AuthState.error) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Error during registration!')),
+                  );
+                }
+              },
+              child: Container(),
+            ),
           ],
         ),
       ),

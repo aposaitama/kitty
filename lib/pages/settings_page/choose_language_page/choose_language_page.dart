@@ -14,16 +14,15 @@ class ChooseLanguagePage extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
+              context.go('/home');
               context.setLocale(const Locale('uk'));
-              context.go('/settings');
             },
             child: const Text('Ukrainian'),
           ),
           GestureDetector(
             onTap: () {
+              context.go('/home');
               context.setLocale(const Locale('en'));
-
-              context.go('/settings');
             },
             child: const Text('English'),
           ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
@@ -30,49 +31,37 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 32.0,
+        titleSpacing: 0,
+        backgroundColor: AppColors.greyHeaderColor,
+        leading: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: GestureDetector(
+            onTap: () => context.go('/home'),
+            child: SvgPicture.asset(
+              'assets/icons/arrow_back_black_24dp.svg',
+            ),
+          ),
+        ),
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Text(
+            "blue_gesture_button".tr(),
+            style: const TextStyle(
+              fontFamily: 'Inter',
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             children: [
-              Container(
-                color: AppColors.lightGreyHeaderColor,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 38.0,
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 16.0,
-                        ),
-                        GestureDetector(
-                          onTap: () => context.go('/home'),
-                          child: SvgPicture.asset(
-                            'assets/icons/arrow_back_black_24dp.svg',
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 16.0,
-                        ),
-                        const Text(
-                          'Add new',
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12.0,
-                    ),
-                  ],
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
@@ -324,7 +313,7 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                     description: descriptionController.text,
                     date: DateTime.now().subtract(
                       const Duration(
-                        days: 10,
+                        days: 400,
                       ),
                     ),
                     backgroundColor: backgroundColor!,

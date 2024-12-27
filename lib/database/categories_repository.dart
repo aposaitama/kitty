@@ -9,7 +9,7 @@ class CategoriesRepository {
   Future<void> addCategory(Categories category) async {
     final database = await db.database;
 
-    await database.insert('Categories', {
+    await database.insert(DatabaseConfig.categoryTable, {
       'name': category.name,
       'icon': category.iconPath,
       'order_index': category.order_index,
@@ -19,8 +19,8 @@ class CategoriesRepository {
 
   Future<List<Categories>> getAllCategories() async {
     final database = await db.database;
-    final List<Map<String, dynamic>> maps =
-        await database.query('Categories', orderBy: 'order_index ASC');
+    final List<Map<String, dynamic>> maps = await database
+        .query(DatabaseConfig.categoryTable, orderBy: 'order_index ASC');
 
     return List.generate(maps.length, (i) {
       return Categories(
@@ -64,7 +64,7 @@ class CategoriesRepository {
     for (int i = 0; i < updatedCategories.length; i++) {
       final category = updatedCategories[i];
       await database.update(
-        'Categories',
+        DatabaseConfig.categoryTable,
         {'order_index': i},
         where: 'name = ? AND icon = ?',
         whereArgs: [category.name, category.iconPath],

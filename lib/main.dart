@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kitty/database/categories_repository.dart';
+import 'package:kitty/models/user/user.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
+import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
 import 'package:kitty/pages/home_page/cubit/date_picker_cubit.dart';
 import 'package:kitty/pages/report_page/cubit/categories_cubit.dart';
 import 'package:kitty/pages/report_page/cubit/statistics_date_cubit.dart';
@@ -16,6 +19,10 @@ import 'package:kitty/route/cubit/navigation_cubit.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserModelAdapter());
+  await Hive.openBox<UserModel>('users');
+  await Hive.openBox('auth');
 
   runApp(
     EasyLocalization(
@@ -26,6 +33,9 @@ void main() async {
         providers: [
           BlocProvider(
             create: (context) => NavigationCubit(),
+          ),
+          BlocProvider(
+            create: (context) => AuthCubit()..checkAuthStatus(),
           ),
           BlocProvider(
             create: (context) => ExpenseCubit(ExpensesRepository()),
@@ -40,7 +50,8 @@ void main() async {
             create: (context) => TypeByCategoryCubit(ExpensesRepository()),
           ),
           BlocProvider(
-            create: (context) => CategoriesCubit(ExpensesRepository()),
+            create: (context) =>
+                CategoriesCubit(ExpensesRepository(), StatisticsCubit()),
           ),
           BlocProvider(
             create: (context) => StatisticsCubit(),
@@ -65,9 +76,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+          backgroundColor: Colors.white,
+          toolbarHeight: 32.0,
+        ),
       ),
       debugShowCheckedModeBanner: false,
-      routerConfig: AppRouter.createRouter(context),
+      routerConfig: AppRouter().createRouter(context),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

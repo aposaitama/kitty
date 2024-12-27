@@ -14,7 +14,7 @@ class StatDatePickerOverlay extends StatefulWidget {
 }
 
 class _StatDatePickerOverlayState extends State<StatDatePickerOverlay> {
-  List month = [
+  List<String> months = [
     'January',
     'February',
     'March',
@@ -92,8 +92,8 @@ class _StatDatePickerOverlayState extends State<StatDatePickerOverlay> {
                       Expanded(
                         child:
                             BlocBuilder<StatisticsCubit, Map<String, dynamic>>(
-                          builder: (context, selectedMonth) {
-                            print(selectedMonth);
+                          builder: (context, selectedMonthState) {
+                            final selectedMonth = selectedMonthState['month'];
                             return GridView.builder(
                               padding: const EdgeInsets.all(0.0),
                               physics: const NeverScrollableScrollPhysics(),
@@ -104,22 +104,18 @@ class _StatDatePickerOverlayState extends State<StatDatePickerOverlay> {
                                 crossAxisSpacing: 22.0,
                                 mainAxisSpacing: 16.0,
                               ),
-                              itemCount: month.length,
+                              itemCount: months.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
                                     context
                                         .read<StatisticsCubit>()
-                                        .selectMonth(index);
-                                    final indexMonth =
-                                        selectedMonth['month'] + 1;
-                                    print(indexMonth);
-                                    // _removeOverlay();
+                                        .selectMonth(index + 1);
+                                    _removeOverlay();
                                   },
                                   child: MonthItemTile(
-                                    month: month[index].substring(0, 3),
-                                    isSelected:
-                                        selectedMonth['month'] == month[index],
+                                    month: months[index].substring(0, 3),
+                                    isSelected: selectedMonth == index + 1,
                                   ),
                                 );
                               },

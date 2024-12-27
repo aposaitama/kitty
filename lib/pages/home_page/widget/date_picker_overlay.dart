@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kitty/pages/add_new_page/cubit/expense_cubit.dart';
 import 'package:kitty/pages/home_page/cubit/date_picker_cubit.dart';
 import 'package:kitty/pages/home_page/widget/month_item_tile.dart';
 import 'package:kitty/styles/colors.dart';
@@ -28,7 +29,7 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
     'November',
     'December',
   ];
-  int? selectedMonth;
+
   OverlayEntry? _overlayEntry;
 
   @override
@@ -92,7 +93,8 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
                       Expanded(
                         child: BlocBuilder<MonthCubit, Map<String, dynamic>>(
                           builder: (context, selectedMonth) {
-                            print(selectedMonth);
+                            final pickedYear = selectedMonth['year'];
+                            final pickedMonth = selectedMonth['month'];
                             return GridView.builder(
                               padding: const EdgeInsets.all(0.0),
                               physics: const NeverScrollableScrollPhysics(),
@@ -107,18 +109,14 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    context
-                                        .read<MonthCubit>()
-                                        .selectMonth(index);
-                                    final indexMonth =
-                                        selectedMonth['month'] + 1;
-                                    print(indexMonth);
-                                    // _removeOverlay();
+                                    context.read<MonthCubit>().selectMonth(
+                                        index + 1); // Оновлення місяця
+                                    _removeOverlay(); // Закриття оверлею
                                   },
                                   child: MonthItemTile(
                                     month: month[index].substring(0, 3),
                                     isSelected:
-                                        selectedMonth['month'] == month[index],
+                                        selectedMonth['month'] == (index + 1),
                                   ),
                                 );
                               },
@@ -149,7 +147,9 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTap: context.read<MonthCubit>().decrementYear,
+          onTap: () {
+            context.read<MonthCubit>().decrementYear(); // Зменшити рік
+          },
           child: Transform.rotate(
             angle: 3.1415,
             child: SvgPicture.asset(
@@ -158,7 +158,7 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
           ),
         ),
         GestureDetector(
-          onTap: () => _showCalendarOverlay(context),
+          onTap: () => _showCalendarOverlay(context), // Відкрити оверлей
           child: Container(
             height: 32.0,
             decoration: BoxDecoration(
@@ -194,18 +194,20 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
                         ),
                       );
                     },
-                  )
+                  ),
                 ],
               ),
             ),
           ),
         ),
         GestureDetector(
-          onTap: context.read<MonthCubit>().incrementYear,
+          onTap: () {
+            context.read<MonthCubit>().incrementYear(); // Збільшити рік
+          },
           child: SvgPicture.asset(
             'assets/icons/right.svg',
           ),
-        )
+        ),
       ],
     );
   }

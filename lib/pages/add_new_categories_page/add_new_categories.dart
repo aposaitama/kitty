@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,45 +34,37 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 32.0,
+        titleSpacing: 0,
+        backgroundColor: AppColors.greyHeaderColor,
+        leading: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: SvgPicture.asset(
+              'assets/icons/arrow_back_black_24dp.svg',
+            ),
+          ),
+        ),
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Text(
+            "blue_gesture_button".tr(),
+            style: const TextStyle(
+              fontFamily: 'Inter',
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             children: [
-              Container(
-                height: 72.0,
-                color: AppColors.lightGreyHeaderColor,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 38.0,
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 16.0,
-                        ),
-                        GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: SvgPicture.asset(
-                                'assets/icons/arrow_back_black_24dp.svg')),
-                        const SizedBox(
-                          width: 16.0,
-                        ),
-                        const Text(
-                          'Add new category',
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(

@@ -52,10 +52,13 @@ class DatabaseService {
         background_color int NOT NULL
       )
       ''');
-        await db.insert(DatabaseConfig.categoryIconsTable, {
-          "iconPath": "assets/icons/category_icons/Groceries.svg",
-          "background_color": 0xFFC8E6C9
-        });
+        await db.insert(
+          DatabaseConfig.categoryIconsTable,
+          {
+            "iconPath": "assets/icons/category_icons/Groceries.svg",
+            "background_color": 0xFFC8E6C9
+          },
+        );
 
         await db.insert(DatabaseConfig.categoryIconsTable, {
           "iconPath": "assets/icons/category_icons/Cafe.svg",

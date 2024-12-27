@@ -9,7 +9,7 @@ class ExpensesRepository {
   Future<void> addExpense(Expense expense) async {
     final database = await db.database;
 
-    await database.insert('Expense', {
+    await database.insert(DatabaseConfig.expenseTable, {
       'background_color': expense.backgroundColor,
       'type': expense.type,
       'category': expense.category,
@@ -23,7 +23,8 @@ class ExpensesRepository {
 
   Future<List<Expense>> getAllExpenses() async {
     final database = await db.database;
-    final List<Map<String, dynamic>> maps = await database.query('Expense');
+    final List<Map<String, dynamic>> maps =
+        await database.query(DatabaseConfig.expenseTable);
 
     return List.generate(maps.length, (i) {
       return Expense(
@@ -42,9 +43,9 @@ class ExpensesRepository {
   Future<List<Expense>> getElemByCategory(List<String> categoryName) async {
     final database = await db.database;
     final List<Map<String, dynamic>> maps = await database.query(
-      'Expense',
+      DatabaseConfig.expenseTable,
       where: 'category IN (${categoryName.map((_) => '?').join(', ')})',
-      whereArgs: categoryName, // передаємо список як окремі параметри
+      whereArgs: categoryName,
     );
     return List.generate(maps.length, (i) {
       return Expense(
@@ -80,7 +81,7 @@ class ExpensesRepository {
     final now = DateTime.now();
     Map<String, List<Expense>> grouped = {};
 
-    for (var expense in expenses) {
+    for (Expense expense in expenses) {
       final difference = now.difference(expense.date).inDays;
 
       String groupKey;
@@ -101,5 +102,32 @@ class ExpensesRepository {
     }
 
     return grouped;
+  }
+
+  Future<List<Expense>> getExpensesByMonthAndYear(int month, int year) async {
+    final database = await db.database;
+
+    final results = await database.query(
+      DatabaseConfig.expenseTable,
+      where: 'strftime("%m", date) = ? AND strftime("%Y", date) = ?',
+      whereArgs: [
+        month.toString().padLeft(2, '0'), // Місяць (наприклад, "12")
+        year.toString(), // Рік (наприклад, "2024")
+      ],
+    );
+
+    return results.map((map) {
+      return Expense(
+        backgroundColor: map['background_color'] as int,
+        type: map['type'] as String,
+        category: map['category'] as String,
+        categoryIcon: map['categoryIcon'] as String,
+        categoryId: map['categoryId'] as int,
+        description: map['description'] as String,
+        amount: map['amount'] as String,
+        date: DateTime.parse(
+            map['date'] as String), // Перетворення рядка в DateTime
+      );
+    }).toList();
   }
 }

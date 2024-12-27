@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
+import 'package:kitty/pages/auth_pages/password_page/password_page.dart';
 import 'package:kitty/route/cubit/navigation_cubit.dart';
 
 import 'package:kitty/styles/colors.dart';
@@ -28,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 34.0,
             ),
-            Center(child: SvgPicture.asset('assets/icons/Kitty-Logo.svg')),
+            Center(child: SvgPicture.asset('assets/icons/Logo.svg')),
             const SizedBox(
               height: 24.0,
             ),
@@ -62,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             CustomTextField(
               labelText: 'Enter password',
-              controller: loginController,
+              controller: passwordController,
             ),
             const SizedBox(
               height: 16.0,
@@ -90,12 +92,31 @@ class _LoginPageState extends State<LoginPage> {
               builder: (context, state) {
                 return GestureDetector(
                     onTap: () {
-                      context.read<NavigationCubit>().updateRoute('/home');
-                      GoRouter.of(context).go('/home');
+                      // context.read<NavigationCubit>().updateRoute('/home');
+                      // GoRouter.of(context).go('/home');
+
+                      context.read<AuthCubit>().login(
+                            loginController.text,
+                            passwordController.text,
+                          );
                     },
                     child: const BlueBottomButton(buttonTitle: 'Login'));
               },
             ),
+            BlocListener<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state == AuthState.authenticated) {
+                  context.go('/home');
+                } else if (state == AuthState.unauthenticated) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Invalid login or password!')),
+                  );
+                } else if (state == AuthState.passwordRequired) {
+                  context.go('/password');
+                }
+              },
+              child: Container(),
+            )
           ],
         ),
       ),

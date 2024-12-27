@@ -22,14 +22,78 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     super.initState();
-
-    context.read<ExpenseCubit>().loadExpenses();
+    DateTime now = DateTime.now();
+    int currentMonth = now.month;
+    int currentYear = now.year;
+    context
+        .read<ExpenseCubit>()
+        .loadExpensesByMonthAndYear(currentMonth, currentYear);
     context.read<AddNewCategoryCubit>().loadCategory();
+    context.read<ExpenseCubit>().startListeningToMonthChanges(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: SvgPicture.asset(
+            'assets/icons/Logo.svg',
+          ),
+        ),
+        title: const Text(
+          'Kitty',
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 20.0,
+            letterSpacing: 0.18,
+            fontWeight: FontWeight.w900,
+            color: AppColors.header,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () => context.go(
+                    '/search',
+                  ),
+                  child: SvgPicture.asset(
+                    'assets/icons/search_black_24dp 1.svg',
+                  ),
+                ),
+                const SizedBox(
+                  width: 16.0,
+                ),
+                BlocBuilder<NavigationCubit, String>(
+                  builder: (context, state) {
+                    return GestureDetector(
+                      onTap: () {
+                        context
+                            .read<NavigationCubit>()
+                            .updateRoute('/settings');
+                        GoRouter.of(context).go('/settings');
+                      },
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 16.0,
@@ -39,52 +103,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
           children: [
             Column(
               children: [
-                const SizedBox(
-                  height: 32.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/Logo.svg',
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => context.go(
-                            '/search',
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/icons/search_black_24dp 1.svg',
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 16.0,
-                        ),
-                        BlocBuilder<NavigationCubit, String>(
-                          builder: (context, state) {
-                            return GestureDetector(
-                              onTap: () {
-                                context
-                                    .read<NavigationCubit>()
-                                    .updateRoute('/settings');
-                                GoRouter.of(context).go('/settings');
-                              },
-                              child: Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                            );
-                          },
-                        )
-                      ],
-                    )
-                  ],
-                ),
                 const SizedBox(
                   height: 28.0,
                 ),
@@ -112,6 +130,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     ),
                     child: CalculateTopBar(),
                   ),
+                ),
+                const SizedBox(
+                  height: 16.0,
                 ),
                 const GroupedExpensesList()
               ],
