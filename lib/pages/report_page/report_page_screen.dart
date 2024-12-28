@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:pdf/pdf.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,8 +23,14 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
   @override
   void initState() {
     super.initState();
+    DateTime now = DateTime.now();
+    int currentMonth = now.month;
+    int currentYear = now.year;
+    context
+        .read<CategoriesCubit>()
+        .groupTransactionsByCategory(currentYear, currentMonth);
 
-    context.read<CategoriesCubit>().groupTransactionsByCategory();
+    context.read<CategoriesCubit>().startListeningToMonthChanges(context);
   }
 
   @override
@@ -129,9 +134,12 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
             child: GestureDetector(
               onTap: () async {
                 final pdf = pw.Document();
-                final summary = context.read<CategoriesCubit>().state;
+                final allExpensesByMonth = await context
+                    .read<CategoriesCubit>()
+                    .groupExpensesByMonth();
 
-                if (summary.isNotEmpty) {
+                if (allExpensesByMonth.isNotEmpty) {
+                  // Додаємо заголовок на початку звіту
                   pdf.addPage(
                     pw.Page(
                       build: (pw.Context context) {
@@ -145,87 +153,91 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
                               ),
                             ),
                             pw.SizedBox(height: 10),
-                            ...summary.entries.map((categoryEntry) {
-                              final category = categoryEntry.key;
-                              final categoryDetails = categoryEntry.value;
-
-                              final backgroundColor =
-                                  categoryDetails['backgroundColor'];
-                              final categoryName = category;
-                              final percent = categoryDetails['percentage'];
-                              final totalSum = categoryDetails['Total'];
-                              final transactionCount =
-                                  categoryDetails['count'].toString();
-                              final iconPath = categoryDetails['iconPath'];
-
-                              return pw.Column(
-                                children: [
-                                  pw.Row(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      pw.Row(
-                                        children: [
-                                          pw.Column(
-                                            crossAxisAlignment:
-                                                pw.CrossAxisAlignment.start,
-                                            children: [
-                                              pw.Text(
-                                                categoryName,
-                                                style: pw.TextStyle(
-                                                  fontSize: 14.0,
-                                                  fontWeight:
-                                                      pw.FontWeight.bold,
-                                                ),
-                                              ),
-                                              pw.Text(
-                                                '$transactionCount transactions',
-                                                style: const pw.TextStyle(
-                                                  fontSize: 12.0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      pw.Column(
-                                        crossAxisAlignment:
-                                            pw.CrossAxisAlignment.end,
-                                        children: [
-                                          pw.Text(
-                                            totalSum.toStringAsFixed(0),
-                                            style: pw.TextStyle(
-                                              fontSize: 14.0,
-                                              fontWeight: pw.FontWeight.bold,
-                                            ),
-                                          ),
-                                          pw.Text(
-                                            '${percent.toStringAsFixed(0)}%',
-                                            style: const pw.TextStyle(
-                                              fontSize: 12.0,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  pw.SizedBox(height: 16.0),
-                                ],
-                              );
-                            }).toList(),
                           ],
                         );
                       },
                     ),
                   );
+
+                  // Проходимо через всі місяці та категорії витрат
+                  for (var yearMonthEntry in allExpensesByMonth.entries) {
+                    final yearMonth = yearMonthEntry.key;
+                    final groupedExpenses = yearMonthEntry.value;
+
+                    // Додаємо нову сторінку для кожного місяця
+                    pdf.addPage(
+                      pw.Page(
+                        build: (pw.Context context) {
+                          return pw.Column(
+                            children: [
+                              // Заголовок для місяця
+                              pw.Text(
+                                'Month: $yearMonth',
+                                style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.SizedBox(height: 10),
+                              // Виведення категорій для цього місяця
+                              ...groupedExpenses.entries.map((categoryEntry) {
+                                final category = categoryEntry.key;
+                                final categoryDetails = categoryEntry.value;
+
+                                final totalSum = categoryDetails['Total'];
+                                final transactionCount =
+                                    categoryDetails['count'].toString();
+
+                                return pw.Column(
+                                  children: [
+                                    pw.Row(
+                                      mainAxisAlignment:
+                                          pw.MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        pw.Text(
+                                          category,
+                                          style: pw.TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: pw.FontWeight.bold,
+                                          ),
+                                        ),
+                                        pw.Text(
+                                          '$transactionCount transactions',
+                                          style: const pw.TextStyle(
+                                            fontSize: 12.0,
+                                          ),
+                                        ),
+                                        pw.Text(
+                                          totalSum.toStringAsFixed(0),
+                                          style: pw.TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: pw.FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    pw.SizedBox(height: 16.0),
+                                  ],
+                                );
+                              }),
+                              pw.SizedBox(
+                                  height: 20), // Роздільник між категоріями
+                            ],
+                          );
+                        },
+                      ),
+                    );
+                  }
                 } else {
-                  pdf.addPage(pw.Page(
-                    build: (pw.Context context) {
-                      return pw.Center(
-                        child: pw.Text('No data available for the report'),
-                      );
-                    },
-                  ));
+                  pdf.addPage(
+                    pw.Page(
+                      build: (pw.Context context) {
+                        return pw.Center(
+                          child: pw.Text('No data available for the report'),
+                        );
+                      },
+                    ),
+                  );
                 }
 
                 final output = await getApplicationDocumentsDirectory();
@@ -255,7 +267,7 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

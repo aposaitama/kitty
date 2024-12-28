@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 class StatisticsCubit extends Cubit<Map<String, dynamic>> {
   int currentYear = DateTime.now().year;
   int currentMonth = DateTime.now().month;
+
   StatisticsCubit()
       : super({'month': DateTime.now().month, 'year': DateTime.now().year});
 

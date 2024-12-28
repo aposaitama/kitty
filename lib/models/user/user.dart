@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:hive/hive.dart';
 
 part 'user.g.dart';
@@ -10,5 +12,12 @@ class UserModel {
   @HiveField(1)
   final String password;
 
-  UserModel({required this.login, required this.password});
+  @HiveField(3)
+  String? email;
+
+  @HiveField(4)
+  String? icon;
+
+  UserModel(
+      {required this.login, required this.password, this.email, this.icon});
 }

@@ -93,8 +93,6 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
                       Expanded(
                         child: BlocBuilder<MonthCubit, Map<String, dynamic>>(
                           builder: (context, selectedMonth) {
-                            final pickedYear = selectedMonth['year'];
-                            final pickedMonth = selectedMonth['month'];
                             return GridView.builder(
                               padding: const EdgeInsets.all(0.0),
                               physics: const NeverScrollableScrollPhysics(),

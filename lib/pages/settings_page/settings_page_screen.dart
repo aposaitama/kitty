@@ -1,13 +1,44 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:kitty/models/user/user.dart';
 import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
 import 'package:kitty/pages/settings_page/widgets/settings_list_item.dart';
 import 'package:kitty/styles/colors.dart';
 
 class SettingsPageScreen extends StatelessWidget {
   const SettingsPageScreen({super.key});
+
+  Future<void> _pickProfileImage(BuildContext context) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      print(
+          'Image picked: ${pickedFile.path}'); // Лог для перевірки шляху вибраного файлу
+
+      final user = context.read<AuthCubit>().getCurrentUser();
+
+      if (user != null) {
+        user.icon = pickedFile.path;
+
+        print(
+            'Updating user with new icon: ${pickedFile.path}'); // Лог перед оновленням
+        context.read<AuthCubit>().updateUser(user);
+      } else {
+        print('No user found to update icon'); // Лог, якщо користувач відсутній
+      }
+    } else {
+      print('No image picked'); // Лог, якщо користувач не вибрав зображення
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,41 +68,53 @@ class SettingsPageScreen extends StatelessWidget {
                     const SizedBox(
                       height: 28.0,
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 12.0,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    BlocBuilder<AuthCubit, AuthState>(
+                      builder: (context, state) {
+                        final user = context.read<AuthCubit>().getCurrentUser();
+                        print(
+                            'Building user profile: ${user?.login}, icon: ${user?.icon}'); // Лог для перевірки даних користувача
+
+                        return Row(
                           children: [
-                            Text(
-                              'username'.tr(),
-                              style: const TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromARGB(255, 39, 39, 39)),
+                            GestureDetector(
+                              onTap: () => _pickProfileImage(context),
+                              child: CircleAvatar(
+                                radius: 24,
+                                backgroundImage: user?.icon != null
+                                    ? FileImage(File(user!.icon!))
+                                    : null,
+                                child: user?.icon == null
+                                    ? const Icon(Icons.account_circle, size: 48)
+                                    : null,
+                              ),
                             ),
-                            const Text(
-                              'john.doe@gmail.com',
-                              style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.header),
+                            const SizedBox(width: 12.0),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user?.login ?? 'Unknown User',
+                                  style: const TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromARGB(255, 39, 39, 39),
+                                  ),
+                                ),
+                                Text(
+                                  user?.email ?? 'Unknown Email',
+                                  style: const TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.header,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
-                        )
-                      ],
+                        );
+                      },
                     )
                   ],
                 ),

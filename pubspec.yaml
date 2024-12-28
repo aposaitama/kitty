@@ -52,6 +52,7 @@ dependencies:
   path_provider: ^2.1.5
   open_file: ^3.5.10
   local_auth: ^2.3.0
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

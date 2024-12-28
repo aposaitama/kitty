@@ -17,14 +17,13 @@ import 'package:kitty/pages/settings_page/settings_page_screen.dart';
 
 class AppRouter {
   GoRouter createRouter(BuildContext context) {
-    final authCubit =
-        context.read<AuthCubit>(); // Використання вже створеного AuthCubit
+    final authCubit = context.read<AuthCubit>();
 
     return GoRouter(
       initialLocation: '/home',
       redirect: (context, state) {
-        final authState = authCubit.state; // Отримання стану
-        print(authState);
+        //getting state
+        final authState = authCubit.state;
 
         // Якщо користувач вже аутентифікований і намагається перейти на сторінку входу або реєстрації
         if (authState == AuthState.authenticated &&

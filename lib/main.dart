@@ -21,6 +21,8 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
+  // await Hive.deleteBoxFromDisk('users');
+
   await Hive.openBox<UserModel>('users');
   await Hive.openBox('auth');
 
