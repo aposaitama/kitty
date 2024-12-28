@@ -106,6 +106,11 @@ class _LoginPageState extends State<LoginPage> {
             BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state == AuthState.authenticated) {
+                  final user = context.read<AuthCubit>().getCurrentUser();
+                  if (user != null) {
+                    print(
+                        'User authenticated: ${user.login}, icon: ${user.icon}');
+                  }
                   context.go('/home');
                 } else if (state == AuthState.unauthenticated) {
                   ScaffoldMessenger.of(context).showSnackBar(

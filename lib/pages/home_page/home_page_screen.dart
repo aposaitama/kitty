@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
 import 'package:kitty/pages/home_page/widget/calculate_top_bar.dart';
 import 'package:kitty/pages/home_page/widget/date_picker_overlay.dart';
 import 'package:kitty/pages/home_page/widget/grouped_expenses_list.dart';
@@ -78,13 +81,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             .updateRoute('/settings');
                         GoRouter.of(context).go('/settings');
                       },
-                      child: Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
+                      child: BlocBuilder<AuthCubit, AuthState>(
+                        builder: (context, state) {
+                          final user =
+                              context.read<AuthCubit>().getCurrentUser();
+                          return CircleAvatar(
+                            radius: 24,
+                            backgroundImage: user?.icon != null
+                                ? FileImage(File(user!.icon!))
+                                : null,
+                            child: user?.icon == null
+                                ? const Icon(Icons.account_circle, size: 24)
+                                : null,
+                          );
+                        },
                       ),
                     );
                   },

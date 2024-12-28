@@ -12,10 +12,10 @@ class UserModel {
   @HiveField(1)
   final String password;
 
-  @HiveField(3)
+  @HiveField(2)
   String? email;
 
-  @HiveField(4)
+  @HiveField(3)
   String? icon;
 
   UserModel(

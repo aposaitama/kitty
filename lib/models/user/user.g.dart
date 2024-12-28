@@ -19,8 +19,8 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
     return UserModel(
       login: fields[0] as String,
       password: fields[1] as String,
-      email: fields[3] as String?,
-      icon: fields[4] as String?,
+      email: fields[2] as String?,
+      icon: fields[3] as String?,
     );
   }
 
@@ -32,9 +32,9 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..write(obj.login)
       ..writeByte(1)
       ..write(obj.password)
-      ..writeByte(3)
+      ..writeByte(2)
       ..write(obj.email)
-      ..writeByte(4)
+      ..writeByte(3)
       ..write(obj.icon);
   }
 

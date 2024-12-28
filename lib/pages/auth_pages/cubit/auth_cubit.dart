@@ -8,7 +8,8 @@ enum AuthState {
   authenticated,
   unauthenticated,
   error,
-  passwordRequired
+  passwordRequired,
+  profileUpdated,
 }
 
 class AuthCubit extends Cubit<AuthState> {
@@ -79,7 +80,24 @@ class AuthCubit extends Cubit<AuthState> {
     bool isAuthenticated = await _biometricAuthService.authenticate();
     print('Biometric authentication result: $isAuthenticated');
     if (isAuthenticated) {
-      emit(AuthState.authenticated);
+      final authBox = Hive.box('auth');
+      final userLogin = authBox.get('userLogin');
+
+      if (userLogin != null) {
+        final user = getCurrentUser();
+        if (user != null) {
+          print('Building user profile: ${user.login}, icon: ${user.icon}');
+          emit(AuthState.authenticated);
+        } else {
+          print('User not found in userBox for login: $userLogin');
+          emit(AuthState.unauthenticated);
+        }
+      } else {
+        print('No userLogin found in authBox.');
+        emit(AuthState.unauthenticated);
+      }
+    } else {
+      emit(AuthState.unauthenticated);
     }
   }
 
@@ -115,9 +133,14 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void updateUser(UserModel user) {
-    _userBox.put(user.login, user);
-    print(
-        'User updated: ${user.login}'); // Лог для підтвердження оновлення користувача
-    print('Updated user icon: ${user.icon}'); // Лог для перевірки шляху іконки
+    final userKey = _userBox.keys.firstWhere(
+      (key) => _userBox.get(key)?.login == user.login,
+      orElse: () => null,
+    );
+
+    if (userKey != null) {
+      _userBox.put(userKey, user);
+    }
+    emit(AuthState.profileUpdated);
   }
 }

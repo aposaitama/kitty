@@ -22,6 +22,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
   // await Hive.deleteBoxFromDisk('users');
+  // await Hive.deleteBoxFromDisk('auth');
 
   await Hive.openBox<UserModel>('users');
   await Hive.openBox('auth');

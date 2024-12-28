@@ -12,31 +12,32 @@ import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
 import 'package:kitty/pages/settings_page/widgets/settings_list_item.dart';
 import 'package:kitty/styles/colors.dart';
 
-class SettingsPageScreen extends StatelessWidget {
+class SettingsPageScreen extends StatefulWidget {
   const SettingsPageScreen({super.key});
 
+  @override
+  State<SettingsPageScreen> createState() => _SettingsPageScreenState();
+}
+
+// String? temporaryIconPath;
+
+class _SettingsPageScreenState extends State<SettingsPageScreen> {
   Future<void> _pickProfileImage(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
     final XFile? pickedFile =
         await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      print(
-          'Image picked: ${pickedFile.path}'); // Лог для перевірки шляху вибраного файлу
-
+      // setState(() {
+      //   temporaryIconPath = pickedFile.path;
+      // });
       final user = context.read<AuthCubit>().getCurrentUser();
-
       if (user != null) {
         user.icon = pickedFile.path;
 
-        print(
-            'Updating user with new icon: ${pickedFile.path}'); // Лог перед оновленням
+        // Оновлення користувача в Hive
         context.read<AuthCubit>().updateUser(user);
-      } else {
-        print('No user found to update icon'); // Лог, якщо користувач відсутній
       }
-    } else {
-      print('No image picked'); // Лог, якщо користувач не вибрав зображення
     }
   }
 
