@@ -313,7 +313,7 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                     description: descriptionController.text,
                     date: DateTime.now().subtract(
                       const Duration(
-                        days: 400,
+                        days: 80,
                       ),
                     ),
                     backgroundColor: backgroundColor!,

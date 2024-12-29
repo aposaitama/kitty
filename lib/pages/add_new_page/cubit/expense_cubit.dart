@@ -38,7 +38,9 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       await Future.delayed(const Duration(milliseconds: 500));
       final month = DateTime.now().month;
       final year = DateTime.now().year;
-      await loadExpensesByMonthAndYear(month, year);
+      final updatedExpenses =
+          await expenseRepository.getExpensesByMonthAndYear(month, year);
+      emit(ExpenseLoaded(updatedExpenses));
     } catch (e) {
       emit(ExpenseError(e.toString()));
     }
