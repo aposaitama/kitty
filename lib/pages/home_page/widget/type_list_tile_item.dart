@@ -1,95 +1,122 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kitty/models/categories/categories.dart';
+import 'package:kitty/pages/home_page/cubit/categoryID_cubit.dart';
 import 'package:kitty/styles/colors.dart';
 
-class TypeListTileItem extends StatelessWidget {
-  // final int backgroundColor;
+class TypeListTileItem extends StatefulWidget {
+  final int iconID;
   final String type;
-  final String categoryIcon;
-  final String name;
   final String description;
+  final String name;
   final String amount;
-  final int backgrondColor;
+
   const TypeListTileItem({
     super.key,
     required this.type,
-    required this.description,
     required this.amount,
     required this.name,
-    required this.categoryIcon,
-    required this.backgrondColor,
+    required this.iconID,
+    required this.description,
   });
-  // required this.backgroundColor});
+
+  @override
+  State<TypeListTileItem> createState() => _TypeListTileItemState();
+}
+
+class _TypeListTileItemState extends State<TypeListTileItem> {
+  @override
+  void initState() {
+    super.initState();
+    // Завантажуємо категорію для цього iconID
+    context.read<CategoryIDCubit>().loadCategory(widget.iconID);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+    return BlocBuilder<CategoryIDCubit, Map<int, Categories?>>(
+      buildWhen: (previous, current) =>
+          previous[widget.iconID] != current[widget.iconID],
+      builder: (context, state) {
+        final category = state[widget.iconID];
+
+        if (category == null) {
+          return const CircularProgressIndicator(); // Дані завантажуються
+        }
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                  width: 40.0,
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Color(backgrondColor)),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          categoryIcon,
-                          height: 24.0,
-                          width: 24.0,
-                        )
-                      ])),
-              const SizedBox(
-                width: 8.0,
-              ),
-              description.isNotEmpty
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          description,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Inter',
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        Text(
-                          name,
-                          style: const TextStyle(
-                              color: AppColors.header,
-                              fontFamily: 'Inter',
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w400),
-                        )
-                      ],
-                    )
-                  : Text(
-                      name,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Inter',
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400),
+              Row(
+                children: [
+                  Container(
+                    width: 40.0,
+                    height: 40.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(category.background_color),
                     ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        category.icon,
+                        height: 24.0,
+                        width: 24.0,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  widget.description.isNotEmpty
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.description,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Inter',
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              widget.name,
+                              style: const TextStyle(
+                                color: AppColors.header,
+                                fontFamily: 'Inter',
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Text(
+                          widget.name,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Inter',
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                ],
+              ),
+              Text(
+                widget.type == 'Expense' ? '- ${widget.amount}' : widget.amount,
+                style: TextStyle(
+                  color: widget.type == 'Expense' ? Colors.red : Colors.black,
+                  fontFamily: 'Inter',
+                  fontSize: 14.0,
+                  height: 1.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
-          Text(
-            type == 'Expense' ? '- $amount' : amount,
-            style: TextStyle(
-                color: type == 'Expense' ? Colors.red : Colors.black,
-                fontFamily: 'Inter',
-                fontSize: 14.0,
-                height: 1.0,
-                fontWeight: FontWeight.w500),
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 }

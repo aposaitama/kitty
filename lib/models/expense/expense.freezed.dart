@@ -25,7 +25,7 @@ mixin _$Expense {
   String get categoryIcon => throw _privateConstructorUsedError;
   int get backgroundColor => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  int? get categoryId => throw _privateConstructorUsedError;
+  int get categoryId => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
 
@@ -49,7 +49,7 @@ abstract class $ExpenseCopyWith<$Res> {
       String categoryIcon,
       int backgroundColor,
       String? description,
-      int? categoryId,
+      int categoryId,
       String amount,
       DateTime date});
 }
@@ -74,7 +74,7 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
     Object? categoryIcon = null,
     Object? backgroundColor = null,
     Object? description = freezed,
-    Object? categoryId = freezed,
+    Object? categoryId = null,
     Object? amount = null,
     Object? date = null,
   }) {
@@ -99,10 +99,10 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      categoryId: freezed == categoryId
+      categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -128,7 +128,7 @@ abstract class _$$ExpenseImplCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
       String categoryIcon,
       int backgroundColor,
       String? description,
-      int? categoryId,
+      int categoryId,
       String amount,
       DateTime date});
 }
@@ -151,7 +151,7 @@ class __$$ExpenseImplCopyWithImpl<$Res>
     Object? categoryIcon = null,
     Object? backgroundColor = null,
     Object? description = freezed,
-    Object? categoryId = freezed,
+    Object? categoryId = null,
     Object? amount = null,
     Object? date = null,
   }) {
@@ -176,10 +176,10 @@ class __$$ExpenseImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      categoryId: freezed == categoryId
+      categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -201,7 +201,7 @@ class _$ExpenseImpl implements _Expense {
       required this.categoryIcon,
       required this.backgroundColor,
       this.description,
-      this.categoryId,
+      required this.categoryId,
       required this.amount,
       required this.date});
 
@@ -219,7 +219,7 @@ class _$ExpenseImpl implements _Expense {
   @override
   final String? description;
   @override
-  final int? categoryId;
+  final int categoryId;
   @override
   final String amount;
   @override
@@ -278,7 +278,7 @@ abstract class _Expense implements Expense {
       required final String categoryIcon,
       required final int backgroundColor,
       final String? description,
-      final int? categoryId,
+      required final int categoryId,
       required final String amount,
       required final DateTime date}) = _$ExpenseImpl;
 
@@ -295,7 +295,7 @@ abstract class _Expense implements Expense {
   @override
   String? get description;
   @override
-  int? get categoryId;
+  int get categoryId;
   @override
   String get amount;
   @override

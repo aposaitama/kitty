@@ -29,7 +29,7 @@ class DatabaseService {
     category TEXT NOT NULL,
     categoryIcon TEXT NOT NULL,
     categoryId INTEGER NOT NULL,
-    background_color int NOT NULL,
+    background_color INTEGER NOT NULL,
     description TEXT,
     amount TEXT NOT NULL,
     date TEXT NOT NULL
@@ -41,7 +41,7 @@ class DatabaseService {
         order_index INTEGER,
         name TEXT NOT NULL,
         icon TEXT NOT NULL,
-        background_color int NOT NULL
+        background_color INTEGER NOT NULL
       )
       ''');
 
@@ -49,7 +49,7 @@ class DatabaseService {
       CREATE TABLE ${DatabaseConfig.categoryIconsTable} (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         iconPath TEXT NOT NULL,
-        background_color int NOT NULL
+        background_color INTEGER NOT NULL
       )
       ''');
         await db.insert(

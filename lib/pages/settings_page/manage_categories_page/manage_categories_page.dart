@@ -57,7 +57,7 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
                                 itemBuilder: (context, index) {
                                   final category = categories[index];
                                   return CategoriesItemListTile(
-                                    iconPath: category.iconPath,
+                                    iconPath: category.icon,
                                     categoryName: category.name,
                                     key: Key(
                                       category.id.toString(),

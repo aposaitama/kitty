@@ -8,18 +8,18 @@ part of 'categories.dart';
 
 _$CategoriesImpl _$$CategoriesImplFromJson(Map<String, dynamic> json) =>
     _$CategoriesImpl(
-      name: json['name'] as String,
       id: (json['id'] as num?)?.toInt(),
-      backgroundColor: (json['backgroundColor'] as num).toInt(),
-      iconPath: json['iconPath'] as String,
+      name: json['name'] as String,
+      background_color: (json['background_color'] as num).toInt(),
+      icon: json['icon'] as String,
       order_index: (json['order_index'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$CategoriesImplToJson(_$CategoriesImpl instance) =>
     <String, dynamic>{
-      'name': instance.name,
       'id': instance.id,
-      'backgroundColor': instance.backgroundColor,
-      'iconPath': instance.iconPath,
+      'name': instance.name,
+      'background_color': instance.background_color,
+      'icon': instance.icon,
       'order_index': instance.order_index,
     };

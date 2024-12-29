@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kitty/pages/add_new_page/cubit/expense_cubit_state.dart';
 import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
 import 'package:kitty/pages/home_page/widget/calculate_top_bar.dart';
 import 'package:kitty/pages/home_page/widget/date_picker_overlay.dart';
@@ -144,7 +145,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 const SizedBox(
                   height: 16.0,
                 ),
-                const GroupedExpensesList()
+                BlocListener<ExpenseCubit, ExpenseState>(
+                  listener: (context, state) {
+                    if (state is ExpenseLoaded) {
+                      setState(() {});
+                    }
+                  },
+                  child: const GroupedExpensesList(),
+                )
               ],
             ),
             GestureDetector(

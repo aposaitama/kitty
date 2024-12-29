@@ -69,6 +69,7 @@ class ExpensesRepository {
       where: 'id = ?',
       whereArgs: [categoryId],
     );
+    print(maps.first);
 
     if (maps.isNotEmpty) {
       return Categories.fromJson(maps.first);

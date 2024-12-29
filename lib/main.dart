@@ -6,6 +6,7 @@ import 'package:kitty/database/categories_repository.dart';
 import 'package:kitty/models/user/user.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
+import 'package:kitty/pages/home_page/cubit/categoryID_cubit.dart';
 import 'package:kitty/pages/home_page/cubit/date_picker_cubit.dart';
 import 'package:kitty/pages/report_page/cubit/categories_cubit.dart';
 import 'package:kitty/pages/report_page/cubit/statistics_date_cubit.dart';
@@ -48,6 +49,9 @@ void main() async {
           ),
           BlocProvider(
             create: (context) => MonthCubit(),
+          ),
+          BlocProvider(
+            create: (context) => CategoryIDCubit(ExpensesRepository()),
           ),
           BlocProvider(
             create: (context) => TypeByCategoryCubit(ExpensesRepository()),

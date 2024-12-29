@@ -26,9 +26,9 @@ class AddNewCategoryCubit extends Cubit<AddNewCategoryState> {
       final nextOrderIndex = await categoriesRepository.getNextOrderIndex();
 
       final newCategory = Categories(
-        backgroundColor: backgroundColor,
+        background_color: backgroundColor,
         name: name,
-        iconPath: iconPath,
+        icon: iconPath,
         order_index: nextOrderIndex,
       );
       await categoriesRepository.addCategory(newCategory);

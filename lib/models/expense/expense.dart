@@ -11,7 +11,7 @@ class Expense with _$Expense {
     required String categoryIcon,
     required int backgroundColor,
     String? description,
-    int? categoryId,
+    required int categoryId,
     required String amount,
     required DateTime date,
   }) = _Expense;

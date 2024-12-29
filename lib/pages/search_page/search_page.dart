@@ -126,7 +126,7 @@ class _SearchPageState extends State<SearchPage> {
                           children: [
                             SearchCategoriesItemTile(
                               name: category.name,
-                              iconPath: category.iconPath,
+                              iconPath: category.icon,
                               backgroundColor: isSelected
                                   ? AppColors.blueBackgroundSelectedColor
                                   : Colors.transparent,
@@ -235,8 +235,7 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                     ...expenses.map((expense) {
                                       return TypeListTileItem(
-                                        backgrondColor: expense.backgroundColor,
-                                        categoryIcon: expense.categoryIcon,
+                                        iconID: expense.categoryId,
                                         type: expense.type,
                                         description: expense.description!,
                                         amount: expense.amount,

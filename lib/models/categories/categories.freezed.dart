@@ -20,10 +20,10 @@ Categories _$CategoriesFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Categories {
-  String get name => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
-  int get backgroundColor => throw _privateConstructorUsedError;
-  String get iconPath => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  int get background_color => throw _privateConstructorUsedError;
+  String get icon => throw _privateConstructorUsedError;
   int get order_index => throw _privateConstructorUsedError;
 
   /// Serializes this Categories to a JSON map.
@@ -43,10 +43,10 @@ abstract class $CategoriesCopyWith<$Res> {
       _$CategoriesCopyWithImpl<$Res, Categories>;
   @useResult
   $Res call(
-      {String name,
-      int? id,
-      int backgroundColor,
-      String iconPath,
+      {int? id,
+      String name,
+      int background_color,
+      String icon,
       int order_index});
 }
 
@@ -65,28 +65,28 @@ class _$CategoriesCopyWithImpl<$Res, $Val extends Categories>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
     Object? id = freezed,
-    Object? backgroundColor = null,
-    Object? iconPath = null,
+    Object? name = null,
+    Object? background_color = null,
+    Object? icon = null,
     Object? order_index = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      backgroundColor: null == backgroundColor
-          ? _value.backgroundColor
-          : backgroundColor // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      background_color: null == background_color
+          ? _value.background_color
+          : background_color // ignore: cast_nullable_to_non_nullable
               as int,
-      iconPath: null == iconPath
-          ? _value.iconPath
-          : iconPath // ignore: cast_nullable_to_non_nullable
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
               as String,
       order_index: null == order_index
           ? _value.order_index
@@ -105,10 +105,10 @@ abstract class _$$CategoriesImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name,
-      int? id,
-      int backgroundColor,
-      String iconPath,
+      {int? id,
+      String name,
+      int background_color,
+      String icon,
       int order_index});
 }
 
@@ -125,28 +125,28 @@ class __$$CategoriesImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
     Object? id = freezed,
-    Object? backgroundColor = null,
-    Object? iconPath = null,
+    Object? name = null,
+    Object? background_color = null,
+    Object? icon = null,
     Object? order_index = null,
   }) {
     return _then(_$CategoriesImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      backgroundColor: null == backgroundColor
-          ? _value.backgroundColor
-          : backgroundColor // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      background_color: null == background_color
+          ? _value.background_color
+          : background_color // ignore: cast_nullable_to_non_nullable
               as int,
-      iconPath: null == iconPath
-          ? _value.iconPath
-          : iconPath // ignore: cast_nullable_to_non_nullable
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
               as String,
       order_index: null == order_index
           ? _value.order_index
@@ -160,29 +160,29 @@ class __$$CategoriesImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CategoriesImpl implements _Categories {
   const _$CategoriesImpl(
-      {required this.name,
-      this.id,
-      required this.backgroundColor,
-      required this.iconPath,
+      {this.id,
+      required this.name,
+      required this.background_color,
+      required this.icon,
       required this.order_index});
 
   factory _$CategoriesImpl.fromJson(Map<String, dynamic> json) =>
       _$$CategoriesImplFromJson(json);
 
   @override
-  final String name;
-  @override
   final int? id;
   @override
-  final int backgroundColor;
+  final String name;
   @override
-  final String iconPath;
+  final int background_color;
+  @override
+  final String icon;
   @override
   final int order_index;
 
   @override
   String toString() {
-    return 'Categories(name: $name, id: $id, backgroundColor: $backgroundColor, iconPath: $iconPath, order_index: $order_index)';
+    return 'Categories(id: $id, name: $name, background_color: $background_color, icon: $icon, order_index: $order_index)';
   }
 
   @override
@@ -190,20 +190,19 @@ class _$CategoriesImpl implements _Categories {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CategoriesImpl &&
-            (identical(other.name, name) || other.name == name) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.backgroundColor, backgroundColor) ||
-                other.backgroundColor == backgroundColor) &&
-            (identical(other.iconPath, iconPath) ||
-                other.iconPath == iconPath) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.background_color, background_color) ||
+                other.background_color == background_color) &&
+            (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.order_index, order_index) ||
                 other.order_index == order_index));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, name, id, backgroundColor, iconPath, order_index);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, background_color, icon, order_index);
 
   /// Create a copy of Categories
   /// with the given fields replaced by the non-null parameter values.
@@ -223,23 +222,23 @@ class _$CategoriesImpl implements _Categories {
 
 abstract class _Categories implements Categories {
   const factory _Categories(
-      {required final String name,
-      final int? id,
-      required final int backgroundColor,
-      required final String iconPath,
+      {final int? id,
+      required final String name,
+      required final int background_color,
+      required final String icon,
       required final int order_index}) = _$CategoriesImpl;
 
   factory _Categories.fromJson(Map<String, dynamic> json) =
       _$CategoriesImpl.fromJson;
 
   @override
-  String get name;
-  @override
   int? get id;
   @override
-  int get backgroundColor;
+  String get name;
   @override
-  String get iconPath;
+  int get background_color;
+  @override
+  String get icon;
   @override
   int get order_index;
 

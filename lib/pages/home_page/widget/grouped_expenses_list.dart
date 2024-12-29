@@ -105,8 +105,7 @@ class GroupedExpensesList extends StatelessWidget {
                               ),
                               ...expenses.map((expense) {
                                 return TypeListTileItem(
-                                  backgrondColor: expense.backgroundColor,
-                                  categoryIcon: expense.categoryIcon,
+                                  iconID: expense.categoryId,
                                   type: expense.type,
                                   description: expense.description!,
                                   amount: expense.amount,

@@ -6,10 +6,10 @@ part 'categories.g.dart';
 @freezed
 class Categories with _$Categories {
   const factory Categories(
-      {required String name,
-      int? id,
-      required int backgroundColor,
-      required String iconPath,
+      {int? id,
+      required String name,
+      required int background_color,
+      required String icon,
       required int order_index}) = _Categories;
 
   factory Categories.fromJson(Map<String, dynamic> json) =>

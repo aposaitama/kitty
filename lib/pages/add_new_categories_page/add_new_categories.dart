@@ -116,10 +116,11 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                                             'Choose Category icon'
                                                 .toUpperCase(),
                                             style: const TextStyle(
-                                                fontFamily: 'Inter',
-                                                fontSize: 10.0,
-                                                fontWeight: FontWeight.w500,
-                                                color: AppColors.header),
+                                              fontFamily: 'Inter',
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.w500,
+                                              color: AppColors.header,
+                                            ),
                                           ),
                                           const SizedBox(
                                             height: 16.0,
@@ -128,7 +129,8 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                      horizontal: 32.0),
+                                                horizontal: 32.0,
+                                              ),
                                               child: BlocBuilder<
                                                   AddNewCategoryCubit,
                                                   AddNewCategoryState>(
@@ -149,38 +151,40 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                                                               int index) {
                                                         return GestureDetector(
                                                           onTap: () {
-                                                            setState(() {
-                                                              isPressed =
-                                                                  !isPressed;
-                                                              backgroundColor =
-                                                                  icons[index]
-                                                                      .backgroundColor;
-                                                              print(
-                                                                  backgroundColor);
-                                                              iconPath = icons[
-                                                                      index]
-                                                                  .iconPath; // Шлях до іконки
-                                                              print(iconPath);
-                                                            });
+                                                            setState(
+                                                              () {
+                                                                isPressed =
+                                                                    !isPressed;
+                                                                backgroundColor =
+                                                                    icons[index]
+                                                                        .backgroundColor;
+
+                                                                iconPath = icons[
+                                                                        index]
+                                                                    .iconPath;
+                                                              },
+                                                            );
                                                             Navigator.pop(
-                                                                context); // Закрити bottom sheet після вибору іконки
+                                                                context);
                                                           },
                                                           child: Container(
                                                             width: 40.0,
                                                             height: 40.0,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: Color(icons[
-                                                                      index]
-                                                                  .backgroundColor),
+                                                              color: Color(
+                                                                icons[index]
+                                                                    .backgroundColor,
+                                                              ),
                                                               shape: BoxShape
                                                                   .circle,
                                                             ),
                                                             child: Center(
                                                               child: SvgPicture
-                                                                  .asset(icons[
-                                                                          index]
-                                                                      .iconPath), // Відображення іконки
+                                                                  .asset(
+                                                                icons[index]
+                                                                    .iconPath,
+                                                              ),
                                                             ),
                                                           ),
                                                         );
@@ -189,13 +193,16 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                                                   } else if (state
                                                       is CategoryLoading) {
                                                     return const Center(
-                                                        child:
-                                                            CircularProgressIndicator()); // Завантаження
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    );
                                                   } else if (state
                                                       is CategoryError) {
                                                     return Center(
-                                                        child: Text(
-                                                            'Error: ${state.message}')); // Помилка
+                                                      child: Text(
+                                                        'Error: ${state.message}',
+                                                      ),
+                                                    );
                                                   }
                                                   return const SizedBox(); // Пустий стан
                                                 },
@@ -219,18 +226,23 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                                         width: 40.0,
                                         height: 40.0,
                                         decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Color(backgroundColor)),
+                                          shape: BoxShape.circle,
+                                          color: Color(
+                                            backgroundColor,
+                                          ),
+                                        ),
                                         child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SvgPicture.asset(
-                                                iconPath,
-                                                height: 24.0,
-                                                width: 24.0,
-                                              )
-                                            ])),
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                              iconPath,
+                                              height: 24.0,
+                                              width: 24.0,
+                                            )
+                                          ],
+                                        ),
+                                      ),
                               ),
                             ),
                           ),
@@ -301,13 +313,16 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                           ),
                         ),
                         GestureDetector(
-                            onTap: () {
-                              if (mounted) {
-                                ScaffoldMessenger.of(context)
-                                    .hideCurrentSnackBar();
-                              }
-                            },
-                            child: SvgPicture.asset('assets/icons/close.svg'))
+                          onTap: () {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                            }
+                          },
+                          child: SvgPicture.asset(
+                            'assets/icons/close.svg',
+                          ),
+                        )
                       ],
                     ),
                   ),

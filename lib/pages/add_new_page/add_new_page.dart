@@ -149,9 +149,9 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                                                     onTap: () {
                                                       iconId = category.id;
                                                       backgroundColor = category
-                                                          .backgroundColor;
+                                                          .background_color;
                                                       selectedIconPath =
-                                                          category.iconPath;
+                                                          category.icon;
                                                       categoryController.text =
                                                           category.name;
                                                       Navigator.pop(context);
@@ -165,7 +165,7 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                                                               BoxDecoration(
                                                             color: Color(
                                                               category
-                                                                  .backgroundColor,
+                                                                  .background_color,
                                                             ),
                                                             shape:
                                                                 BoxShape.circle,
@@ -177,8 +177,7 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                                                               children: [
                                                                 SvgPicture
                                                                     .asset(
-                                                                  category
-                                                                      .iconPath,
+                                                                  category.icon,
                                                                   width: 24.0,
                                                                   height: 24.0,
                                                                 ),
@@ -308,14 +307,15 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                     type: expenseOrIncome,
                     category: categoryController.text,
                     categoryIcon: selectedIconPath!,
-                    categoryId: iconId,
+                    categoryId: iconId!,
                     amount: amountController.text,
                     description: descriptionController.text,
-                    date: DateTime.now().subtract(
-                      const Duration(
-                        days: 80,
-                      ),
-                    ),
+                    date: DateTime.now(),
+                    // .subtract(
+                    //   const Duration(
+                    //     days: 80,
+                    //   ),
+
                     backgroundColor: backgroundColor!,
                   ),
                 );

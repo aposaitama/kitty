@@ -11,9 +11,9 @@ class CategoriesRepository {
 
     await database.insert(DatabaseConfig.categoryTable, {
       'name': category.name,
-      'icon': category.iconPath,
+      'icon': category.icon,
       'order_index': category.order_index,
-      'background_color': category.backgroundColor
+      'background_color': category.background_color
     });
   }
 
@@ -25,9 +25,9 @@ class CategoriesRepository {
     return List.generate(maps.length, (i) {
       return Categories(
           id: maps[i]['id'],
-          backgroundColor: maps[i]['background_color'],
+          background_color: maps[i]['background_color'],
           name: maps[i]['name'],
-          iconPath: maps[i]['icon'],
+          icon: maps[i]['icon'],
           order_index: maps[i]['order_index']);
     });
   }
@@ -67,7 +67,7 @@ class CategoriesRepository {
         DatabaseConfig.categoryTable,
         {'order_index': i},
         where: 'name = ? AND icon = ?',
-        whereArgs: [category.name, category.iconPath],
+        whereArgs: [category.name, category.icon],
       );
     }
   }

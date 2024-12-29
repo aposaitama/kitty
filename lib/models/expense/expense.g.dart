@@ -13,7 +13,7 @@ _$ExpenseImpl _$$ExpenseImplFromJson(Map<String, dynamic> json) =>
       categoryIcon: json['categoryIcon'] as String,
       backgroundColor: (json['backgroundColor'] as num).toInt(),
       description: json['description'] as String?,
-      categoryId: (json['categoryId'] as num?)?.toInt(),
+      categoryId: (json['categoryId'] as num).toInt(),
       amount: json['amount'] as String,
       date: DateTime.parse(json['date'] as String),
     );

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitty/database/expenses_repository.dart';
@@ -55,7 +57,17 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
         groupedExpenses[category]!['percentage'] = percentage;
       }
 
-      emit(groupedExpenses);
+      //sort by Total
+      final sortedGroupedExpenses = LinkedHashMap.fromEntries(
+        groupedExpenses.entries.toList()
+          ..sort(
+            (a, b) => (a.value['Total'] as double).compareTo(
+              b.value['Total'] as double,
+            ),
+          ),
+      );
+
+      emit(sortedGroupedExpenses);
     } catch (e) {
       emit({});
     }
@@ -105,8 +117,12 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
         }
       }
 
-      print(allExpensesByMonth);
-      return allExpensesByMonth;
+      final expensesKeysList = allExpensesByMonth.keys.toList().reversed;
+
+      Map<String, Map<String, dynamic>> reversedAllExpensesByMonth = {
+        for (var key in expensesKeysList) key: allExpensesByMonth[key]!
+      };
+      return reversedAllExpensesByMonth;
     } catch (e) {
       print("Error grouping expenses: $e");
       return {};
