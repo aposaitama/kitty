@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
@@ -26,6 +27,32 @@ class _ManageCategoriesPageState extends State<ManageCategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 32.0,
+        titleSpacing: 0,
+        backgroundColor: AppColors.greyHeaderColor,
+        leading: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: GestureDetector(
+            onTap: () => context.go('/settings'),
+            child: SvgPicture.asset(
+              'assets/icons/arrow_back_black_24dp.svg',
+            ),
+          ),
+        ),
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Text(
+            "manage_categories".tr(),
+            style: const TextStyle(
+              fontFamily: 'Inter',
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      ),
       body: Stack(alignment: Alignment.bottomCenter, children: [
         Column(
           children: [
