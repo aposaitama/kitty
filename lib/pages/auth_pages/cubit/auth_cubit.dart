@@ -18,7 +18,6 @@ class AuthCubit extends Cubit<AuthState> {
   final Box<UserModel> _userBox = Hive.box<UserModel>('users');
   final BiometricAuthService _biometricAuthService = BiometricAuthService();
 
-  // Метод для реєстрації
   void register(String login, String password, String confirmPassword) async {
     if (password != confirmPassword) {
       emit(AuthState.error);
@@ -30,7 +29,9 @@ class AuthCubit extends Cubit<AuthState> {
     if (userExists) {
       emit(AuthState.error);
     } else {
-      _userBox.add(UserModel(login: login, password: password));
+      _userBox.add(
+        UserModel(login: login, password: password),
+      );
       final authBox = Hive.box('auth');
       authBox.put('isLoggedIn', true);
       authBox.put('userLogin', login);
@@ -40,20 +41,18 @@ class AuthCubit extends Cubit<AuthState> {
 
   UserModel? getCurrentUser() {
     final authBox = Hive.box('auth');
-    final userLogin = authBox.get('userLogin'); // Отримуємо логін користувача
+    final userLogin = authBox.get('userLogin');
 
     if (userLogin != null) {
-      // Шукаємо користувача в боксі users за логіном
       final user = _userBox.values.firstWhere(
         (user) => user.login == userLogin,
       );
       return user;
     }
 
-    return null; // Якщо userLogin відсутній, повертаємо null
+    return null;
   }
 
-  // Метод для логіну через пароль
   void login(String login, String password) async {
     try {
       final user = _userBox.values.firstWhere(
@@ -68,7 +67,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // Метод для виходу
   void logout() {
     final authBox = Hive.box('auth');
     authBox.delete('isLoggedIn');
@@ -78,7 +76,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void biometricAuth() async {
     bool isAuthenticated = await _biometricAuthService.authenticate();
-    print('Biometric authentication result: $isAuthenticated');
+
     if (isAuthenticated) {
       final authBox = Hive.box('auth');
       final userLogin = authBox.get('userLogin');
@@ -86,14 +84,11 @@ class AuthCubit extends Cubit<AuthState> {
       if (userLogin != null) {
         final user = getCurrentUser();
         if (user != null) {
-          print('Building user profile: ${user.login}, icon: ${user.icon}');
           emit(AuthState.authenticated);
         } else {
-          print('User not found in userBox for login: $userLogin');
           emit(AuthState.unauthenticated);
         }
       } else {
-        print('No userLogin found in authBox.');
         emit(AuthState.unauthenticated);
       }
     } else {
@@ -101,23 +96,17 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // Метод для перевірки стану автентифікації
   void checkAuthStatus() async {
     final authBox = Hive.box('auth');
     final isLoggedIn = authBox.get('isLoggedIn', defaultValue: false);
 
-    print('Is logged in: $isLoggedIn'); // Додаємо лог для перевірки
-
     if (isLoggedIn) {
       emit(AuthState.passwordRequired);
-      print('State changed to Authenticated');
     } else {
       emit(AuthState.unauthenticated);
-      print('State changed to Unauthenticated');
     }
   }
 
-  // Метод для підтвердження пароля
   void submitPassword(String login, String password) {
     try {
       final user = _userBox.values.firstWhere(

@@ -29,7 +29,7 @@ class _TypeListTileItemState extends State<TypeListTileItem> {
   @override
   void initState() {
     super.initState();
-    // Завантажуємо категорію для цього iconID
+
     context.read<CategoryIDCubit>().loadCategory(widget.iconID);
   }
 
@@ -42,7 +42,7 @@ class _TypeListTileItemState extends State<TypeListTileItem> {
         final category = state[widget.iconID];
 
         if (category == null) {
-          return const CircularProgressIndicator(); // Дані завантажуються
+          return const CircularProgressIndicator();
         }
 
         return Padding(

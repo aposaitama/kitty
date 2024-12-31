@@ -11,7 +11,9 @@ class StatisticsWidget extends StatelessWidget {
       child: Container(
         height: 36.0,
         decoration: BoxDecoration(
-            color: Colors.amber, borderRadius: BorderRadius.circular(6)),
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(6),
+        ),
         child: Row(
           children: summary.entries.map((entry) {
             double percentage = entry.value['percentage'] as double;

@@ -29,9 +29,9 @@ class TypeByCategoryCubit extends Cubit<Map<String, List<Expense>>> {
     if (searchQuery != null && searchQuery.isNotEmpty) {
       filteredExpenses = filteredExpenses.where((expense) {
         return (expense.description != null &&
-            expense.description!
-                .toLowerCase()
-                .contains(searchQuery.toLowerCase()));
+            expense.description!.toLowerCase().contains(
+                  searchQuery.toLowerCase(),
+                ));
       }).toList();
     }
 

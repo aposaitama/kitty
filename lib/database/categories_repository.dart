@@ -9,12 +9,15 @@ class CategoriesRepository {
   Future<void> addCategory(Categories category) async {
     final database = await db.database;
 
-    await database.insert(DatabaseConfig.categoryTable, {
-      'name': category.name,
-      'icon': category.icon,
-      'order_index': category.order_index,
-      'background_color': category.background_color
-    });
+    await database.insert(
+      DatabaseConfig.categoryTable,
+      {
+        'name': category.name,
+        'icon': category.icon,
+        'order_index': category.order_index,
+        'background_color': category.background_color
+      },
+    );
   }
 
   Future<List<Categories>> getAllCategories() async {
@@ -24,11 +27,12 @@ class CategoriesRepository {
 
     return List.generate(maps.length, (i) {
       return Categories(
-          id: maps[i]['id'],
-          background_color: maps[i]['background_color'],
-          name: maps[i]['name'],
-          icon: maps[i]['icon'],
-          order_index: maps[i]['order_index']);
+        id: maps[i]['id'],
+        background_color: maps[i]['background_color'],
+        name: maps[i]['name'],
+        icon: maps[i]['icon'],
+        order_index: maps[i]['order_index'],
+      );
     });
   }
 
@@ -40,8 +44,9 @@ class CategoriesRepository {
 
     return List.generate(maps.length, (i) {
       return CategoriesIcon(
-          backgroundColor: maps[i]['background_color'],
-          iconPath: maps[i]['iconPath']);
+        backgroundColor: maps[i]['background_color'],
+        iconPath: maps[i]['iconPath'],
+      );
     });
   }
 

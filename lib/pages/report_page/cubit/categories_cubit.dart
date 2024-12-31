@@ -31,6 +31,7 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
               'iconPath': '',
               'percentage': 0.0,
               'backgroundColor': 0,
+              'iconId': 0
             };
 
             //insert into map
@@ -43,6 +44,7 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
               totalAmount -= int.parse(expense.amount);
             }
             groupedExpenses[category]!['iconPath'] = expense.categoryIcon;
+            groupedExpenses[category]!['iconId'] = expense.categoryId;
             groupedExpenses[category]!['backgroundColor'] =
                 expense.backgroundColor;
             groupedExpenses[category]!['count'] += 1;
@@ -66,7 +68,7 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
             ),
           ),
       );
-
+      // print(sortedGroupedExpenses);
       emit(sortedGroupedExpenses);
     } catch (e) {
       emit({});
@@ -75,28 +77,22 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
 
   Future<Map<String, Map<String, dynamic>>> groupExpensesByMonth() async {
     try {
-      // Отримуємо всі витрати
       final expenses = await expensesRepository.getAllExpenses();
 
-      // Мапа для групування витрат по місяцях
       final Map<String, Map<String, dynamic>> allExpensesByMonth = {};
 
       for (Expense expense in expenses) {
-        final yearMonth =
-            '${expense.date.year}-${expense.date.month}'; // Місяць і рік у форматі YYYY-MM
+        final yearMonth = '${expense.date.year}-${expense.date.month}';
 
-        // Якщо цього місяця ще немає в мапі, додаємо
         if (!allExpensesByMonth.containsKey(yearMonth)) {
           allExpensesByMonth[yearMonth] = {};
         }
 
-        // Якщо категорія вже є, додаємо суму
         final groupedExpenses = allExpensesByMonth[yearMonth]!;
 
         if (expense.category.isNotEmpty) {
           final category = expense.category;
 
-          // Якщо категорія ще не додана для цього місяця
           if (!groupedExpenses.containsKey(category)) {
             groupedExpenses[category] = {
               'Total': 0.0,
@@ -104,7 +100,6 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
             };
           }
 
-          // Віднімаємо або додаємо суму залежно від типу витрат
           if (expense.type == 'Income') {
             groupedExpenses[category]!['Total'] += int.parse(expense.amount);
           } else {
@@ -112,7 +107,6 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
                 int.parse(expense.amount).abs();
           }
 
-          // Загальна сума по категорії, кількість витрат, іконка категорії
           groupedExpenses[category]!['count'] += 1;
         }
       }
@@ -124,12 +118,10 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
       };
       return reversedAllExpensesByMonth;
     } catch (e) {
-      print("Error grouping expenses: $e");
       return {};
     }
   }
 
-  // Спостереження за змінами місяця та року
   void listenToMonthChanges(BuildContext context) {
     final dateCubit = context.read<StatisticsCubit>();
 
@@ -140,7 +132,6 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
     });
   }
 
-  // Викликати цей метод при ініціалізації
   void startListeningToMonthChanges(BuildContext context) {
     listenToMonthChanges(context);
   }

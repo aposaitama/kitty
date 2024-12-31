@@ -86,13 +86,23 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         builder: (context, state) {
                           final user =
                               context.read<AuthCubit>().getCurrentUser();
+                          final iconPath = user?.icon;
+
+                          final fileExists =
+                              iconPath != null && File(iconPath).existsSync();
+
                           return CircleAvatar(
                             radius: 24,
-                            backgroundImage: user?.icon != null
-                                ? FileImage(File(user!.icon!))
+                            backgroundImage: fileExists
+                                ? FileImage(
+                                    File(iconPath),
+                                  )
                                 : null,
-                            child: user?.icon == null
-                                ? const Icon(Icons.account_circle, size: 24)
+                            child: !fileExists
+                                ? const Icon(
+                                    Icons.account_circle,
+                                    size: 24,
+                                  )
                                 : null,
                           );
                         },

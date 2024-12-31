@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kitty/pages/add_new_page/cubit/expense_cubit.dart';
 import 'package:kitty/pages/home_page/cubit/date_picker_cubit.dart';
 import 'package:kitty/pages/home_page/widget/month_item_tile.dart';
 import 'package:kitty/styles/colors.dart';
@@ -107,9 +106,10 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    context.read<MonthCubit>().selectMonth(
-                                        index + 1); // Оновлення місяця
-                                    _removeOverlay(); // Закриття оверлею
+                                    context
+                                        .read<MonthCubit>()
+                                        .selectMonth(index + 1);
+                                    _removeOverlay();
                                   },
                                   child: MonthItemTile(
                                     month: month[index].substring(0, 3),
@@ -146,7 +146,7 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
       children: [
         GestureDetector(
           onTap: () {
-            context.read<MonthCubit>().decrementYear(); // Зменшити рік
+            context.read<MonthCubit>().decrementYear();
           },
           child: Transform.rotate(
             angle: 3.1415,
@@ -156,7 +156,7 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
           ),
         ),
         GestureDetector(
-          onTap: () => _showCalendarOverlay(context), // Відкрити оверлей
+          onTap: () => _showCalendarOverlay(context),
           child: Container(
             height: 32.0,
             decoration: BoxDecoration(
@@ -200,7 +200,7 @@ class _DatePickerOverlayState extends State<DatePickerOverlay> {
         ),
         GestureDetector(
           onTap: () {
-            context.read<MonthCubit>().incrementYear(); // Збільшити рік
+            context.read<MonthCubit>().incrementYear();
           },
           child: SvgPicture.asset(
             'assets/icons/right.svg',

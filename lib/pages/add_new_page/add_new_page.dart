@@ -73,9 +73,11 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                       text: 'Expense or Income',
                       items: const ['Expense', 'Income'],
                       onChanged: (value) {
-                        setState(() {
-                          expenseOrIncome = value ?? 'Income';
-                        });
+                        setState(
+                          () {
+                            expenseOrIncome = value ?? 'Income';
+                          },
+                        );
                       },
                     ),
                     const SizedBox(
@@ -171,17 +173,17 @@ class _AddNewExpenseScreenState extends State<AddNewExpenseScreen> {
                                                                 BoxShape.circle,
                                                           ),
                                                           child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                SvgPicture
-                                                                    .asset(
-                                                                  category.icon,
-                                                                  width: 24.0,
-                                                                  height: 24.0,
-                                                                ),
-                                                              ]),
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                category.icon,
+                                                                width: 24.0,
+                                                                height: 24.0,
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                         Text(
                                                           category.name,

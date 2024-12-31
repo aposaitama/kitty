@@ -25,9 +25,15 @@ class ExpenseCubit extends Cubit<ExpenseState> {
         flatExpenses.addAll(value);
       });
 
-      emit(ExpenseLoaded(flatExpenses));
+      emit(
+        ExpenseLoaded(flatExpenses),
+      );
     } catch (e) {
-      emit(ExpenseError(e.toString()));
+      emit(
+        ExpenseError(
+          e.toString(),
+        ),
+      );
     }
   }
 
@@ -35,29 +41,39 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     try {
       emit(ExpenseLoading());
       await expenseRepository.addExpense(expense);
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(
+        const Duration(milliseconds: 500),
+      );
       final month = DateTime.now().month;
       final year = DateTime.now().year;
       final updatedExpenses =
           await expenseRepository.getExpensesByMonthAndYear(month, year);
-      emit(ExpenseLoaded(updatedExpenses));
+      emit(
+        ExpenseLoaded(updatedExpenses),
+      );
     } catch (e) {
-      emit(ExpenseError(e.toString()));
+      emit(
+        ExpenseError(
+          e.toString(),
+        ),
+      );
     }
   }
 
   //expenses
   double calculateTotalExpenses(List<Expense> expenses) {
-    return expenses
-        .where((expense) => expense.type == 'Expense')
-        .fold(0.0, (sum, item) => sum + int.parse(item.amount));
+    return expenses.where((expense) => expense.type == 'Expense').fold(
+          0.0,
+          (sum, item) => sum + int.parse(item.amount),
+        );
   }
 
   //income
   double calculateTotalIncome(List<Expense> expenses) {
-    return expenses
-        .where((expense) => expense.type == 'Income')
-        .fold(0.0, (sum, item) => sum + int.parse(item.amount));
+    return expenses.where((expense) => expense.type == 'Income').fold(
+          0.0,
+          (sum, item) => sum + int.parse(item.amount),
+        );
   }
 
   //balance
@@ -69,27 +85,37 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
   Future<void> loadExpensesByMonthAndYear(int month, int year) async {
     try {
-      emit(ExpenseLoading());
+      emit(
+        ExpenseLoading(),
+      );
       final expenses =
           await expenseRepository.getExpensesByMonthAndYear(month, year);
-      emit(ExpenseLoaded(expenses));
+      emit(
+        ExpenseLoaded(expenses),
+      );
     } catch (e) {
-      emit(ExpenseError(e.toString()));
+      emit(
+        ExpenseError(
+          e.toString(),
+        ),
+      );
     }
   }
 
-  // Спостереження за змінами місяця та року
+  //listen month changes
   void listenToMonthChanges(BuildContext context) {
     final monthCubit = context.read<MonthCubit>();
 
-    monthCubit.stream.listen((state) {
-      final month = state['month']!;
-      final year = state['year']!;
-      loadExpensesByMonthAndYear(month, year);
-    });
+    monthCubit.stream.listen(
+      (state) {
+        final month = state['month']!;
+        final year = state['year']!;
+        loadExpensesByMonthAndYear(month, year);
+      },
+    );
   }
 
-  // Викликати цей метод при ініціалізації
+  //initialize this method initstate
   void startListeningToMonthChanges(BuildContext context) {
     listenToMonthChanges(context);
   }

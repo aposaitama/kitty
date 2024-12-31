@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             const SizedBox(
-              height: 34.0,
+              height: 54.0,
             ),
             Center(child: SvgPicture.asset('assets/icons/Logo.svg')),
             const SizedBox(
@@ -37,20 +37,22 @@ class _LoginPageState extends State<LoginPage> {
             const Text(
               'Kitty',
               style: TextStyle(
-                  color: AppColors.introMainText,
-                  fontFamily: 'Inter',
-                  fontSize: 24.0,
-                  height: 1.0,
-                  letterSpacing: 0.18,
-                  fontWeight: FontWeight.bold),
+                color: AppColors.introMainText,
+                fontFamily: 'Inter',
+                fontSize: 24.0,
+                height: 1.0,
+                letterSpacing: 0.18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const Text(
               'Your expense manager',
               style: TextStyle(
-                  color: AppColors.header,
-                  fontFamily: 'Inter',
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500),
+                color: AppColors.header,
+                fontFamily: 'Inter',
+                fontSize: 14.0,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             const SizedBox(
               height: 70.0,
@@ -69,21 +71,31 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 16.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () => context.go('/register'),
-                  child: const Text(
-                    'Don\'t have an account yet? Sign UP',
+            GestureDetector(
+              onTap: () => context.go('/register'),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Don\'t have an account yet?',
                     style: TextStyle(
-                        color: AppColors.header,
-                        fontFamily: 'Inter',
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500),
+                      color: AppColors.header,
+                      fontFamily: 'Inter',
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                  Text(
+                    ' SignUP',
+                    style: TextStyle(
+                      color: AppColors.blueStackButton,
+                      fontFamily: 'Inter',
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )
+                ],
+              ),
             ),
             const SizedBox(
               height: 32.0,
@@ -91,30 +103,34 @@ class _LoginPageState extends State<LoginPage> {
             BlocBuilder<NavigationCubit, String>(
               builder: (context, state) {
                 return GestureDetector(
-                    onTap: () {
-                      // context.read<NavigationCubit>().updateRoute('/home');
-                      // GoRouter.of(context).go('/home');
+                  onTap: () {
+                    // context.read<NavigationCubit>().updateRoute('/home');
+                    // GoRouter.of(context).go('/home');
 
-                      context.read<AuthCubit>().login(
-                            loginController.text,
-                            passwordController.text,
-                          );
-                    },
-                    child: const BlueBottomButton(buttonTitle: 'Login'));
+                    context.read<AuthCubit>().login(
+                          loginController.text,
+                          passwordController.text,
+                        );
+                  },
+                  child: const BlueBottomButton(
+                    buttonTitle: 'Login',
+                  ),
+                );
               },
             ),
             BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state == AuthState.authenticated) {
                   final user = context.read<AuthCubit>().getCurrentUser();
-                  if (user != null) {
-                    print(
-                        'User authenticated: ${user.login}, icon: ${user.icon}');
-                  }
+                  if (user != null) {}
                   context.go('/home');
                 } else if (state == AuthState.unauthenticated) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Invalid login or password!')),
+                    const SnackBar(
+                      content: Text(
+                        'Invalid login or password!',
+                      ),
+                    ),
                   );
                 } else if (state == AuthState.passwordRequired) {
                   context.go('/password');

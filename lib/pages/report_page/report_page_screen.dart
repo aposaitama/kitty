@@ -97,19 +97,20 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
                 height: 8.0,
               ),
               BlocBuilder<CategoriesCubit, Map<String, Map<String, dynamic>>>(
-                  builder: (context, summary) {
-                if (summary.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No data.',
-                    ),
-                  );
-                } else {
-                  return StatisticsWidget(
-                    summary: summary,
-                  );
-                }
-              }),
+                builder: (context, summary) {
+                  if (summary.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No data.',
+                      ),
+                    );
+                  } else {
+                    return StatisticsWidget(
+                      summary: summary,
+                    );
+                  }
+                },
+              ),
               const SizedBox(
                 height: 8.0,
               ),
@@ -139,38 +140,35 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
                     .groupExpensesByMonth();
 
                 if (allExpensesByMonth.isNotEmpty) {
-                  // Додаємо заголовок на початку звіту
                   pdf.addPage(
                     pw.Page(
                       build: (pw.Context context) {
                         return pw.Column(
                           children: [
                             pw.Text(
-                              'Report Overview',
+                              'Kitty',
                               style: pw.TextStyle(
-                                fontSize: 24,
+                                fontSize: 24.0,
                                 fontWeight: pw.FontWeight.bold,
                               ),
                             ),
-                            pw.SizedBox(height: 10),
+                            pw.SizedBox(height: 10.0),
                           ],
                         );
                       },
                     ),
                   );
 
-                  // Проходимо через всі місяці та категорії витрат
-                  for (var yearMonthEntry in allExpensesByMonth.entries) {
+                  for (MapEntry<String, Map<String, dynamic>> yearMonthEntry
+                      in allExpensesByMonth.entries) {
                     final yearMonth = yearMonthEntry.key;
                     final groupedExpenses = yearMonthEntry.value;
 
-                    // Додаємо нову сторінку для кожного місяця
                     pdf.addPage(
                       pw.Page(
                         build: (pw.Context context) {
                           return pw.Column(
                             children: [
-                              // Заголовок для місяця
                               pw.Text(
                                 'Month: $yearMonth',
                                 style: pw.TextStyle(
@@ -179,7 +177,6 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
                                 ),
                               ),
                               pw.SizedBox(height: 10),
-                              // Виведення категорій для цього місяця
                               ...groupedExpenses.entries.map((categoryEntry) {
                                 final category = categoryEntry.key;
                                 final categoryDetails = categoryEntry.value;
@@ -220,8 +217,7 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
                                   ],
                                 );
                               }),
-                              pw.SizedBox(
-                                  height: 20), // Роздільник між категоріями
+                              pw.SizedBox(height: 20),
                             ],
                           );
                         },
@@ -242,7 +238,9 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
 
                 final output = await getApplicationDocumentsDirectory();
                 final file = File('${output.path}/report.pdf');
-                await file.writeAsBytes(await pdf.save());
+                await file.writeAsBytes(
+                  await pdf.save(),
+                );
                 OpenFile.open(file.path);
               },
               child: Container(
@@ -257,7 +255,9 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset('assets/icons/download.svg'),
+                      SvgPicture.asset(
+                        'assets/icons/download.svg',
+                      ),
                       const SizedBox(width: 6.0),
                       Text(
                         "downloadReport".tr(),

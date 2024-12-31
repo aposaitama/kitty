@@ -3,7 +3,6 @@ import 'package:local_auth/local_auth.dart';
 class BiometricAuthService {
   final LocalAuthentication _localAuth = LocalAuthentication();
 
-  // Перевіряємо, чи підтримує пристрій біометричну автентифікацію
   Future<bool> isBiometricAvailable() async {
     try {
       return await _localAuth.canCheckBiometrics;
@@ -12,7 +11,6 @@ class BiometricAuthService {
     }
   }
 
-  // Проводимо автентифікацію через Face ID (або інший біометричний метод)
   Future<bool> authenticate() async {
     try {
       return await _localAuth.authenticate(
@@ -23,7 +21,7 @@ class BiometricAuthService {
         ),
       );
     } catch (e) {
-      return false; // Повертаємо false, якщо автентифікація не вдалася
+      return false;
     }
   }
 }

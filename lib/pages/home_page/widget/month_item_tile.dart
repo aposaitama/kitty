@@ -19,21 +19,24 @@ class _MonthItemTileState extends State<MonthItemTile> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: widget.isSelected ? AppColors.blueStackButton : Colors.white,
-          borderRadius: BorderRadius.circular(4.0),
-          border: Border.all(
-              width: 1.0,
-              color: widget.isSelected
-                  ? AppColors.blueStackButton
-                  : AppColors.borderColor)),
+        color: widget.isSelected ? AppColors.blueStackButton : Colors.white,
+        borderRadius: BorderRadius.circular(4.0),
+        border: Border.all(
+          width: 1.0,
+          color: widget.isSelected
+              ? AppColors.blueStackButton
+              : AppColors.borderColor,
+        ),
+      ),
       child: Center(
           child: Text(
         widget.month,
         style: TextStyle(
-            color: widget.isSelected ? Colors.white : Colors.black,
-            fontFamily: 'Inter',
-            fontSize: 14.0,
-            fontWeight: FontWeight.w600),
+          color: widget.isSelected ? Colors.white : Colors.black,
+          fontFamily: 'Inter',
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+        ),
       )),
     );
   }

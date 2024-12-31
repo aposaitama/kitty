@@ -25,7 +25,6 @@ class AppRouter {
         //getting state
         final authState = authCubit.state;
 
-        // Якщо користувач вже аутентифікований і намагається перейти на сторінку входу або реєстрації
         if (authState == AuthState.authenticated &&
             (state.uri.toString() == '/login' ||
                 state.uri.toString() == '/register')) {

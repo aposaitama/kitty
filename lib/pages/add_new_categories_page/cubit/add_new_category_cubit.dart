@@ -14,9 +14,15 @@ class AddNewCategoryCubit extends Cubit<AddNewCategoryState> {
 
       final categoriesIcon = await categoriesRepository.getAllCategoriesIcons();
 
-      emit(CategoryLoaded(categories, categoriesIcon));
+      emit(
+        CategoryLoaded(categories, categoriesIcon),
+      );
     } catch (e) {
-      emit(CategoryError(e.toString()));
+      emit(
+        CategoryError(
+          e.toString(),
+        ),
+      );
     }
   }
 
@@ -33,9 +39,15 @@ class AddNewCategoryCubit extends Cubit<AddNewCategoryState> {
       );
       await categoriesRepository.addCategory(newCategory);
       loadCategory();
-      emit(CategoryAddedSuccess());
+      emit(
+        CategoryAddedSuccess(),
+      );
     } catch (e) {
-      emit(CategoryError(e.toString()));
+      emit(
+        CategoryError(
+          e.toString(),
+        ),
+      );
     }
   }
 
@@ -43,9 +55,15 @@ class AddNewCategoryCubit extends Cubit<AddNewCategoryState> {
     try {
       await categoriesRepository.updateOrder(updatedCategories);
       loadCategory();
-      emit(CategoryAddedSuccess());
+      emit(
+        CategoryAddedSuccess(),
+      );
     } catch (e) {
-      emit(CategoryError(e.toString()));
+      emit(
+        CategoryError(
+          e.toString(),
+        ),
+      );
     }
   }
 }

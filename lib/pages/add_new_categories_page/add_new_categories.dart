@@ -83,17 +83,19 @@ class _AddNewCategoriesState extends State<AddNewCategories> {
                               : AppColors.hintText,
                           strokeWidth: isPressed ? 2 : 1,
                           child: Container(
-                            width: 48,
-                            height: 48,
+                            width: 48.0,
+                            height: 48.0,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.circleGreyColor,
                             ),
                             child: GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  isPressed = !isPressed;
-                                });
+                                setState(
+                                  () {
+                                    isPressed = !isPressed;
+                                  },
+                                );
                                 showModalBottomSheet(
                                   context: context,
                                   builder: (BuildContext context) {

@@ -1,13 +1,12 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
+
 import 'package:image_picker/image_picker.dart';
-import 'package:kitty/models/user/user.dart';
+
 import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
 import 'package:kitty/pages/settings_page/widgets/settings_list_item.dart';
 import 'package:kitty/styles/colors.dart';
@@ -35,7 +34,6 @@ class _SettingsPageScreenState extends State<SettingsPageScreen> {
       if (user != null) {
         user.icon = pickedFile.path;
 
-        // Оновлення користувача в Hive
         context.read<AuthCubit>().updateUser(user);
       }
     }
@@ -72,19 +70,18 @@ class _SettingsPageScreenState extends State<SettingsPageScreen> {
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         final user = context.read<AuthCubit>().getCurrentUser();
-                        print(
-                            'Building user profile: ${user?.login}, icon: ${user?.icon}'); // Лог для перевірки даних користувача
-
+                        final fileExists = user?.icon != null &&
+                            File(user!.icon!).existsSync();
                         return Row(
                           children: [
                             GestureDetector(
                               onTap: () => _pickProfileImage(context),
                               child: CircleAvatar(
                                 radius: 24,
-                                backgroundImage: user?.icon != null
-                                    ? FileImage(File(user!.icon!))
+                                backgroundImage: fileExists
+                                    ? FileImage(File(user.icon!))
                                     : null,
-                                child: user?.icon == null
+                                child: !fileExists
                                     ? const Icon(Icons.account_circle, size: 48)
                                     : null,
                               ),
@@ -141,13 +138,6 @@ class _SettingsPageScreenState extends State<SettingsPageScreen> {
                   SettingsListItem(
                     iconPath: 'assets/icons/export.svg',
                     title: "export_to_pdf".tr(),
-                  ),
-                  const SizedBox(
-                    height: 26.0,
-                  ),
-                  SettingsListItem(
-                    iconPath: 'assets/icons/currency.svg',
-                    title: "choose_currency".tr(),
                   ),
                   const SizedBox(
                     height: 26.0,

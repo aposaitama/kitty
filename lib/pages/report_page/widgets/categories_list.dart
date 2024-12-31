@@ -11,7 +11,11 @@ class CategoriesList extends StatelessWidget {
     return BlocBuilder<CategoriesCubit, Map<String, Map<String, dynamic>>>(
       builder: (context, summary) {
         if (summary.isEmpty) {
-          return const Center(child: Text('No data.'));
+          return const Center(
+            child: Text(
+              'No data.',
+            ),
+          );
         }
 
         return Expanded(
@@ -22,6 +26,7 @@ class CategoriesList extends StatelessWidget {
               final data = summary[category]!;
 
               return DetailsItemTile(
+                categoryID: data['iconId'],
                 backgroundColor: data['backgroundColor'],
                 categoryName: category,
                 percent: data['percentage'],

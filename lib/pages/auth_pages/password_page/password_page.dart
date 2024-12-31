@@ -17,7 +17,7 @@ class PasswordInputPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: Text(
+          title: const Text(
             'Welcome Back',
             style: TextStyle(
               fontFamily: 'Inter',
@@ -31,12 +31,16 @@ class PasswordInputPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Center(child: SvgPicture.asset('assets/icons/Logo.svg')),
+            Center(
+              child: SvgPicture.asset(
+                'assets/icons/Logo.svg',
+              ),
+            ),
             const SizedBox(
               height: 16.0,
             ),
-            Center(
-              child: const Text(
+            const Center(
+              child: Text(
                 'Use biometrics to login',
                 style: TextStyle(
                   fontFamily: 'Inter',
@@ -64,8 +68,8 @@ class PasswordInputPage extends StatelessWidget {
             const SizedBox(
               height: 32.0,
             ),
-            Center(
-              child: const Text(
+            const Center(
+              child: Text(
                 'Or enter login and password',
                 style: TextStyle(
                   fontFamily: 'Inter',
@@ -90,13 +94,17 @@ class PasswordInputPage extends StatelessWidget {
               labelText: 'Enter password',
               controller: passwordController,
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             GestureDetector(
               onTap: () {
                 context.read<AuthCubit>().submitPassword(
-                    loginController.text, passwordController.text);
+                      loginController.text,
+                      passwordController.text,
+                    );
               },
-              child: BlueBottomButton(buttonTitle: 'Submit'),
+              child: const BlueBottomButton(
+                buttonTitle: 'Submit',
+              ),
             ),
             BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
@@ -104,7 +112,11 @@ class PasswordInputPage extends StatelessWidget {
                   context.go('/home');
                 } else if (state == AuthState.unauthenticated) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Invalid login or password!')),
+                    const SnackBar(
+                      content: Text(
+                        'Invalid login or password!',
+                      ),
+                    ),
                   );
                 } else if (state == AuthState.passwordRequired) {
                   context.go('/password');

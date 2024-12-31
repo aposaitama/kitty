@@ -26,29 +26,35 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           children: [
             const SizedBox(
-              height: 34.0,
+              height: 54.0,
             ),
-            Center(child: SvgPicture.asset('assets/icons/Logo.svg')),
+            Center(
+              child: SvgPicture.asset(
+                'assets/icons/Logo.svg',
+              ),
+            ),
             const SizedBox(
               height: 24.0,
             ),
             const Text(
               'Kitty',
               style: TextStyle(
-                  color: AppColors.introMainText,
-                  fontFamily: 'Inter',
-                  fontSize: 24.0,
-                  height: 1.0,
-                  letterSpacing: 0.18,
-                  fontWeight: FontWeight.bold),
+                color: AppColors.introMainText,
+                fontFamily: 'Inter',
+                fontSize: 24.0,
+                height: 1.0,
+                letterSpacing: 0.18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const Text(
               'Your expense manager',
               style: TextStyle(
-                  color: AppColors.header,
-                  fontFamily: 'Inter',
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500),
+                color: AppColors.header,
+                fontFamily: 'Inter',
+                fontSize: 14.0,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             const SizedBox(
               height: 70.0,
@@ -74,21 +80,31 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(
               height: 16.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () => context.go('/login'),
-                  child: const Text(
-                    'Already have an account? Sign IN',
+            GestureDetector(
+              onTap: () => context.go('/login'),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Already have an account?',
                     style: TextStyle(
-                        color: AppColors.header,
-                        fontFamily: 'Inter',
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500),
+                      color: AppColors.header,
+                      fontFamily: 'Inter',
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                  Text(
+                    ' SignIN',
+                    style: TextStyle(
+                      color: AppColors.blueStackButton,
+                      fontFamily: 'Inter',
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )
+                ],
+              ),
             ),
             const SizedBox(
               height: 32.0,
@@ -111,7 +127,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   context.go('/home');
                 } else if (state == AuthState.error) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Error during registration!')),
+                    const SnackBar(
+                      content: Text(
+                        'Error during registration!',
+                      ),
+                    ),
                   );
                 }
               },
