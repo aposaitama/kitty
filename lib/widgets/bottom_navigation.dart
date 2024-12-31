@@ -14,6 +14,39 @@ class CustomButtomNavigationBar extends StatefulWidget {
       _CustomButtomNavigationBarState();
 }
 
+int _getSelectedIndex(String currentRoute) {
+  switch (currentRoute) {
+    case '/report':
+      return 0;
+    case '/home':
+      return 1;
+    case '/settings':
+      return 2;
+    default:
+      return 0;
+  }
+}
+
+String _getRouteByIndex(int index) {
+  switch (index) {
+    case 0:
+      return '/report';
+    case 1:
+      return '/home';
+    case 2:
+      return '/settings';
+    default:
+      return '/home';
+  }
+}
+
+Widget _buildSvgIcon(String currentRoute, String routeName, String inactivePath,
+    String activePath) {
+  return SvgPicture.asset(
+    currentRoute == routeName ? activePath : inactivePath,
+  );
+}
+
 class _CustomButtomNavigationBarState extends State<CustomButtomNavigationBar> {
   @override
   Widget build(BuildContext context) {
@@ -80,39 +113,6 @@ class _CustomButtomNavigationBarState extends State<CustomButtomNavigationBar> {
           ),
         );
       },
-    );
-  }
-
-  int _getSelectedIndex(String currentRoute) {
-    switch (currentRoute) {
-      case '/report':
-        return 0;
-      case '/home':
-        return 1;
-      case '/settings':
-        return 2;
-      default:
-        return 0;
-    }
-  }
-
-  String _getRouteByIndex(int index) {
-    switch (index) {
-      case 0:
-        return '/report';
-      case 1:
-        return '/home';
-      case 2:
-        return '/settings';
-      default:
-        return '/home';
-    }
-  }
-
-  Widget _buildSvgIcon(String currentRoute, String routeName,
-      String inactivePath, String activePath) {
-    return SvgPicture.asset(
-      currentRoute == routeName ? activePath : inactivePath,
     );
   }
 }
