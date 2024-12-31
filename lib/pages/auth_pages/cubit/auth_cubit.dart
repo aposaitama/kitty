@@ -18,7 +18,8 @@ class AuthCubit extends Cubit<AuthState> {
   final Box<UserModel> _userBox = Hive.box<UserModel>('users');
   final BiometricAuthService _biometricAuthService = BiometricAuthService();
 
-  void register(String login, String password, String confirmPassword) async {
+  void register(String login, String password, String confirmPassword,
+      String email) async {
     if (password != confirmPassword) {
       emit(AuthState.error);
       return;
@@ -30,7 +31,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthState.error);
     } else {
       _userBox.add(
-        UserModel(login: login, password: password),
+        UserModel(login: login, password: password, email: email),
       );
       final authBox = Hive.box('auth');
       authBox.put('isLoggedIn', true);

@@ -16,6 +16,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController loginController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   @override
@@ -58,6 +59,13 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(
               height: 70.0,
+            ),
+            CustomTextField(
+              labelText: 'Enter email',
+              controller: emailController,
+            ),
+            const SizedBox(
+              height: 16.0,
             ),
             CustomTextField(
               labelText: 'Enter login',
@@ -112,10 +120,10 @@ class _RegisterPageState extends State<RegisterPage> {
             GestureDetector(
               onTap: () => {
                 context.read<AuthCubit>().register(
-                      loginController.text,
-                      passwordController.text,
-                      confirmPasswordController.text,
-                    )
+                    loginController.text,
+                    passwordController.text,
+                    confirmPasswordController.text,
+                    emailController.text)
               },
               child: const BlueBottomButton(
                 buttonTitle: 'Register',
