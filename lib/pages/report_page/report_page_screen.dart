@@ -36,6 +36,18 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "statistics".tr(),
+          style: const TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 20.0,
+            letterSpacing: 0.18,
+            fontWeight: FontWeight.w900,
+            color: AppColors.header,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 16.0,
@@ -44,36 +56,6 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 32.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "statistics".tr(),
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.header,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/search_black_24dp 1.svg',
-                      ),
-                      const SizedBox(
-                        width: 16.0,
-                      ),
-                      SvgPicture.asset(
-                        'assets/icons/more_vert_black_24dp 1.svg',
-                      )
-                    ],
-                  )
-                ],
-              ),
               const SizedBox(
                 height: 31.0,
               ),
