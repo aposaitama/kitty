@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:kitty/database/hive/hive_repository.dart';
+import 'package:kitty/database/hive/hive_service.dart';
 import 'package:kitty/models/user/user.dart';
 import 'package:kitty/pages/auth_pages/biometrics/biometrics_auth_services.dart';
 
@@ -13,9 +15,10 @@ enum AuthState {
 }
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthState.initial);
+  final AuthRepository _authRepository;
+  AuthCubit(this._authRepository) : super(AuthState.initial);
 
-  final Box<UserModel> _userBox = Hive.box<UserModel>('users');
+  final Box<UserModel> _userBox = Hive.box<UserModel>(HiveService.usersBoxName);
   final BiometricAuthService _biometricAuthService = BiometricAuthService();
 
   void register(String login, String password, String confirmPassword,
@@ -38,6 +41,25 @@ class AuthCubit extends Cubit<AuthState> {
       authBox.put('userLogin', login);
       emit(AuthState.authenticated);
     }
+  }
+
+  void deleteUser() {
+    final authBox = Hive.box('auth');
+    final userLogin = authBox.get('userLogin');
+
+    final userKey = _userBox.keys.firstWhere(
+      (key) => _userBox.get(key)?.login == userLogin,
+      orElse: () => null,
+    );
+
+    if (userKey != null) {
+      _userBox.delete(userKey);
+      authBox.delete('isLoggedIn');
+      authBox.delete('userLogin');
+      emit(AuthState.unauthenticated);
+    }
+
+    print(userKey);
   }
 
   UserModel? getCurrentUser() {
@@ -70,6 +92,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void logout() {
     final authBox = Hive.box('auth');
+
     authBox.delete('isLoggedIn');
     authBox.delete('userLogin');
     emit(AuthState.unauthenticated);

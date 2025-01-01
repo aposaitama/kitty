@@ -75,6 +75,12 @@ class CategoriesCubit extends Cubit<Map<String, Map<String, dynamic>>> {
     }
   }
 
+  Future<Map<String, Map<String, dynamic>>> getGroupedTransactionsByCategory(
+      int currentYear, int currentMonth) async {
+    await groupTransactionsByCategory(currentYear, currentMonth);
+    return state;
+  }
+
   Future<Map<String, Map<String, dynamic>>> groupExpensesByMonth() async {
     try {
       final expenses = await expensesRepository.getAllExpenses();

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kitty/database/categories_repository.dart';
+import 'package:kitty/database/hive/hive_repository.dart';
+import 'package:kitty/database/hive/hive_service.dart';
 import 'package:kitty/models/user/user.dart';
 import 'package:kitty/pages/add_new_categories_page/cubit/add_new_category_cubit.dart';
 import 'package:kitty/pages/auth_pages/cubit/auth_cubit.dart';
@@ -20,13 +22,7 @@ import 'package:kitty/route/cubit/navigation_cubit.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await Hive.initFlutter();
-  Hive.registerAdapter(UserModelAdapter());
-  // await Hive.deleteBoxFromDisk('users');
-  // await Hive.deleteBoxFromDisk('auth');
-
-  await Hive.openBox<UserModel>('users');
-  await Hive.openBox('auth');
+  await HiveService.initialize();
 
   runApp(
     EasyLocalization(
@@ -39,7 +35,7 @@ void main() async {
             create: (context) => NavigationCubit(),
           ),
           BlocProvider(
-            create: (context) => AuthCubit()..checkAuthStatus(),
+            create: (context) => AuthCubit(AuthRepository())..checkAuthStatus(),
           ),
           BlocProvider(
             create: (context) => ExpenseCubit(ExpensesRepository()),

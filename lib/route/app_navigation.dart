@@ -9,9 +9,10 @@ import 'package:kitty/pages/home_page/home_page_screen.dart';
 import 'package:kitty/pages/auth_pages/login_page/login_page.dart';
 import 'package:kitty/pages/auth_pages/register_page/register_page.dart';
 import 'package:kitty/pages/report_page/report_page_screen.dart';
-import 'package:kitty/pages/root_screen/root_screen.dart';
+import 'package:kitty/pages/root_page/root_page.dart';
 import 'package:kitty/pages/search_page/search_page.dart';
 import 'package:kitty/pages/settings_page/choose_language_page/choose_language_page.dart';
+import 'package:kitty/pages/settings_page/full_time_report_page/full_report_page.dart';
 import 'package:kitty/pages/settings_page/manage_categories_page/manage_categories_page.dart';
 import 'package:kitty/pages/settings_page/settings_page_screen.dart';
 
@@ -65,6 +66,10 @@ class AppRouter {
                     GoRoute(
                       path: 'choose_language',
                       builder: (context, state) => const ChooseLanguagePage(),
+                    ),
+                    GoRoute(
+                      path: 'full_report',
+                      builder: (context, state) => const FullReportPage(),
                     ),
                   ],
                 ),

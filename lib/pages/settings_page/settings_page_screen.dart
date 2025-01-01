@@ -135,9 +135,12 @@ class _SettingsPageScreenState extends State<SettingsPageScreen> {
                   const SizedBox(
                     height: 26.0,
                   ),
-                  SettingsListItem(
-                    iconPath: 'assets/icons/export.svg',
-                    title: "export_to_pdf".tr(),
+                  GestureDetector(
+                    onTap: () => context.go('/settings/full_report'),
+                    child: SettingsListItem(
+                      iconPath: 'assets/icons/export.svg',
+                      title: "export_to_pdf".tr(),
+                    ),
                   ),
                   const SizedBox(
                     height: 26.0,
@@ -167,6 +170,19 @@ class _SettingsPageScreenState extends State<SettingsPageScreen> {
                     child: SettingsListItem(
                       iconPath: 'assets/icons/logout.svg',
                       title: "logout".tr(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 26.0,
+                  ),
+                  GestureDetector(
+                    onTap: () => {
+                      context.read<AuthCubit>().deleteUser(),
+                      context.go('/login')
+                    },
+                    child: const SettingsListItem(
+                      iconPath: 'assets/icons/logout.svg',
+                      title: "Delete User",
                     ),
                   ),
                 ],

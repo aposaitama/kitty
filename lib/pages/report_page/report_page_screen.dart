@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitty/pages/report_page/cubit/categories_cubit.dart';
+import 'package:kitty/pages/report_page/cubit/statistics_date_cubit.dart';
 import 'package:kitty/pages/report_page/widgets/categories_list.dart';
 import 'package:kitty/pages/report_page/widgets/stat_date_picker_overlay.dart';
 import 'package:kitty/pages/report_page/widgets/statistics_widget.dart';
@@ -114,51 +115,45 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 32.0),
-            child: GestureDetector(
-              onTap: () async {
-                final pdf = pw.Document();
-                final allExpensesByMonth = await context
-                    .read<CategoriesCubit>()
-                    .groupExpensesByMonth();
+            child: BlocBuilder<StatisticsCubit, Map<String, dynamic>>(
+              builder: (context, state) {
+                return GestureDetector(
+                  onTap: () async {
+                    final pdf = pw.Document();
 
-                if (allExpensesByMonth.isNotEmpty) {
-                  pdf.addPage(
-                    pw.Page(
-                      build: (pw.Context context) {
-                        return pw.Column(
-                          children: [
-                            pw.Text(
-                              'Kitty',
-                              style: pw.TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: pw.FontWeight.bold,
-                              ),
-                            ),
-                            pw.SizedBox(height: 10.0),
-                          ],
-                        );
-                      },
-                    ),
-                  );
+                    // Отримуємо поточний рік та місяць зі StatisticsCubit
+                    final statsState = context.read<StatisticsCubit>().state;
+                    final selectedYear = statsState['year'] as int;
+                    final selectedMonth = statsState['month'] as int;
 
-                  for (MapEntry<String, Map<String, dynamic>> yearMonthEntry
-                      in allExpensesByMonth.entries) {
-                    final yearMonth = yearMonthEntry.key;
-                    final groupedExpenses = yearMonthEntry.value;
+                    // Отримуємо витрати за обраний місяць і рік
+                    final groupedExpenses = await context
+                        .read<CategoriesCubit>()
+                        .getGroupedTransactionsByCategory(
+                            selectedYear, selectedMonth);
 
+                    // Генеруємо PDF звіт
                     pdf.addPage(
                       pw.Page(
                         build: (pw.Context context) {
                           return pw.Column(
                             children: [
                               pw.Text(
-                                'Month: $yearMonth',
+                                'Kitty',
                                 style: pw.TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 24.0,
                                   fontWeight: pw.FontWeight.bold,
                                 ),
                               ),
-                              pw.SizedBox(height: 10),
+                              pw.SizedBox(height: 20.0),
+                              pw.Text(
+                                'Report for $selectedMonth/$selectedYear',
+                                style: pw.TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.SizedBox(height: 10.0),
                               ...groupedExpenses.entries.map((categoryEntry) {
                                 final category = categoryEntry.key;
                                 final categoryDetails = categoryEntry.value;
@@ -168,6 +163,7 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
                                     categoryDetails['count'].toString();
 
                                 return pw.Column(
+                                  // Переконайтесь, що тут є `return`
                                   children: [
                                     pw.Row(
                                       mainAxisAlignment:
@@ -198,62 +194,52 @@ class _ReportPageScreenState extends State<ReportPageScreen> {
                                     pw.SizedBox(height: 16.0),
                                   ],
                                 );
-                              }),
-                              pw.SizedBox(height: 20),
+                              }).toList(), // Додайте `.toList()` до кінця map
                             ],
                           );
                         },
                       ),
                     );
-                  }
-                } else {
-                  pdf.addPage(
-                    pw.Page(
-                      build: (pw.Context context) {
-                        return pw.Center(
-                          child: pw.Text('No data available for the report'),
-                        );
-                      },
-                    ),
-                  );
-                }
 
-                final output = await getApplicationDocumentsDirectory();
-                final file = File('${output.path}/report.pdf');
-                await file.writeAsBytes(
-                  await pdf.save(),
-                );
-                OpenFile.open(file.path);
-              },
-              child: Container(
-                height: 48,
-                decoration: BoxDecoration(
-                  color: AppColors.blueStackButton,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/download.svg',
+                    // Збереження PDF
+                    final output = await getApplicationDocumentsDirectory();
+                    final file = File('${output.path}/report.pdf');
+                    await file.writeAsBytes(await pdf.save());
+
+                    // Відкриваємо файл
+                    OpenFile.open(file.path);
+                  },
+                  child: Container(
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: AppColors.blueStackButton,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/download.svg',
+                          ),
+                          const SizedBox(width: 6.0),
+                          Text(
+                            "downloadReport".tr(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Inter',
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 6.0),
-                      Text(
-                        "downloadReport".tr(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Inter',
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           )
         ]),
